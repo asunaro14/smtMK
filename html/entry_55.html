@@ -1,0 +1,984 @@
+﻿<html>
+<head>
+    <title>SMT DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div data-role="page" id="entry_55" data-theme="d">
+
+        <script type="text/javascript">
+            // 初期設定
+            var entry_55 = {};
+
+            // 設問シーケンス
+            entry_55.secA1 = [55, 56, 57, 59, 60, 61, 62, 63, 65, 66, 67, 73, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
+            entry_55.secA2 = [55, 56, 57, 59, 60, 61, 62, 63, 65, 66, 67, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
+            entry_55.secB1 = [55, 56, 57, 59, 60, 61, 62, 63, 69, 70, 71, 73, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
+            entry_55.secB2 = [55, 56, 57, 59, 60, 61, 62, 63, 69, 70, 71, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
+
+            // 共通設問データ
+            entry_55.data = {
+
+                "55": {
+                    number: "55",
+                    title: "平地歩行時の疼痛",
+                    description: "平行歩行時の疼痛",
+                    type: "SH",
+                    options: "0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10",
+                    param: "minText:'痛みなし',maxText:'非常に痛い'",
+                    sound: "55.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "56": {
+                    number: "56",
+                    title: "階段昇降/坂道歩行時の疼痛",
+                    description: "階段昇降または坂道歩行時の疼痛",
+                    type: "SH",
+                    options: "0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10",
+                    param: "minText:'痛みなし',maxText:'非常に痛い'",
+                    sound: "56.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "57": {
+                    number: "57",
+                    title: "違和感",
+                    description: "あなたの膝は違和感なく普通の感じがしますか？",
+                    type: "SH",
+                    options: "5:いつも,3:ときどき,0:全くない",
+                    sound: "57.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                //                "58": {
+                //                    number: "58",
+                //                    title: "合計：膝の症状",
+                //                    description: "合計：膝の症状",
+                //                    type: "DN",
+                //                    memo: "55から57までの点数合計"
+                //                },
+
+                "59": {
+                    number: "59",
+                    title: "椅子に座っている時の満足度",
+                    description: "椅子に座っている時、膝の痛みに関してどの程度満足していますか?",
+                    type: "SH",
+                    options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
+                    sound: "59.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "60": {
+                    number: "60",
+                    title: "横たわっている時の満足度",
+                    description: "ベッドに横たわっている時、膝の痛みに関してどの程度満足していますか?",
+                    type: "SH",
+                    options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
+                    sound: "60.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "61": {
+                    number: "61",
+                    title: "立ち上がる動作の満足度",
+                    description: "ベッドから立ち上がる動作で、膝の痛みに関してどの程度満足していますか？",
+                    type: "SH",
+                    options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
+                    sound: "61.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "62": {
+                    number: "62",
+                    title: "家事を行う際の満足度",
+                    description: "軽度の家事を行う際、膝の痛みに関してどの程度満足していますか？",
+                    type: "SH",
+                    options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
+                    sound: "62.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "63": {
+                    number: "63",
+                    title: "娯楽活動を行う際の満足度",
+                    description: "お出かけやレジャーなどの娯楽活動を行う際、膝の痛みに関してどの程度満足していますか？",
+                    type: "SH",
+                    options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
+                    sound: "63.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                //                "64": {
+                //                    number: "64",
+                //                    title: "合計：満足度",
+                //                    description: "合計：満足度",
+                //                    type: "DN",
+                //                    memo: "59から63までの点数合計"
+                //                },
+
+                "65": {
+                    number: "65",
+                    title: "痛みがとれることを期待（術前）",
+                    description: "人工膝関節置換術を受けることに対してどのようなことを期待していますか？　痛みがとれることを期待していますか？",
+                    type: "SV",
+                    options: "1:全く期待していない。,2:少し期待している。,3:多少期待している。,4:適度に期待している。,5:かなり期待している。",
+                    sound: "65.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "66": {
+                    number: "66",
+                    title: "通常の動作ができることを期待（術前）",
+                    description: "日常生活で通常の動作ができることを期待していますか？",
+                    type: "SV",
+                    options: "1:全く期待していない。,2:少し期待している。,3:多少期待している。,4:適度に期待している。,5:かなり期待している。",
+                    sound: "66.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "67": {
+                    number: "67",
+                    title: "レジャー等の期待（術前）",
+                    description: "レジャー、娯楽、スポーツを行えることを期待していますか？",
+                    type: "SV",
+                    options: "1:全く期待していない。,2:少し期待している。,3:多少期待している。,4:適度に期待している。,5:かなり期待している。",
+                    sound: "67.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                //                "68": {
+                //                    number: "68",
+                //                    title: "合計：期待度PreOp",
+                //                    description: "合計：期待度PreOp",
+                //                    type: "DN",
+                //                    memo: "65から67までの点数合計"
+                //                },
+
+                "69": {
+                    number: "69",
+                    title: "痛みがとれることを期待（術後）",
+                    description: "人工膝関節置換術を受ける前にあなたが期待していた効果と比較して、実際の手術の効果はいかがでしたか？　人工膝関節置換術による除痛（痛みがとれる）効果への期待はいかがでしたか？",
+                    type: "SV",
+                    options: "1:期待しすぎていた。思っていたよりも、除痛効果はかなり低かった。,2:期待しすぎていた。思っていたよりも除痛効果は少し低かった。,3:同じくらい。ほぼ期待したとおりの除痛効果が得られた。,4:あまり期待していなかったが、思っていたよりも除痛効果は少し高かった。,5:あまり期待していなかったが、思っていたよりも除痛効果はかなり高かった。",
+                    sound: "69.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "70": {
+                    number: "70",
+                    title: "通常の動作ができることを期待（術後）",
+                    description: "日常生活での通常の動作ができることへの期待はいかがでしたか？",
+                    type: "SV",
+                    options: "1:期待しすぎていた。思っていたよりも、かなりできなかった。,2:期待しすぎていた。思っていたよりも、少しできなかった。,3:同じくらい。ほぼ期待したとおりの結果が得られた。,4:あまり期待していなかったが、思っていたよりも少しできるようになった。,5:あまり期待していなかったが、思っていたよりもかなりできるようになった。",
+                    sound: "70.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "71": {
+                    number: "71",
+                    title: "レジャー等の期待（術後）",
+                    description: "レジャー、娯楽、スポーツを行えることへの期待はいかがでしたか？",
+                    type: "SV",
+                    options: "1:期待しすぎていた。思っていたよりも、かなりできなかった。,2:期待しすぎていた。思っていたよりも、少しできなかった。,3:同じくらい。ほぼ期待したとおりの結果が得られた。,4:あまり期待していなかったが、思っていたよりも少しできるようになった。,5:あまり期待していなかったが、思っていたよりもかなりできるようになった。",
+                    sound: "71.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                //                "72": {
+                //                    number: "72",
+                //                    title: "合計：期待度PostOp",
+                //                    description: "合計：期待度PostOp",
+                //                    type: "DN",
+                //                    memo: "69から71までの点数合計"
+                //                },
+
+                "73": {
+                    number: "73",
+                    title: "器具に頼らなくても歩く事",
+                    description: "あなたは杖（つえ）や車いすなどの器具に頼らなくても歩く事ができますか？",
+                    type: "SH",
+                    options: "Yes:はい,No:いいえ",
+                    sound: "73.mp3",
+                    onclick: "entry_55.goSkip();",
+                    require: true
+                },
+
+                "74": {
+                    number: "74",
+                    title: "補助器具",
+                    description: "いいえの場合、以下のどのような補助器具を使用していますか？（複数回答可）",
+                    type: "MV",
+                    options: "1:車いす,2:歩行器／シニアカー／押し車,3:松葉杖2本,4:Ｔ字杖2本,5:松葉杖1本,6:Ｔ字杖1本,7:膝サポーター／装具,8:その他",
+                    onclick: "entry_55.selectedElse(this);",
+                    memo: "「器具に頼らなくても歩く事」がいいえの場合、必須入力",
+                    sound: "74.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        var ary = ans ? ans.split(",") : "";
+                        var scores = [-10, -8, -8, -6, -4, -4, -2, 0];
+                        var score = 0;
+                        jQuery.each(ary, function (i, item) {
+                            if (item == "Yes") { score += scores[i]; }
+                        });
+                        return score;
+                    }
+                },
+
+                "75": {
+                    number: "75",
+                    title: "膝が悪いため",
+                    description: "あなたが補助器具を使うのは膝が悪いためですか？",
+                    type: "SH",
+                    options: "1:はい,2:いいえ",
+                    sound: "75.mp3",
+                    require: true
+                },
+
+                "76": {
+                    number: "76",
+                    title: "どれくらいの時間立てますか",
+                    description: "あなたはどれくらいの時間立っていることができますか？（膝のぐあいが悪いために座ってしまうまでの時間のことです。補助器具を使用していてもかまいません）",
+                    type: "SV",
+                    options: "0:立っていることができない,3:0-5分,6:6-15分,9:16-30分,12:31-60分,15:1時間以上",
+                    sound: "76.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                "77": {
+                    number: "77",
+                    title: "どれくらいの時間あるけますか",
+                    description: "あなたはどのくらいの時間歩くことができますか？（膝のぐあいが悪いために歩けなくなってしまうまでの時間のことです。補助器具を使用していてもかまいません）",
+                    type: "SV",
+                    options: "0:歩くことができない,3:0-5分,6:6-15分,9:16-30分,12:31-60分,15:1時間以上",
+                    sound: "77.mp3",
+                    require: true,
+                    sum: true
+                },
+
+                //                "78": {
+                //                    number: "78",
+                //                    title: "合計：歩行・立位機能",
+                //                    description: "合計：歩行・立位機能",
+                //                    type: "DN",
+                //                    memo: "74から77までの点数合計"
+                //                },
+
+                "79": {
+                    number: "79",
+                    title: "段差の有る道を歩く時",
+                    description: "段差の有る道を歩く時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "79.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "80": {
+                    number: "80",
+                    title: "進行方向を変える時",
+                    description: "進行方向を変える時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "80.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "81": {
+                    number: "81",
+                    title: "階段を昇り降りする時",
+                    description: "階段を昇り降りする時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "81.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "82": {
+                    number: "82",
+                    title: "低いソファやひじ掛けのない椅子から立ち上がる時",
+                    description: "低いソファやひじ掛けのない椅子から立ち上がる時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "82.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "83": {
+                    number: "83",
+                    title: "車に乗り降りする時",
+                    description: "車に乗り降りする時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "83.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "84": {
+                    number: "84",
+                    title: "横向きに移動する時",
+                    description: "横向きに移動する時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "84.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+//                "85": {
+//                    number: "85",
+//                    title: "合計：基本的な動作",
+//                    description: "合計：基本的な動作",
+//                    type: "DN",
+//                    memo: "79から84までの点数合計"
+//                },
+
+                "86": {
+                    number: "86",
+                    title: "ハシゴや踏み台に登る時",
+                    description: "ハシゴや踏み台に登る時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "86.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "87": {
+                    number: "87",
+                    title: "買い物袋を持って歩く時",
+                    description: "買い物袋を持って200m位歩く時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "87.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "88": {
+                    number: "88",
+                    title: "しゃがみこむ時",
+                    description: "しゃがみこむ時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "88.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "89": {
+                    number: "89",
+                    title: "歩く時",
+                    description: "歩く時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "90": {
+                    number: "90",
+                    title: "ひざまずく時",
+                    description: "ひざまずく時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "90.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+                "91": {
+                    number: "91",
+                    title: "走る時",
+                    description: "走る時の困難の程度はどれくらいですか？",
+                    type: "SH",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    sound: "91.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        return (ans && ans != "n") ? Number(ans) : 0;
+                    }
+                },
+
+//                "92": {
+//                    number: "92",
+//                    title: "合計：応用的な動作",
+//                    description: "合計：応用的な動作",
+//                    type: "DN",
+//                    memo: "86から91までの点数合計"
+//                },
+
+                "93": {
+                    number: "93",
+                    title: "膝の運動",
+                    description: "あなたにとって非常に重要だと思う活動を、以下の中から3つ選んでください。 （スポーツや娯楽活動・筋力トレーニングの中からあわせて3つ選んでください。）",
+                    type: "MV2",
+                    param: "category1:'スポーツや娯楽活動',category2:'スポーツジムでの器具を使った筋トレ運動',minSelect:3,maxSelect:3",
+                    options1: "10:スイミング,11:ゴルフ（18ホール）,12:サイクリング（30分）,13:園芸作業,14:ボーリング,15:テニス,16:ウォーキング,17:ダンス／バレエ,18:ストレッチ運動（筋肉をほぐす運動）,19:その他",
+                    options2: "20:ウェイトリフティング,21:レッグエクステンション,22:ステップマシン,23:エアロバイク（固定式自転こぎ）,24:レッグプレス,25:ジョギング,26:エリプティカル・トレーナー,27:エアロビクス,28:その他",
+                    onclick: "entry_55.selectedElse(this);",
+                    memo: "３つまで",
+                    sound: "93.mp3",
+                    require: true
+                },
+
+                "94": {
+                    number: "94",
+                    title: "困難の程度",
+                    description: "選択した3つの活動を行う際の困難の程度はどれくらいですか？",
+                    type: "SP94",
+                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
+                    memo: "93で選択された回答のうち１つめを表示",
+                    sound: "95.mp3",
+                    require: true,
+                    sum: true,
+                    calc: function (ans) {
+                        var ary = ans ? ans.split(",") : [];
+                        var score = 0;
+                        jQuery.each(ary, function (i, item) { score += Number(item); });
+                        return score;
+                    }
+                },
+
+//                "96": {
+//                    number: "96",
+//                    title: "困難の程度２",
+//                    description: "困難の程度２",
+//                    type: "SP94",
+//                    memo: "93で選択された回答のうち２つめを表示",
+//                    require: true
+//                },
+
+//                "98": {
+//                    number: "98",
+//                    title: "困難の程度３",
+//                    description: "困難の程度３",
+//                    type: "SP94",
+//                    memo: "93で選択された回答のうち３つめを表示",
+//                    require: true
+//                },
+
+//                "99": {
+//                    number: "99",
+//                    title: "困難の程度３、選択",
+//                    description: "[項目番号93から選択された３つの回答のうち一つを表示]",
+//                    type: "SH",
+//                    options: "5:全く問題ない,4:わずかに困難,3:少し困難,2:困難,1:非常に困難,0:全くできない（膝が悪いため）,0:いままでこの動作をしたことがない",
+//                    require: true
+//                },
+
+//                "100": {
+//                    number: "100",
+//                    title: "合計：膝の運動",
+//                    description: "合計：膝の運動",
+//                    type: "DN",
+//                    memo: "困難の程度の点数３つを合計、ただし、困難程度１のみが回答されている場合、その点数を表示、困難程度１と２が回答されている場合、その平均を困難程度３の値として、合計を求める。３つ回答されている場合、３つの合計とする"
+//                },
+
+                "101": {
+                    number: "101",
+                    title: "ご回答ありがとうございました",
+                    description: "ご回答ありがとうございました<br/>このままタブレットをご返却ください",
+                    type: "DT",
+                    sound: "100.mp3"
+                }
+
+            };
+
+            // 初期表示へ
+            entry_55.onInit = function () {
+                // ローカルストレージからデータ取得
+                var schedule = App.getSchedule();                               // スケジュール
+                var patients = App.loadObject("patients");                      // 全患者データ
+                var patientIndex = App.loadObject("patientIndex").index || 0;   // 選択された患者のインデックス
+                var patient = patients.rows[patientIndex];                      // 対象患者の鑑データ
+                var ansData = App.loadObject("answers_" + patient.sec);         // 対象患者の全回答データ
+                entry_55.formData = ansData[schedule.category] || {};           // フォームの回答データ
+                console.log("--- formData ---");
+                console.log(entry_55.formData);
+
+                // 回答データをセット
+                jQuery.each(entry_55.formData, function (qid, item) {
+                    if (entry_55.data[qid]) {
+                        entry_55.data[qid].ans = item;
+                    }
+                });
+                entry_55.data["93"].ans = entry_55.data["93"].ans || "No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No, , ";
+                console.log("---------- entry_55.data ----------");
+                console.log(entry_55.data);
+            };
+
+            entry_55.onBeforeShow = function () {
+                // 開始番号の取得
+                var params = {};
+                var works = location.href.split("?");
+                if (works.length > 1) {
+                    var ary = works[1].split("&");
+                    for (i = 0; i < ary.length; i++) {
+                        var item = ary[i].split("=");
+                        params[item[0]] = item[1];
+                    }
+                    entry_55.qid = params.qid ? Number(params.qid) : 55;
+                    // entry_55.type = params.type ? params.type : "a";
+                } else {
+                    entry_55.qid = 55;
+                    // entry_55.type = "a";
+                }
+
+                // シーケンスタイプの選択
+                var schedule = App.loadObject("schedule");
+                entry_55.type = (schedule.code == "B") ? "a" : "b";
+                entry_55.sec = (entry_55.type == "a") ? entry_55.secA1 : entry_55.secB1;
+
+                // 回答データ（デフォルト値）の取得
+                console.log("-- formData --");
+                console.log(entry_55.formData);
+
+                // フォームを描画
+                entry_55.setForm();
+
+            };
+
+            // 次の設問に進む
+            entry_55.goNext = function () {
+                try {
+                    if (entry_55.qid == 101) {
+                        // 最終ページなら回答を保存
+                        entry_55.save(true);
+                    } else {
+                        // データの検査（必須、選択数の下限上限）
+                        var isValid = entry_55.validate();
+                        if (isValid) {
+                            var idx = entry_55.sec.indexOf(entry_55.qid);
+                            entry_55.next = entry_55.sec[idx + 1];
+                            if (entry_55.next > 0) {
+                                entry_55.qid = entry_55.next;
+                                entry_55.setForm();
+                            } else {
+                                entry_55.save();
+                            }
+                        }
+                    }
+                } catch (e) {
+                    alert(e.message);
+                }
+            };
+
+            // 前の設問に戻る
+            entry_55.goBack = function () {
+                try {
+                    var idx = entry_55.sec.indexOf(entry_55.qid);
+                    entry_55.back = entry_55.sec[idx - 1];
+                    if (entry_55.back > 0) {
+                        entry_55.qid = entry_55.back;
+                        entry_55.setForm();
+                    } else {
+                        history.back();
+                    }
+                } catch (e) {
+                    alert(e.message);
+                }
+            };
+
+            // 回答に応じてスキップする
+            entry_55.goSkip = function () {
+                var row = App.getRow("73");
+                var val73 = App.getValue("73", "");
+                if (val73 == "Yes") {
+                    // No.73がYesなら短いシーケンスを使用
+                    entry_55.sec = (entry_55.type == "a") ? entry_55.secA1 : entry_55.secB1;
+                } else {
+                    // No.73がNoなら長いシーケンスを使用
+                    entry_55.sec = (entry_55.type == "a") ? entry_55.secA2 : entry_55.secB2;
+                }
+            };
+
+            // フォームの表示
+            entry_55.setForm = function () {
+
+                var idx = entry_55.sec.indexOf(entry_55.qid);
+                if (idx < 0) {
+                    alert("パラメータエラー：" + entry_55.type + "：" + entry_55.qid);
+                    idx = 0;
+                }
+
+                // 次の番号を取得
+                if (idx < entry_55.sec.length - 1) {
+                    entry_55.next = entry_55.sec[idx + 1];
+                    $("#entry55_nextButton .ui-btn-text").text("次へ");
+                    $("#entry_55_tempButton").show();
+                } else {
+                    entry_55.next = 0;     // STOP
+                    $("#entry55_nextButton .ui-btn-text").text("終了");
+                    $("#entry_55_tempButton").hide();
+                }
+
+                // 前の番号を取得
+                if (0 < idx) {
+                    entry_55.back = entry_55.sec[idx - 1];
+                } else {
+                    entry_55.back = 0;     // STOP
+                }
+
+                try {
+                    $("#main").hide();
+                    var qid = String(entry_55.qid);
+
+                    // 設問データを取得
+                    var data = entry_55.data[qid] || {};
+
+                    // スコアをセット
+                    data.ans = data.ans || "";
+                    entry_55.setScore(data);
+                    console.log("--- 設問データ ---");
+                    console.log(data);
+
+                    data.title = data.title || "タイトル";
+                    data.description = data.description || "設問文を表示します";
+                    data.type = data.type || "SV";
+                    data.options = data.options || "1:はい,2:いいえ,3:どちらでもない";
+                    data.param = data.param || "";
+                    data.sound = data.sound || "";
+
+                    // タイトル
+                    var title = "【" + App.getSchedule().name + "】 " + "ＮＫＳＳ";
+                    $("#entry_55_Title").text(title);
+
+                    // ヘッダ部
+                    var countIndex = entry_55.sec.indexOf(entry_55.qid);
+                    var titleText = (countIndex < entry_55.sec.length - 1) ? [
+                        "（" + (countIndex + 1) + "／" + (entry_55.sec.length - 1) + "）<br/>",
+                        data.description
+                    ].join("") : data.description;
+                    $("#entry_55_QuestionTitle").html(titleText);
+
+                    // フォーム部
+                    $("#entry_55_answerArea").empty();
+                    var part = (data.type != "DT") ? App.createPart(data) : "";
+                    $("#entry_55_answerArea").append(part);
+                    $("#entry_55_answerArea").trigger("create");
+
+                    // プレーヤ部
+                    $("#entry_55_Player").empty();
+                    var player = App.createSoundPlayer(data);
+                    $("#entry_55_Player").append(player);
+                    $("#entry_55_Player").trigger("create");
+
+                    $("#main").fadeIn(500);
+
+                    // ラジオボタンの反転処理
+                    App.setRadioActive();
+
+                } catch (e) {
+                    alert(e.message);
+                }
+            };
+
+            // スコアをセット
+            entry_55.setScore = function (row) {
+                if (row.sum && (!isNaN(row.ans) || row.calc)) {
+                    row.score = row.calc ? row.calc(row.ans) : Number(row.ans);
+                }
+            };
+
+            // その他が選択された場合の処理
+            entry_55.selectedElse = function (obj) {
+                var id = $(obj).attr("id");
+                entry_55.checkedElseID = id;
+                if (id == "item-748") {
+                    entry_55.checkedElse(obj, "補助器具");
+                } else if (id == "item-9319" || id == "item-9328") {
+                    entry_55.checkedElse(obj, "活動内容");
+                }
+            };
+            entry_55.checkedElse = function (obj, title) {
+                if (obj.checked) {
+                    $("#entry55_checkedElseMessage").text(title + "を入力してください");
+                    $("#elseText").val("");
+                    $("#entry55_checkedElse").popup("open");
+                } else {
+                    var id = entry_55.checkedElseID;
+
+                    // チェックボックスのキャプションをリセット
+                    $("label[for='" + id + "'] span.ui-btn-text").text("その他");
+
+                    // 回答データをクリア
+//                    var row;
+                    if (id == "item-748") {
+                        entry_55.data["74"].elseText = "";
+//                        row = App.getRow("74");
+//                        row.elseText = "";
+                    } else if (id == "item-9319") {
+                        entry_55.data["93"].elseText19 = "";
+//                        row = App.getRow("93");
+//                        row.elseText19 = "";
+                    } else if (id == "item-9328") {
+                        entry_55.data["93"].elseText28 = "";
+//                        row = App.getRow("93");
+//                        row.elseText28 = "";
+                    }
+                    entry_55.saveElseText();
+                }
+            };
+            entry_55.setElseText = function () {
+                var text = $("#elseText").val();
+                if (text && (text != " ")) {
+                    var id = entry_55.checkedElseID;
+                    $("label[for='" + id + "'] span.ui-btn-text").text("その他（" + text + "）");
+                    $("#entry55_checkedElse").popup("close");
+
+                    // 回答データを設問オブジェクトに一時保存
+                    if (id == "item-748") {
+                        entry_55.data["74"].elseText = text;
+                        console.log(entry_55.data["74"]);
+                    } else if (id == "item-9319") {
+                        entry_55.data["93"].elseText19 = text;
+                        console.log(entry_55.data["93"]);
+                    } else if (id == "item-9328") {
+                        entry_55.data["93"].elseText28 = text;
+                        console.log(entry_55.data["93"]);
+                    }
+                    entry_55.saveElseText();
+                } else {
+                    $('#elseError').text('未入力です');
+                }
+            };
+            entry_55.saveElseText = function () {
+                var id = entry_55.checkedElseID;
+                var ansAry = [];
+                if (id == "item-748") {
+                    ansAry = entry_55.data["74"].ans.split(",");
+                    if (ansAry.length < 9) { ansAry.length = 9; }
+                    ansAry[8] = entry_55.data["74"].elseText || " ";
+                    entry_55.data["74"].ans = ansAry.join(",");
+                } else if (id == "item-9319") {
+                    ansAry = entry_55.data["93"].ans.split(",");
+                    if (ansAry.length < 21) { ansAry.length = 21; }
+                    ansAry[19] = entry_55.data["93"].elseText19 || " ";
+                    ansAry[20] = entry_55.data["93"].elseText28 || " ";
+                    entry_55.data["93"].ans = ansAry.join(",");
+                } else if (id == "item-9328") {
+                    ansAry = entry_55.data["93"].ans.split(",");
+                    if (ansAry.length < 21) { ansAry.length = 21; }
+                    ansAry[19] = entry_55.data["93"].elseText19 || " ";
+                    ansAry[20] = entry_55.data["93"].elseText28 || " ";
+                    entry_55.data["93"].ans = ansAry.join(",");
+                }
+            };
+
+            // データの検査（必須、選択数の上限・下限）
+            entry_55.validate = function () {
+                var data = entry_55.data[String(entry_55.qid)] || {};
+                var num = data.number;
+                var type = data.type;
+                var isValid = true;
+
+                console.log("----- validate -----");
+                console.log(data);
+
+                if (!data.require) {
+                    // 必須でないときはチェックしない
+                    isValid = true;
+                } else if (type == "MV" || type == "MV2" || type == "MH") {
+                    // 複数選択のとき選択数の上限・下限をチェック
+                    var chkd = $("input[name='item-" + num + "']");
+                    var count = 0;
+                    for (i = 0; i < chkd.length; i++) {
+                        if (chkd[i].checked) { count += 1; };
+                    }
+                    var param = eval("({" + data.param + "})");
+                    var minSelect = param.minSelect || 1;
+                    var maxSelect = param.maxSelect || 99;
+                    if (minSelect == maxSelect && count < minSelect) {
+                        App.alert("入力エラー", maxSelect + "件選択してください");
+                        isValid = false;
+                    } else if (count < minSelect) {
+                        App.alert("入力エラー", "少なくとも" + minSelect + "件以上選択してください");
+                        isValid = false;
+                    } else if (count > maxSelect) {
+                        App.alert("入力エラー", "選択可能な件数は" + maxSelect + "件までです");
+                        isValid = false;
+                    }
+                } else if (type == "SP94") {
+                    var ans94 = App.getValue("94");
+                    if (ans94) {
+                        isValid = true;
+                    } else {
+                        App.alert("入力エラー", "まだ回答が完了していません");
+                        isValid = false;
+                    }
+                } else {
+
+                    // それ以外は必須チェック
+                    if (data.ans) {
+                    } else {
+                        App.alert("入力エラー", "まだ回答が入力されていません");
+                        isValid = false;
+                    }
+                }
+                return isValid;
+            };
+
+            // 保存
+            entry_55_onConfirm = function (ans) {
+                $("#entry_55_alert").popup("close");
+                App.afterConfirm(ans);
+            };
+
+            entry_55.save = function (isDone) {
+                try {
+                    // オブジェクトを配列に変換
+                    var dataAry = [];
+                    jQuery.each(entry_55.data, function (i, item) { dataAry.push(item); });
+                    console.log("--- ans 55 ---");
+                    console.log(dataAry);
+
+                    // ローカルストレージに保存
+                    App.saveData(dataAry, !isDone);
+
+                    // メニューに戻る
+                    history.go(isDone ? -1 : -2);
+                    
+                } catch (e) {
+                    alert(e.message);
+                }
+            };
+
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <h1 id="entry_55_Title"></h1>
+            <a href="#entry55_popup" data-rel="popup" data-transition="pop" data-icon="gear" class="ui-btn-right" data-position-to="window" id="entry_55_tempButton">一時登録</a>
+        </div>
+
+        <div data-role="content" id="main">
+            <fieldset class="ui-grid-b appQuestion">
+                <div class="ui-block-a appQuestionMain">
+                    <div id="entry_55_QuestionTitle" class="appQuestionTitle"></div>
+                    <div id="entry_55_answerArea" class="appQuestionAnswer"></div>
+                </div>
+                <div class="ui-block-b appQuestionSub">
+                    <div id="entry_55_Player"></div>
+                </div>
+                <div class="ui-block-c"></div>
+            </fieldset>
+            <br />
+            <fieldset class="ui-grid-d">
+                <div class="ui-block-a"></div>
+                <div class="ui-block-b"><a href="javascript:entry_55.goBack();" data-role="button" data-theme="a" data-icon="arrow-l" data-iconpos="left">戻る</a></div>
+                <div class="ui-block-c"></div>
+                <div class="ui-block-d"><a href="javascript:entry_55.goNext();" data-role="button" data-theme="a" data-icon="arrow-r" data-iconpos="right" id="entry55_nextButton">次へ</a></div>
+                <div class="ui-block-e"></div>
+            </fieldset>
+        </div>
+
+        <div data-role="popup" id="entry55_checkedElse" data-position-to="#entry_55_Title" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1>その他の内容</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="entry55_checkedElseMessage">活動内容を入力してください。</p>
+                <input type="text" name="elseText" id="elseText" onfocus="$('#elseError').text('　');" />
+                <p id="elseError" style="color:#F00;font-weight:bold;">　</p>
+                <a href="#" data-role="button" data-theme="a" onclick="entry_55.setElseText();">OK</a>
+            </div>
+        </div>
+
+        <div data-role="popup" id="entry55_popup" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1>一時登録</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p>ご回答ありがとうございました。</p>
+                <p>このままタブレットをご返却ください。</p>
+                <br />
+                <a href="#" data-role="button" data-theme="a" onclick="entry_55.save();">閉じる</a>
+            </div>
+        </div>
+
+        <div data-role="popup" id="entry_55_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="entry_55_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="entry_55_alertMessage">メッセージ</p>
+                <a href="javascript:entry_55_onConfirm(3);" data-role="button" id="entry_55_confirm3" data-theme="a">次のページに進む</a>
+                <a href="javascript:entry_55_onConfirm(2);" data-role="button" id="entry_55_confirm2" data-theme="a">メニューに戻る</a>
+                <a href="javascript:entry_55_onConfirm(1);" data-role="button" id="entry_55_confirm1" data-theme="a">一時登録してメニューに戻る</a>
+                <a href="javascript:entry_55_onConfirm(0);" data-role="button" id="entry_55_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="entry_55_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+﻿<html>
+<head>
+    <title>ログイン</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div data-role="page" id="login" data-dom-cache="true">
+
+        <script type="text/javascript">
+            var login = {
+                data: [
+                    { number: "1", title: "ID", type: "IT", param: "", value: "", enterNext:"2" },
+                    { number: "2", title: "パスワード", type: "IP", param: "", value: "" },
+                    { number: "-", title: "", type: "X", param: "", value: "" },
+                    { number: "S1", title: "ID", type: "IT", param: "", value: "", enterNext: "S2" },
+                    { number: "S2", title: "パスワード", type: "IP", param: "", value: "" }
+                ]
+            };
+
+            // 認証テーブル
+            login.outhData = {
+                "001": "010", "002": "020", "003": "030", "004": "040", "005": "050", "999": "smt"
+            };
+
+            // 初期処理
+            login.onInit = function () {
+//                $("#initDatetime").text("onInit : " + App.createDateTime());
+//                $("#hasTouch").text(App.hasTouch ? "hasTouch : true" : "hasTouch : false");
+            };
+            login.onBeforeShow = function () {
+                App.setForm("login", true);
+                var obj = App.loadObject("setting");
+                $("#item-1").val(obj.id || "");
+                $("#item-2").val(obj.pw || "");
+            };
+            login.onShow = function () {
+//                $("#showDatetime").text("onShow : " + App.createDateTime());
+            };
+
+            // ログイン処理
+            login.login = function () {
+                // ユーザ認証
+                var id = $("#item-1").val();
+                var pw = $("#item-2").val();
+                var isOuth = id ? (login.outhData[id] == pw) : false;
+                if (isOuth) {
+                    // 初期化ユーザならデータをクリア
+                    if (id == "999") { App.saveObject("patients", {}); }
+                    // 症例一覧へ進む
+                    App.changePage("patients.html");
+                } else {
+                    App.alert("入力エラー", "ユーザIDまたはパスワードに誤りがあります");
+                }
+            };
+
+            // 設定処理
+            login.startSetting = function () {
+                try {
+                    var obj = App.loadObject("setting");
+                    $("#item-S1").val(obj.id || "");
+                    $("#item-S2").val(obj.pw || "");
+                    $("#loginSetting").popup("open", { transition: "pop" });
+
+
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+            login.setting = function () {
+                try {
+                    var id = $("#item-S1").val();
+                    var pw = $("#item-S2").val();
+                    App.saveObject("setting", { id: id, pw: pw });
+                    $("#loginSetting").popup("close");
+                    $("#item-1").val(id);
+                    $("#item-2").val(pw);
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" id="login_header">
+            <a href='javascript:location.reload();' data-rel="button" data-icon="refresh" class="ui-btn-left">更新</a>
+            <h1 id="login_appTitle">ログイン</h1>
+            <a href="javascript:login.startSetting();" data-rel="button" data-icon="gear" class="ui-btn-right">初期設定</a>
+        </div>
+
+        <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-responsive" style="width:400px !important; margin: 60px auto;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="120">項目</th>
+                        <th class="appFormCol" width="380">内容</th>
+                    </tr>
+                </thead>
+                <tbody id="login_answerArea">
+                    <tr>
+                        <td>ユーザID</td>
+                        <td class='appLeft' id="login_ans1">　</td>
+                    </tr>
+                    <tr>
+                        <td>パスワード</td>
+                        <td class='appLeft' id="login_ans2">　</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center !important;">
+                            <a href="javascript:login.login();" data-role="button" data-inline="true" data-icon="check" data-theme="a">ログイン</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p id="loginGuide" style="text-align: center; font-size: 14px;">(ID, PW) = (001, 010) (002, 020) ... (999, ***)</p>
+            <br/>
+            <p id="initDatetime" style="text-align: center; font-size: 12px;"></p>
+            <p id="showDatetime" style="text-align: center; font-size: 12px;"></p>
+            <p id="hasTouch" style="text-align: center; font-size: 14px;"></p>
+
+        </div>
+
+        <div data-role="popup" id="loginSetting" data-position-to="#login_appTitle" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1>初期設定</h1>
+                <a href="#" data-rel="back" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p>ログイン時に使用する初期値を設定してください。</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>ユーザID</td>
+                            <td><input type="text" name="settingID" id="item-S1" value="" data-clear-btn="true" /></td>
+                        </tr>
+                        <tr>
+                            <td>パスワード</td>
+                            <td><input type="password" name="settingPW" id="item-S2" value="" data-clear-btn="true" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="javascript:login.setting();" data-role="button" data-theme="a">設定</a>
+            </div>
+        </div>
+
+        <div data-role="popup" id="login_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="login_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="login_alertMessage">メッセージ</p>
+                <a href="javascript:login_onConfirm(3);" data-role="button" id="login_confirm3" data-theme="a">次のページに進む</a>
+                <a href="javascript:login_onConfirm(2);" data-role="button" id="login_confirm2" data-theme="a">メニューに戻る</a>
+                <a href="javascript:login_onConfirm(1);" data-role="button" id="login_confirm1" data-theme="a">一時登録してメニューに戻る</a>
+                <a href="javascript:login_onConfirm(0);" data-role="button" id="login_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="login_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
