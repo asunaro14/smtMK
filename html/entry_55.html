@@ -11,10 +11,18 @@
     <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
     <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
     <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
     <link type="text/css" rel="stylesheet" href="themes/smt.css" />
     <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
 </head>
 <body>
     <div data-role="page" id="entry_55" data-theme="d">
@@ -22,12 +30,16 @@
         <script type="text/javascript">
             // 初期設定
             var entry_55 = {};
-
             // 設問シーケンス
             entry_55.secA1 = [55, 56, 57, 59, 60, 61, 62, 63, 65, 66, 67, 73, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
             entry_55.secA2 = [55, 56, 57, 59, 60, 61, 62, 63, 65, 66, 67, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
             entry_55.secB1 = [55, 56, 57, 59, 60, 61, 62, 63, 69, 70, 71, 73, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
             entry_55.secB2 = [55, 56, 57, 59, 60, 61, 62, 63, 69, 70, 71, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94, 101];
+
+            //未登録の場合の複数選択の項目数
+            entry_55.sec74init = ",,,,,,";
+            //entry_55.sec93init = ",,,,,,,,,,,,,,,,,,, , ";
+            entry_55.sec93init = ",,,,,,,,,,,,,,,,,,,";
 
             // 共通設問データ
             entry_55.data = {
@@ -35,9 +47,10 @@
                 "55": {
                     number: "55",
                     title: "平地歩行時の疼痛",
-                    description: "平行歩行時の疼痛",
+                    description: "平地歩行時の疼痛",
                     type: "SH",
-                    options: "0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10",
+                    //options: "0:　0　,1:　1　,2:　2　,3:　3　,4:　4　,5:　5　,6:　6　,7:　7　,8:　8　,9:　9　,10:　10　",
+                    options: "10:　0　,9:　1　,8:　2　,7:　3　,6:　4　,5:　5　,4:　6　,3:　7　,2:　8　,1:　9　,0:　10　",
                     param: "minText:'痛みなし',maxText:'非常に痛い'",
                     sound: "55.mp3",
                     require: true,
@@ -49,7 +62,8 @@
                     title: "階段昇降/坂道歩行時の疼痛",
                     description: "階段昇降または坂道歩行時の疼痛",
                     type: "SH",
-                    options: "0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10",
+                    //options: "0:　0　,1:　1　,2:　2　,3:　3　,4:　4　,5:　5　,6:　6　,7:　7　,8:　8　,9:　9　,10:　10　",
+                    options: "10:　0　,9:　1　,8:　2　,7:　3　,6:　4　,5:　5　,4:　6　,3:　7　,2:　8　,1:　9　,0:　10　",
                     param: "minText:'痛みなし',maxText:'非常に痛い'",
                     sound: "56.mp3",
                     require: true,
@@ -59,9 +73,9 @@
                 "57": {
                     number: "57",
                     title: "違和感",
-                    description: "あなたの膝は違和感なく普通の感じがしますか？",
+                    description: "現在の膝の状態は［正常」だと感じますか？",
                     type: "SH",
-                    options: "5:いつも,3:ときどき,0:全くない",
+                    options: "5:いつも正常と感じる,3:ときどき正常と感じる,0:全く正常と感じない",
                     sound: "57.mp3",
                     require: true,
                     sum: true
@@ -78,7 +92,7 @@
                 "59": {
                     number: "59",
                     title: "椅子に座っている時の満足度",
-                    description: "椅子に座っている時、膝の痛みに関してどの程度満足していますか?",
+                    description: "椅子に座っている時の膝の痛みについてどの程度満足していますか?",
                     type: "SH",
                     options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
                     sound: "59.mp3",
@@ -89,7 +103,7 @@
                 "60": {
                     number: "60",
                     title: "横たわっている時の満足度",
-                    description: "ベッドに横たわっている時、膝の痛みに関してどの程度満足していますか?",
+                    description: "ベッドに横になっている時の膝の痛みについてどの程度満足していますか？",
                     type: "SH",
                     options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
                     sound: "60.mp3",
@@ -100,7 +114,7 @@
                 "61": {
                     number: "61",
                     title: "立ち上がる動作の満足度",
-                    description: "ベッドから立ち上がる動作で、膝の痛みに関してどの程度満足していますか？",
+                    description: "ベッドから出る時の膝の機能についてどの程度満足していますか？",
                     type: "SH",
                     options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
                     sound: "61.mp3",
@@ -111,7 +125,7 @@
                 "62": {
                     number: "62",
                     title: "家事を行う際の満足度",
-                    description: "軽度の家事を行う際、膝の痛みに関してどの程度満足していますか？",
+                    description: "軽い家事動作を行う時の膝の機能についてどの程度満足していますか？",
                     type: "SH",
                     options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
                     sound: "62.mp3",
@@ -122,7 +136,7 @@
                 "63": {
                     number: "63",
                     title: "娯楽活動を行う際の満足度",
-                    description: "お出かけやレジャーなどの娯楽活動を行う際、膝の痛みに関してどの程度満足していますか？",
+                    description: "娯楽活動を行う時の膝の機能についてどの程度満足していますか？",
                     type: "SH",
                     options: "8:非常に満足,6:満足,4:普通,2:不満,0:非常に不満",
                     sound: "63.mp3",
@@ -143,7 +157,7 @@
                     title: "痛みがとれることを期待（術前）",
                     description: "人工膝関節置換術を受けることに対してどのようなことを期待していますか？　痛みがとれることを期待していますか？",
                     type: "SV",
-                    options: "1:全く期待していない。,2:少し期待している。,3:多少期待している。,4:適度に期待している。,5:かなり期待している。",
+                    options: "1:全く期待していない。,2:わずかに期待している。,3:少し期待している。,4:ある程度期待している。,5:とても期待している。",
                     sound: "65.mp3",
                     require: true,
                     sum: true
@@ -152,9 +166,9 @@
                 "66": {
                     number: "66",
                     title: "通常の動作ができることを期待（術前）",
-                    description: "日常生活で通常の動作ができることを期待していますか？",
+                    description: "日常生活で、通常の動作ができることを期待していますか？",
                     type: "SV",
-                    options: "1:全く期待していない。,2:少し期待している。,3:多少期待している。,4:適度に期待している。,5:かなり期待している。",
+                    options: "1:全く期待していない。,2:わずかに期待している。,3:少し期待している。,4:ある程度期待している。,5:とても期待している。",
                     sound: "66.mp3",
                     require: true,
                     sum: true
@@ -163,9 +177,9 @@
                 "67": {
                     number: "67",
                     title: "レジャー等の期待（術前）",
-                    description: "レジャー、娯楽、スポーツを行えることを期待していますか？",
+                    description: "娯楽やスポーツ活動を行えることを期待していますか？",
                     type: "SV",
-                    options: "1:全く期待していない。,2:少し期待している。,3:多少期待している。,4:適度に期待している。,5:かなり期待している。",
+                    options: "1:全く期待していない。,2:わずかに期待している。,3:少し期待している。,4:ある程度期待している。,5:とても期待している。",
                     sound: "67.mp3",
                     require: true,
                     sum: true
@@ -182,9 +196,9 @@
                 "69": {
                     number: "69",
                     title: "痛みがとれることを期待（術後）",
-                    description: "人工膝関節置換術を受ける前にあなたが期待していた効果と比較して、実際の手術の効果はいかがでしたか？　人工膝関節置換術による除痛（痛みがとれる）効果への期待はいかがでしたか？",
+                    description: "人工膝関節置換術を受ける前にあなたが期待していた効果と比較して、痛みがとれることについていかがでしたか？",
                     type: "SV",
-                    options: "1:期待しすぎていた。思っていたよりも、除痛効果はかなり低かった。,2:期待しすぎていた。思っていたよりも除痛効果は少し低かった。,3:同じくらい。ほぼ期待したとおりの除痛効果が得られた。,4:あまり期待していなかったが、思っていたよりも除痛効果は少し高かった。,5:あまり期待していなかったが、思っていたよりも除痛効果はかなり高かった。",
+                    options: "1:期待しすぎていた。「思っていたよりかなり悪かった」,2:期待しすぎていた。「思っていたより少し悪かった」,3:同じくらい。「期待していた通りだった」,4:あまり期待していなかった。「思っていたより少し良くなった」,5:あまり期待していなかった。「思っていたよりかなり良くなった」",
                     sound: "69.mp3",
                     require: true,
                     sum: true
@@ -193,9 +207,9 @@
                 "70": {
                     number: "70",
                     title: "通常の動作ができることを期待（術後）",
-                    description: "日常生活での通常の動作ができることへの期待はいかがでしたか？",
+                    description: "人工膝関節置換術を受ける前にあなたが期待していた効果と比較して、日常生活で、通常の動作ができることについていかがでしたか？",
                     type: "SV",
-                    options: "1:期待しすぎていた。思っていたよりも、かなりできなかった。,2:期待しすぎていた。思っていたよりも、少しできなかった。,3:同じくらい。ほぼ期待したとおりの結果が得られた。,4:あまり期待していなかったが、思っていたよりも少しできるようになった。,5:あまり期待していなかったが、思っていたよりもかなりできるようになった。",
+                    options: "1:期待しすぎていた。「思っていたよりかなり悪かった」,2:期待しすぎていた。「思っていたより少し悪かった」,3:同じくらい。「期待していた通りだった」,4:あまり期待していなかった。「思っていたより少し良くなった」,5:あまり期待していなかった。「思っていたよりかなり良くなった」",
                     sound: "70.mp3",
                     require: true,
                     sum: true
@@ -204,9 +218,9 @@
                 "71": {
                     number: "71",
                     title: "レジャー等の期待（術後）",
-                    description: "レジャー、娯楽、スポーツを行えることへの期待はいかがでしたか？",
+                    description: "人工膝関節置換術を受ける前にあなたが期待していた効果と比較して、娯楽やスポーツ活動を行えることについていかがでしたか？",
                     type: "SV",
-                    options: "1:期待しすぎていた。思っていたよりも、かなりできなかった。,2:期待しすぎていた。思っていたよりも、少しできなかった。,3:同じくらい。ほぼ期待したとおりの結果が得られた。,4:あまり期待していなかったが、思っていたよりも少しできるようになった。,5:あまり期待していなかったが、思っていたよりもかなりできるようになった。",
+                    options: "1:期待しすぎていた。「思っていたよりかなり悪かった」,2:期待しすぎていた。「思っていたより少し悪かった」,3:同じくらい。「期待していた通りだった」,4:あまり期待していなかった。「思っていたより少し良くなった」,5:あまり期待していなかった。「思っていたよりかなり良くなった」",
                     sound: "71.mp3",
                     require: true,
                     sum: true
@@ -223,10 +237,11 @@
                 "73": {
                     number: "73",
                     title: "器具に頼らなくても歩く事",
-                    description: "あなたは杖（つえ）や車いすなどの器具に頼らなくても歩く事ができますか？",
+                    description: "補助器具（杖、松葉杖または車椅子）を使わずに歩くことができますか？",
                     type: "SH",
                     options: "Yes:はい,No:いいえ",
                     sound: "73.mp3",
+                    onshow: function(){ entry_55.goSkip(); },
                     onclick: "entry_55.goSkip();",
                     require: true
                 },
@@ -247,7 +262,10 @@
                         var scores = [-10, -8, -8, -6, -4, -4, -2, 0];
                         var score = 0;
                         jQuery.each(ary, function (i, item) {
-                            if (item == "Yes") { score += scores[i]; }
+                            if (item == "Yes") {
+                                var s = scores[i];
+                                if (s < score) { score = s; }
+                            }
                         });
                         return score;
                     }
@@ -256,7 +274,7 @@
                 "75": {
                     number: "75",
                     title: "膝が悪いため",
-                    description: "あなたが補助器具を使うのは膝が悪いためですか？",
+                    description: "補助器具は、膝が原因で使用していますか?",
                     type: "SH",
                     options: "1:はい,2:いいえ",
                     sound: "75.mp3",
@@ -266,9 +284,9 @@
                 "76": {
                     number: "76",
                     title: "どれくらいの時間立てますか",
-                    description: "あなたはどれくらいの時間立っていることができますか？（膝のぐあいが悪いために座ってしまうまでの時間のことです。補助器具を使用していてもかまいません）",
+                    description: "膝の具合が悪くて座ってしまうまで、どのくらいの時間立っていることが出来ますか？（補助器具の使用・不使用は問いません）",
                     type: "SV",
-                    options: "0:立っていることができない,3:0-5分,6:6-15分,9:16-30分,12:31-60分,15:1時間以上",
+                    options: "0:少しも立っていることができない,3:0-5分,6:6-15分,9:16-30分,12:31-60分,15:1時間以上",
                     sound: "76.mp3",
                     require: true,
                     sum: true
@@ -277,7 +295,7 @@
                 "77": {
                     number: "77",
                     title: "どれくらいの時間あるけますか",
-                    description: "あなたはどのくらいの時間歩くことができますか？（膝のぐあいが悪いために歩けなくなってしまうまでの時間のことです。補助器具を使用していてもかまいません）",
+                    description: "膝の具合が悪くて立ち止まるまで、どのくらいの時間歩いていることができますか？（補助器具の使用・不使用は問いません）",
                     type: "SV",
                     options: "0:歩くことができない,3:0-5分,6:6-15分,9:16-30分,12:31-60分,15:1時間以上",
                     sound: "77.mp3",
@@ -296,9 +314,10 @@
                 "79": {
                     number: "79",
                     title: "段差の有る道を歩く時",
-                    description: "段差の有る道を歩く時の困難の程度はどれくらいですか？",
+                    description: "段差のある道を歩く時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    //options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "79.mp3",
                     require: true,
                     sum: true,
@@ -310,9 +329,9 @@
                 "80": {
                     number: "80",
                     title: "進行方向を変える時",
-                    description: "進行方向を変える時の困難の程度はどれくらいですか？",
+                    description: "進行方向を変える時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "80.mp3",
                     require: true,
                     sum: true,
@@ -324,9 +343,9 @@
                 "81": {
                     number: "81",
                     title: "階段を昇り降りする時",
-                    description: "階段を昇り降りする時の困難の程度はどれくらいですか？",
+                    description: "階段を昇り降りする時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "81.mp3",
                     require: true,
                     sum: true,
@@ -338,9 +357,9 @@
                 "82": {
                     number: "82",
                     title: "低いソファやひじ掛けのない椅子から立ち上がる時",
-                    description: "低いソファやひじ掛けのない椅子から立ち上がる時の困難の程度はどれくらいですか？",
+                    description: "低いソファやひじ掛けのない椅子から立ち上がる時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "82.mp3",
                     require: true,
                     sum: true,
@@ -352,9 +371,9 @@
                 "83": {
                     number: "83",
                     title: "車に乗り降りする時",
-                    description: "車に乗り降りする時の困難の程度はどれくらいですか？",
+                    description: "車に乗り降りする時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "83.mp3",
                     require: true,
                     sum: true,
@@ -366,9 +385,9 @@
                 "84": {
                     number: "84",
                     title: "横向きに移動する時",
-                    description: "横向きに移動する時の困難の程度はどれくらいですか？",
+                    description: "横向きに移動する時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "84.mp3",
                     require: true,
                     sum: true,
@@ -388,9 +407,9 @@
                 "86": {
                     number: "86",
                     title: "ハシゴや踏み台に登る時",
-                    description: "ハシゴや踏み台に登る時の困難の程度はどれくらいですか？",
+                    description: "ハシゴや踏み台に登る時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "86.mp3",
                     require: true,
                     sum: true,
@@ -402,9 +421,9 @@
                 "87": {
                     number: "87",
                     title: "買い物袋を持って歩く時",
-                    description: "買い物袋を持って200m位歩く時の困難の程度はどれくらいですか？",
+                    description: "買い物袋を持って200m位歩く時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "87.mp3",
                     require: true,
                     sum: true,
@@ -416,9 +435,9 @@
                 "88": {
                     number: "88",
                     title: "しゃがみこむ時",
-                    description: "しゃがみこむ時の困難の程度はどれくらいですか？",
+                    description: "しゃがみこむ時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "88.mp3",
                     require: true,
                     sum: true,
@@ -427,25 +446,25 @@
                     }
                 },
 
-                "89": {
-                    number: "89",
-                    title: "歩く時",
-                    description: "歩く時の困難の程度はどれくらいですか？",
-                    type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
-                    require: true,
-                    sum: true,
-                    calc: function (ans) {
-                        return (ans && ans != "n") ? Number(ans) : 0;
-                    }
-                },
+//                "89": {
+//                    number: "89",
+//                    title: "歩く時",
+//                    description: "歩く時の困難の程度はどれくらいですか？",
+//                    type: "SH",
+//                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+//                    require: true,
+//                    sum: true,
+//                    calc: function (ans) {
+//                        return (ans && ans != "n") ? Number(ans) : 0;
+//                    }
+//                },
 
                 "90": {
                     number: "90",
                     title: "ひざまずく時",
-                    description: "ひざまずく時の困難の程度はどれくらいですか？",
+                    description: "ひざまずく時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "90.mp3",
                     require: true,
                     sum: true,
@@ -457,9 +476,9 @@
                 "91": {
                     number: "91",
                     title: "走る時",
-                    description: "走る時の困難の程度はどれくらいですか？",
+                    description: "走る時、どのくらい困難ですか？（膝が原因で）",
                     type: "SH",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>　,n:いままでにこの動作を<br/>したことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),n:やったことがない<br/>　",
                     sound: "91.mp3",
                     require: true,
                     sum: true,
@@ -479,11 +498,14 @@
                 "93": {
                     number: "93",
                     title: "膝の運動",
-                    description: "あなたにとって非常に重要だと思う活動を、以下の中から3つ選んでください。 （スポーツや娯楽活動・筋力トレーニングの中からあわせて3つ選んでください。）",
+                    description: "あなたにとって「最も重要」だと思う活動を以下から3つ選択してください。",
                     type: "MV2",
-                    param: "category1:'スポーツや娯楽活動',category2:'スポーツジムでの器具を使った筋トレ運動',minSelect:3,maxSelect:3",
-                    options1: "10:スイミング,11:ゴルフ（18ホール）,12:サイクリング（30分）,13:園芸作業,14:ボーリング,15:テニス,16:ウォーキング,17:ダンス／バレエ,18:ストレッチ運動（筋肉をほぐす運動）,19:その他",
-                    options2: "20:ウェイトリフティング,21:レッグエクステンション,22:ステップマシン,23:エアロバイク（固定式自転こぎ）,24:レッグプレス,25:ジョギング,26:エリプティカル・トレーナー,27:エアロビクス,28:その他",
+                    param: "category1:'スポーツや娯楽活動',category2:'エクササイズやジムでの運動',minSelect:3,maxSelect:3",
+                    //キーの数字は特に意味がないのか？
+                    //options1: "10:スイミング,11:ゴルフ（18ホール）,12:サイクリング（30分）,13:園芸作業,14:ボーリング,15:テニス,16:ウォーキング,17:ダンス／バレエ,18:ストレッチ運動（筋肉をほぐす運動）,19:その他",
+                    //options2: "20:ウェイトリフティング,21:レッグエクステンション,22:ステップマシン,23:エアロバイク（固定式自転こぎ）,24:レッグプレス,25:ジョギング,26:エリプティカル・トレーナー,27:エアロビクス,28:その他",
+                    options1: "10:スイミング,11:ゴルフ（18ホール）,12:サイクリング（30分）,13:園芸作業,14:ボーリング,15:ラケットスポーツ(テニスなど）,16:長距離のウォーキング,17:ダンス／バレエ,18:ストレッチ運動（筋肉をほぐす運動）,30:グラウンドゴルフ／ゲートボール,31:ハイキング",
+                    options2: "20:ウェイトリフティング,21:レッグエクステンション,22:ステップマシン,23:エアロバイク（固定式自転こぎ）,24:レッグプレス,25:ジョギング,26:エリプティカル・トレーナー,27:エアロビクス",
                     onclick: "entry_55.selectedElse(this);",
                     memo: "３つまで",
                     sound: "93.mp3",
@@ -495,7 +517,8 @@
                     title: "困難の程度",
                     description: "選択した3つの活動を行う際の困難の程度はどれくらいですか？",
                     type: "SP94",
-                    options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
+                    //options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
+                    options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),-1:やったことがない<br/>",
                     memo: "93で選択された回答のうち１つめを表示",
                     sound: "95.mp3",
                     require: true,
@@ -545,8 +568,10 @@
 
                 "101": {
                     number: "101",
-                    title: "ご回答ありがとうございました",
-                    description: "ご回答ありがとうございました<br/>このままタブレットをご返却ください",
+                    //title: "ご回答ありがとうございました",
+                    //description: "ご回答ありがとうございました<br/>このままタブレットをご返却ください",
+                    title: "ご回答、誠にありがとうございました",
+                    description: "ご回答、誠にありがとうございました<br/>このままタブレットをご返却ください",
                     type: "DT",
                     sound: "100.mp3"
                 }
@@ -562,16 +587,43 @@
                 var patient = patients.rows[patientIndex];                      // 対象患者の鑑データ
                 var ansData = App.loadObject("answers_" + patient.sec);         // 対象患者の全回答データ
                 entry_55.formData = ansData[schedule.category] || {};           // フォームの回答データ
-                console.log("--- formData ---");
-                console.log(entry_55.formData);
+                //console.log("--- formDataaa ---");
+                //console.log({ aaa: entry_55.formData });
 
                 // 回答データをセット
                 jQuery.each(entry_55.formData, function (qid, item) {
+                    //console.log({ yamada: entry_55.data[qid] });
                     if (entry_55.data[qid]) {
                         entry_55.data[qid].ans = item;
+                    } else {
+                      entry_55.data[qid].ans = '';
                     }
                 });
-                entry_55.data["93"].ans = entry_55.data["93"].ans || "No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No, , ";
+                //設問に初期値を設定
+                //entry_55.data["74"].ans = entry_55.data["74"].ans || ",,,,,,";
+                ////entry_55.data["93"].ans = entry_55.data["93"].ans || "No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No, , ";
+                //entry_55.data["93"].ans = entry_55.data["93"].ans || ",,,,,,,,,,,,,,,,,,, , ";
+                var no_all;
+                if (schedule.code == "B") {//術前の設問
+                    no_all = [55, 56, 57, 59, 60, 61, 62, 63, 65, 66, 67, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94];
+                } else {//その他の設問
+                    no_all = [55, 56, 57, 59, 60, 61, 62, 63, 69, 70, 71, 73, 74, 75, 76, 77, 79, 80, 81, 82, 83, 84, 86, 87, 88, 90, 91, 93, 94];
+                }
+                //console.log(schedule.code);
+                $.each(no_all, function (n) {
+                    //複数選択の項目 未登録の場合選択肢分カンマを代入
+                    if (no_all[n] == 74) {
+                        entry_55.data["74"].ans = entry_55.data["74"].ans || entry_55.sec74init;//複数選択
+                    } else if (no_all[n] == 93) {
+                        entry_55.data["93"].ans = entry_55.data["93"].ans || entry_55.sec93init;//複数選択
+
+
+                    } else {
+                        entry_55.data[no_all[n]].ans = entry_55.data[no_all[n]].ans || "";
+                    }
+                    console.log(entry_55.data);
+                });
+                //ここまで
                 console.log("---------- entry_55.data ----------");
                 console.log(entry_55.data);
             };
@@ -598,10 +650,8 @@
                 entry_55.type = (schedule.code == "B") ? "a" : "b";
                 entry_55.sec = (entry_55.type == "a") ? entry_55.secA1 : entry_55.secB1;
 
-                // 回答データ（デフォルト値）の取得
+                // 回答データ（デフォルト値）の取得　20150313 ★1
                 console.log("-- formData --");
-                console.log(entry_55.formData);
-
                 // フォームを描画
                 entry_55.setForm();
 
@@ -653,8 +703,9 @@
                 var row = App.getRow("73");
                 var val73 = App.getValue("73", "");
                 if (val73 == "Yes") {
-                    // No.73がYesなら短いシーケンスを使用
+                    // No.73がYesなら短いシーケンスを使用                    
                     entry_55.sec = (entry_55.type == "a") ? entry_55.secA1 : entry_55.secB1;
+                    entry_55.data["74"].ans = entry_55.sec74init;//73でNoを選択して74の値を入れてから戻った場合に74に値が残ったままになってしまうため、選択をクリアする
                 } else {
                     // No.73がNoなら長いシーケンスを使用
                     entry_55.sec = (entry_55.type == "a") ? entry_55.secA2 : entry_55.secB2;
@@ -714,9 +765,12 @@
 
                     // ヘッダ部
                     var countIndex = entry_55.sec.indexOf(entry_55.qid);
+                    var fontSize = (entry_55.qid == "93") ? "21" : "24";
                     var titleText = (countIndex < entry_55.sec.length - 1) ? [
+                        "<span style='font-size:" + fontSize + "px;'>",
                         "（" + (countIndex + 1) + "／" + (entry_55.sec.length - 1) + "）<br/>",
-                        data.description
+                        data.description,
+                        "</span>"
                     ].join("") : data.description;
                     $("#entry_55_QuestionTitle").html(titleText);
 
@@ -725,6 +779,12 @@
                     var part = (data.type != "DT") ? App.createPart(data) : "";
                     $("#entry_55_answerArea").append(part);
                     $("#entry_55_answerArea").trigger("create");
+
+                    // スタイル調整
+                    var marginTop = (qid == "93") ? "0" : "2em";
+                    var fontSize = (qid == "93") ? "16px" : "19px";
+                    $("#entry_55_answerArea").css("margin-top", marginTop);
+                    $("#entry_55_answerArea span .ui-btn-text").css("font-size", fontSize);
 
                     // プレーヤ部
                     $("#entry_55_Player").empty();
@@ -736,6 +796,12 @@
 
                     // ラジオボタンの反転処理
                     App.setRadioActive();
+
+                    // 初期処理が指定されている場合
+                    if (data.onshow) {
+                        var func = eval(data.onshow);
+                        func();
+                    }
 
                 } catch (e) {
                     alert(e.message);
@@ -755,8 +821,9 @@
                 entry_55.checkedElseID = id;
                 if (id == "item-748") {
                     entry_55.checkedElse(obj, "補助器具");
-                } else if (id == "item-9319" || id == "item-9328") {
-                    entry_55.checkedElse(obj, "活動内容");
+                //その他が無くなったためコメント化　20150520
+                //} else if (id == "item-9319" || id == "item-9328") {
+                //    entry_55.checkedElse(obj, "活動内容");
                 }
             };
             entry_55.checkedElse = function (obj, title) {
@@ -771,19 +838,13 @@
                     $("label[for='" + id + "'] span.ui-btn-text").text("その他");
 
                     // 回答データをクリア
-//                    var row;
                     if (id == "item-748") {
                         entry_55.data["74"].elseText = "";
-//                        row = App.getRow("74");
-//                        row.elseText = "";
-                    } else if (id == "item-9319") {
-                        entry_55.data["93"].elseText19 = "";
-//                        row = App.getRow("93");
-//                        row.elseText19 = "";
-                    } else if (id == "item-9328") {
-                        entry_55.data["93"].elseText28 = "";
-//                        row = App.getRow("93");
-//                        row.elseText28 = "";
+                    //その他が無くなったためコメント化　20150520
+                    //} else if (id == "item-9319") {
+                    //    entry_55.data["93"].elseText19 = "";
+                    //} else if (id == "item-9328") {
+                    //    entry_55.data["93"].elseText28 = "";
                     }
                     entry_55.saveElseText();
                 }
@@ -799,12 +860,13 @@
                     if (id == "item-748") {
                         entry_55.data["74"].elseText = text;
                         console.log(entry_55.data["74"]);
-                    } else if (id == "item-9319") {
-                        entry_55.data["93"].elseText19 = text;
-                        console.log(entry_55.data["93"]);
-                    } else if (id == "item-9328") {
-                        entry_55.data["93"].elseText28 = text;
-                        console.log(entry_55.data["93"]);
+                    //その他が無くなったためコメント化　20150520
+                    //} else if (id == "item-9319") {
+                    //    entry_55.data["93"].elseText19 = text;
+                    //    console.log(entry_55.data["93"]);
+                    //} else if (id == "item-9328") {
+                    //    entry_55.data["93"].elseText28 = text;
+                    //    console.log(entry_55.data["93"]);
                     }
                     entry_55.saveElseText();
                 } else {
@@ -819,18 +881,19 @@
                     if (ansAry.length < 9) { ansAry.length = 9; }
                     ansAry[8] = entry_55.data["74"].elseText || " ";
                     entry_55.data["74"].ans = ansAry.join(",");
-                } else if (id == "item-9319") {
-                    ansAry = entry_55.data["93"].ans.split(",");
-                    if (ansAry.length < 21) { ansAry.length = 21; }
-                    ansAry[19] = entry_55.data["93"].elseText19 || " ";
-                    ansAry[20] = entry_55.data["93"].elseText28 || " ";
-                    entry_55.data["93"].ans = ansAry.join(",");
-                } else if (id == "item-9328") {
-                    ansAry = entry_55.data["93"].ans.split(",");
-                    if (ansAry.length < 21) { ansAry.length = 21; }
-                    ansAry[19] = entry_55.data["93"].elseText19 || " ";
-                    ansAry[20] = entry_55.data["93"].elseText28 || " ";
-                    entry_55.data["93"].ans = ansAry.join(",");
+                //その他が無くなったためコメント化　20150520
+                //} else if (id == "item-9319") {
+                //    ansAry = entry_55.data["93"].ans.split(",");
+                //    if (ansAry.length < 21) { ansAry.length = 21; }
+                //    ansAry[19] = entry_55.data["93"].elseText19 || " ";
+                //    ansAry[20] = entry_55.data["93"].elseText28 || " ";
+                //    entry_55.data["93"].ans = ansAry.join(",");
+                //} else if (id == "item-9328") {
+                //    ansAry = entry_55.data["93"].ans.split(",");
+                //    if (ansAry.length < 21) { ansAry.length = 21; }
+                //    ansAry[19] = entry_55.data["93"].elseText19 || " ";
+                //    ansAry[20] = entry_55.data["93"].elseText28 || " ";
+                //    entry_55.data["93"].ans = ansAry.join(",");
                 }
             };
 
@@ -893,6 +956,7 @@
                 App.afterConfirm(ans);
             };
 
+            // 登録処理
             entry_55.save = function (isDone) {
                 try {
                     // オブジェクトを配列に変換
@@ -930,7 +994,6 @@
                 </div>
                 <div class="ui-block-c"></div>
             </fieldset>
-            <br />
             <fieldset class="ui-grid-d">
                 <div class="ui-block-a"></div>
                 <div class="ui-block-b"><a href="javascript:entry_55.goBack();" data-role="button" data-theme="a" data-icon="arrow-l" data-iconpos="left">戻る</a></div>

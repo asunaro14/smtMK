@@ -11,10 +11,18 @@
     <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
     <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
     <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
     <link type="text/css" rel="stylesheet" href="themes/smt.css" />
     <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
 </head>
 <body>
     <div data-role="page" id="entry_15">
@@ -24,10 +32,10 @@
         var entry_15 = {
             title: "ＮＫＳＳ基本情報",
             data: [
-                { number: "15", title: "人種", description: "人種", type: "SV", options: "1:アジア系,2:ハワイまたはその他の太平洋諸島系,3:アメリカンインディアンまたはアラスカ系,4:ヒスパニックまたはラテン系,5:アラブまたは中東系,6:アフリカンアメリカンまたは黒人系,7:白人系", require: true },
+                { number: "15", title: "人種", description: "人種", type: "SV", options: "アジア系:アジア系,ハワイまたはその他の太平洋諸島系:ハワイまたはその他の太平洋諸島系,アメリカンインディアンまたはアラスカ系:アメリカンインディアンまたはアラスカ系,ヒスパニックまたはラテン系:ヒスパニックまたはラテン系,アラブまたは中東系:アラブまたは中東系,アフリカンアメリカンまたは黒人系:アフリカンアメリカンまたは黒人系,白人系:白人系", require: true },
                 { number: "16", title: "手術日", description: "手術日", type: "ID", param: "", value: "today", enterNext: "17", require: true },
                 { number: "17", title: "術者", description: "術者", type: "IT", param: "", require: true },
-                { number: "18", title: "手術", description: "手術", type: "SH", options: "1:初回,2:再置換", require: true }
+                { number: "18", title: "手術", description: "手術", type: "SH", options: "初回:初回,再置換:再置換", require: true }
             ],
             nextPage: "",
 
@@ -40,23 +48,47 @@
             }
         };
 
+        // 登録処理（必須チェック＆スコア集計）
+        entry_15.save = function () {
+            App.checkRequire();
+        };
+
         // 確認画面のアクション
         entry_15_onConfirm = function (ans) {
-            $("#entry_15_alert").popup("close");
+            //$("#entry_15_alert").popup("close");
             App.afterConfirm(ans);
-        };
-        entry_15.save = function () {
-            var ans = App.checkRequire();
         };
         </script>
 
         <div data-role="header" data-position="fixed" data-tap-toggle="false">
-            <a href='javascript:history.back();' data-role="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
 <!--        <a href='javascript:entry_15_onConfirm(4);' data-role="button" data-icon="back" class="ui-btn-left">戻る</a>-->
             <h1 id="entry_15_Title"></h1>
         </div>
 
         <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_15_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_15_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_15_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_15_Sex"></div></td>
+                        <td><div id="entry_15_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
             <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
                 <thead>
                     <tr class="ui-bar-d">
@@ -77,9 +109,8 @@
                     </tr>
                 </tbody>
             </table>
-
+-->
             <br />
-
             <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b">
                 <thead>
                     <tr class="ui-bar-d">

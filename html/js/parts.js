@@ -166,9 +166,12 @@ App.createSH = function (row) {
     var htmls = [];
 	var tmp = [
         "<input type='radio' name='item-{num}' id='item-{num}{val}' value='{val}' {checked} onclick='App.getAns(\"{num}\");{onclick}' data-theme='d' />",
-        "<label for='item-{num}{val}'>{text}</label>"
+        "<label for='item-{num}{val}' style='{style}'>{text}</label>"
 	].join("");
 	var tag = tmp.replace(/{onclick}/g, row.onclick || "");
+	if (ary.length < 6) {
+	    tag = tag.replace(/{style}/g, "min-width:100px;");
+	}
 	jQuery.each(ary, function (i, val) {
 		var ans = val.split(":");
 		var el = tag.replace(/{val}/g, ans[0]).replace(/{text}/g, ans[1]).replace(/{checked}/g, ans[2] || "");
@@ -177,8 +180,8 @@ App.createSH = function (row) {
 	var guide = (param.minText || param.maxText) ? [
         "<table style='width:100%;'>",
         "<tr>",
-        "<td style='text-align:left !important;'>" + (param.minText || "") + "</td>",
-        "<td style='text-align:right !important;'>" + (param.maxText ||"") + "</td>",
+        "<td style='font-size:18px; font-weight:bold; text-align:left !important;'>" + (param.minText || "") + "</td>",
+        "<td style='font-size:18px; font-weight:bold; text-align:right !important;'>" + (param.maxText || "") + "</td>",
         "</tr>",
         "</table>",
 	].join("") : "";
@@ -201,9 +204,6 @@ App.createMV = function (row) {
     var param = row.param ? eval("({" + row.param + "})") : {};
     var ary = row.options ? row.options.split(",") : [];
     ary = App.createCheckAnswers(ary, row.ans || "");
-    console.log("チェックボックスの選択肢デフォルト設定");
-    console.log(ary);
-
     var elseText = "";
     if (row.ans) {
         var ansAry = row.ans.split(",");
@@ -211,7 +211,6 @@ App.createMV = function (row) {
             elseText = ansAry[ansAry.length -1];
         }
     }
-
     var htmls = [];
     var tmp = "<input type='checkbox' name='item-{num}' id='item-{num}{val}' value='{val}' {checked} onclick='App.getAns(\"{num}\");App.setRadioActive();{onclick}' /><label for='item-{num}{val}'>{text}</label>";
     var tag = tmp.replace(/{onclick}/g, row.onclick || "");
@@ -269,18 +268,21 @@ App.createMV2 = function (row) {
 
     // 左ブロック
     var htmls1 = [];
-    htmls1.push("<span style='font-weight:bold;'>" + param.category1 + "</span>");
+    //htmls1.push("<span style='font-weight:bold; font-size:18px;'>" + param.category1 + "</span>");
+    htmls1.push("<span style='font-weight:bold; font-size:18px;'>" + param.category1 + "</span>");
     ary1 = App.createCheckAnswers(ary1, ans1.join(","));
     jQuery.each(ary1, function (i, val) {
         var ans = val.split(":");
         if (ans[1] == "その他" && elseAns[0] && elseAns[0] != " ") {
             ans[1] = ans[1] + "（" + elseAns[0] + "）";
+            row.elseText19 = elseAns[0];
         }
         var el = tag.replace(/{val}/g, ans[0]).replace(/{text}/g, ans[1]).replace(/{checked}/g, ans[2] || "");
         htmls1.push(el);
     });
     var tags1 = [
-		"<fieldset data-role='controlgroup' data-theme='b' class='verticalCheck' id='item-{num}a'>",
+		//"<fieldset data-role='controlgroup' data-theme='b' class='verticalCheck' id='item-{num}a'>",
+        "<fieldset data-role='controlgroup' data-theme='b' class='verticalCheck' id='item-{num}a' data-mini='true'>",
 		htmls1.join(""),
 		"</fieldset>"
     ].join("");
@@ -289,18 +291,21 @@ App.createMV2 = function (row) {
 
     // 右ブロック
     var htmls2 = [];
-    htmls2.push("<span style='font-weight:bold;'>" + param.category2 + "</span>");
+    //htmls2.push("<span style='font-weight:bold; font-size:18px;'>" + param.category2 + "</span>");
+    htmls2.push("<span style='font-weight:bold; font-size:18px;'>" + param.category2 + "</span>");
     ary2 = App.createCheckAnswers(ary2, ans2.join(","));
     jQuery.each(ary2, function (i, val) {
         var ans = val.split(":");
         if (ans[1] == "その他" && elseAns[1] && elseAns[1] != " ") {
             ans[1] = ans[1] + "（" + elseAns[1] + "）";
+            row.elseText28 = elseAns[1];
         }
         var el = tag.replace(/{val}/g, ans[0]).replace(/{text}/g, ans[1]).replace(/{checked}/g, ans[2] || "");
         htmls2.push(el);
     });
     var tags2 = [
-		"<fieldset data-role='controlgroup' data-theme='b' class='verticalCheck' id='item-{num}b'>",
+        //"<fieldset data-role='controlgroup' data-theme='b' class='verticalCheck' id='item-{num}b'>",
+		"<fieldset data-role='controlgroup' data-theme='b' class='verticalCheck' id='item-{num}b' data-mini='true'>",
 		htmls2.join(""),
 		"</fieldset>"
     ].join("");
@@ -531,29 +536,73 @@ App.createIS = function (row) {
 // ------------------------------------------------------------
 App.createID = function (row) {
     var param = row.param ? eval("({" + row.param + "})") : {};
+/*    
     var tags = [
         "<div data-role='fieldcontain' class='inputDate'>",
-        "<input type='date' name='item-{num}' id='item-{num}' value='{val}' onchange='App.getAns(\"{num}\");' />",
+        "<input type='date' name='item-{num}' id='item-{num}' value='{val}' onchange='App.getAns(\"{num}\");' onfocus='{onfocus}' />",
         "</div>"
     ].join("");
+*/
+    //input type date ではアプリが落ちてしまうため、jQueryのDateBoxを使用する　Ti SDK 3.5だと起きる　
+    var tags = [
+        "<div data-role='fieldcontain' class='inputDate'>",
+        "<input type='text' data-role='datebox' ",
+        " data-options='{\"mode\":\"flipbox\", \"overrideHeaderFormat\": \"%Y年%B%-d日(%a)\",\"overrideDateFieldOrder\": [\"y\",\"m\",\"d\"], \"useButton\":false, \"useFocus\":true, \"useClearButton\":true}'",
+        " name='item-{num}' id='item-{num}' value='{val}' onchange='App.getAns(\"{num}\");' onfocus='{onfocus}' />",
+        "</div>"
+    ].join("");
+                
     tags = tags.replace(/{num}/g, row.number);
-    if (row.value == "today") {
+    if (row.ans) {
+        console.log("＜日付処理＞");
+        console.log(row);
+
+        var disp = row.ans.replace(/-/g, "/");//山田追加20150413
+        //tags = tags.replace(/{val}/g, row.ans);
+        tags = tags.replace(/{val}/g, disp);
+        tags = tags.replace(/{onfocus}/g, "");
+    } else if (row.value == "today") {
+        var date = new Date();
+        var today = [
+            date.getFullYear(),
+            ("0" + (date.getMonth() + 1)).substr(-2, 2),
+            ("0" + date.getDate()).substr(-2, 2)
+        ].join("/");
+        //].join("-");
+        tags = tags.replace(/{val}/g, today);
+        tags = tags.replace(/{onfocus}/g, "");
+        row.ans = today;
+//        tags = tags.replace(/{val}/g, "");
+//        tags = tags.replace(/{onfocus}/g, "App.setToday(\"" + row.number + "\");");
+//        row.ans = "";
+    } else if (row.value) {
+        var disp = row.value.replace(/-/g, "/");
+        tags = tags.replace(/{val}/g, disp);
+        //tags = tags.replace(/{val}/g, row.value);
+        tags = tags.replace(/{onfocus}/g, "");
+        row.ans = row.value;
+    } else {
+        tags = tags.replace(/{val}/g, "");
+        tags = tags.replace(/{onfocus}/g, "");
+    }
+    tags = tags.replace("{title}", row.title || "（無題）");
+    return tags;
+};
+App.setToday = function (num) {
+    if ($("#item-" + num).val()) {
+        return false;
+    } else {
         var date = new Date();
         var today = [
             date.getFullYear(),
             ("0" + (date.getMonth() + 1)).substr(-2, 2),
             ("0" + date.getDate()).substr(-2, 2)
         ].join("-");
-        tags = tags.replace(/{val}/g, row.ans || today);
+        $("#item-" + num).val(today);
+        var row = App.getRow(num);
         row.ans = today;
-    } else if (row.value) {
-        tags = tags.replace(/{val}/g, row.ans || row.value);
-        row.ans = row.value;
-    } else {
-        tags = tags.replace(/{val}/g, row.ans || "");
+        return false;
     }
-    tags = tags.replace("{title}", row.title || "（無題）");
-    return tags;
 };
 
 // ------------------------------------------------------------
@@ -671,8 +720,9 @@ App.createSP94 = function (row) {
     var row1 = {
         number: "94",
         ans: ansAry94[0] || "",
-        options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
-        param: "minText:'<b>【１】　" + row1Title + "</b>'",
+        //options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
+        options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),-1:やったことがない<br/>　",
+        param: "minText:'<span style=\"font-size:20px; font-weight:bold;\">【１】　" + row1Title + "</span>'",
         require: true
     };
     var tags1 = App.createSH(row1);
@@ -684,8 +734,8 @@ App.createSP94 = function (row) {
     var row2 = {
         number: "96",
         ans: ansAry94[1] || "",
-        options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
-        param: "minText:'<b>【２】　" + row2Title + "</b>'",
+        options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),-1:やったことがない<br/>　",
+        param: "minText:'<span style=\"font-size:20px; font-weight:bold;\">【２】　" + row2Title + "</span>'",
         require: true
     };
     var tags2 = App.createSH(row2);
@@ -700,8 +750,8 @@ App.createSP94 = function (row) {
     var row3 = {
         number: "98",
         ans: ansAry94[2] || "",
-        options: "5:全く問題ない<br/>　,4:わずかに困難<br/>　,3:少し困難<br/>　,2:困難<br/>　,1:非常に困難<br/>　,0:全くできない<br/>（膝が悪いため）,-1:いままでにこの動作<br/>をしたことがない",
-        param: "minText:'<b>【３】　" + row3Title + "</b>'",
+        options: "5:問題ない<br/>　,4:少し困難<br/>　,3:ある程度困難<br/>　,2:とても困難<br/>　,1:極めて困難<br/>　,0:できない<br/>(膝が原因),-1:やったことがない<br/>　",
+        param: "minText:'<span style=\"font-size:20px; font-weight:bold;\">【３】　" + row3Title + "</span>'",
         require: true
     };
     var tags3 = App.createSH(row3);
@@ -733,7 +783,7 @@ App.createSoundPlayer = function (row) {
         "<audio src='../sound/" + row.sound + "' preload id='" + id + "' />",
         "<div data-role='controlgroup' data-type='horizontal'>",
         "<a href='javascript:App.soundPlay(\"" + id + "\");' data-role='button' data-theme='d' data-icon='arrow-r' data-iconpos='top'>再生</a>",
-        "<a href='javascript:App.soundPause(\"" + id + "\");' data-role='button' data-theme='d' data-icon='check' data-iconpos='top'>一時停止</a>",
+//        "<a href='javascript:App.soundPause(\"" + id + "\");' data-role='button' data-theme='d' data-icon='check' data-iconpos='top'>一時停止</a>",
         "<a href='javascript:App.soundStop(\"" + id + "\");' data-role='button' data-theme='d' data-icon='delete' data-iconpos='top'>停止</a>",
         "</div>"
     ].join("");
@@ -755,9 +805,20 @@ App.soundStop = function (id) {
 // ------------------------------------------------------------
 App.createMovie = function (id, row) {
     var movieID = id + "_ans" + row.number + "-movie";
+    var imageID = id + "_ans" + row.number + "-image";
     //    var src = (row.movie.indexOf("http") == 0) ? row.movie : window.URL.createObjectURL(row.movie);
-    var src = row.movie;
+    //var src = (row.movie.indexOf("http") == 0) ? row.movie : "../movie/short/" + row.movie;
+    
+    
+    var src = "../movie/short/" + row.movie;
+    var imageSrc = "../image/" + row.image;
+    
+    //var src = (row.movie.indexOf("http") == 0) ? row.movie : row.movie;
+    //var src = row.movie;
+    
     console.log("movieSrc = " + src);
+    //alert("movieSrc = " + src);
+    /*
     var movie = [
         "<video width='240' height='135' id='" + movieID + "' preload='metadata'>",
         "<source src='" + src + "' type='video/mp4'>",
@@ -766,17 +827,58 @@ App.createMovie = function (id, row) {
         "<a href='javascript:App.movieStop(\"" + movieID + "\");' data-role='button' data-icon='delete' data-mini='true'>停止</a>",
         "<a href='javascript:App.movieFull(\"" + movieID + "\");' data-role='button' data-icon='search' data-mini='true'>フルスクリーン</a>"
     ].join("");
+    */    
+    
+    var movie = [
+    /*
+        "<video width='240' height='135' id='" + movieID + "' preload='metadata'>",
+        "<source src='" + src + "' type='video/mp4'>",
+        "</video>",    
+        */
+        "<img src=" + imageSrc + " width='240' height='135' id='" + imageID + "' />",
+        //"<a href='javascript:App.moviePlay(\"" + movieID + "\");' data-role='button' data-icon='arrow-r' data-mini='true'>再生</a>",
+        "<a href='javascript:App.moviePlayPop(\"" + movieID + "\",\"" + src + "\");' data-role='button' data-icon='arrow-r' data-mini='true'>再生</a>"
+        //,
+        //"<a href='javascript:App.movieStop(\"" + movieID + "\");' data-role='button' data-icon='delete' data-mini='true'>停止</a>",
+        //"<a href='javascript:App.movieFull(\"" + movieID + "\");' data-role='button' data-icon='search' data-mini='true'>フルスクリーン</a>"
+    ].join("");
+
+    //alert("<a href='javascript:App.moviePlay(\"" + movieID + "\"," + src + ");' data-role='button' data-icon='arrow-r' data-mini='true'>再生</a>");
+    //alert("<a href='javascript:App.moviePlay(\"" + movieID + "\");' data-role='button' data-icon='arrow-r' data-mini='true'>再生</a>");
     return movie;
 };
+App.movieLoad = function (id) {
+    var v = $("#" + id).get(0);
+    v.load();
+};
+//動画再生popを表示
+App.moviePlayPop = function (id,src) {
+    App.entry_101_movieID = id;//popを開いた直後に動画を再生させるためグローバル変数にidを保持
+    var movie = [
+        //"<video width='240' height='135' id='" + id + "' preload='metadata'>",
+        "<video width='400' height='250' id='" + id + "' preload='metadata'>",
+        "<source src='" + src + "' type='video/mp4'>",
+        "</video>",
+        //"<a href='javascript:App.moviePlay(\"" + id + "\");' data-role='button' data-icon='arrow-r' data-mini='true'>再生</a>",
+        "<a href='javascript:App.moviePlay(\"" + id + "\");' data-role='button' data-mini='true'>▶︎</a>",
+        "<a href='javascript:App.movieFull(\"" + id + "\");' data-role='button' data-mini='true'>フルスクリーン</a>"
+    ].join("");
+    
+    $("#entry_101_movieimg").html(movie);
+    $("#entry_101_movieimg").trigger("create");
+    $("#entry_101_moviepop").popup("open", { transition: "pop" });    
+};
+//動画の自動再生
 App.moviePlay = function (id) {
     var v = $("#" + id).get(0);
     v.play();
-}
+};
 App.movieStop = function (id) {
     var v = $("#" + id).get(0);
+    //alert(id);
     v.pause();
     v.currentTime = 0;
-}
+};
 App.movieFull = function (id) {
     var v = $("#" + id).get(0);
     if (v.requestFullScreen) {
@@ -790,4 +892,4 @@ App.movieFull = function (id) {
     } else {
         alert("フルスクリーン表示には未対応です");
     }
-}
+};

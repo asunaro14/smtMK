@@ -47,7 +47,7 @@
 .ui-bar-a select,
 .ui-bar-a textarea,
 .ui-bar-a button {
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-a,
 .ui-overlay-a {
@@ -71,7 +71,7 @@
 .ui-body-a select,
 .ui-body-a textarea,
 .ui-body-a button {
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-a .ui-link-inherit {
 	color: #444444 /*{a-body-color}*/;
@@ -145,7 +145,7 @@
 .ui-btn-up-a,
 .ui-btn-hover-a,
 .ui-btn-down-a {
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 /* B
@@ -184,7 +184,7 @@
 .ui-bar-b select,
 .ui-bar-b textarea,
 .ui-bar-b button {
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b,
 .ui-overlay-b {
@@ -208,7 +208,7 @@
 .ui-body-b select,
 .ui-body-b textarea,
 .ui-body-b button {
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-b .ui-link-inherit {
 	color: #606060 /*{b-body-color}*/;
@@ -282,7 +282,7 @@
 .ui-btn-up-b,
 .ui-btn-hover-b,
 .ui-btn-down-b {
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -323,7 +323,7 @@
 .ui-bar-c select,
 .ui-bar-c textarea,
 .ui-bar-c button {
-	        font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	         font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c,
 .ui-overlay-c {
@@ -347,7 +347,7 @@
 .ui-body-c select,
 .ui-body-c textarea,
 .ui-body-c button {
-	        font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	         font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-c .ui-link-inherit {
 	color: #333333 /*{c-body-color}*/;
@@ -421,7 +421,7 @@
 .ui-btn-up-c,
 .ui-btn-hover-c,
 .ui-btn-down-c {
-	        font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	         font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -462,7 +462,7 @@
 .ui-bar-d select,
 .ui-bar-d textarea,
 .ui-bar-d button {
-	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	    font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d,
 .ui-overlay-d {
@@ -486,7 +486,7 @@
 .ui-body-d select,
 .ui-body-d textarea,
 .ui-body-d button {
-	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	    font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-d .ui-link-inherit {
 	color: #333333 /*{d-body-color}*/;
@@ -560,7 +560,7 @@
 .ui-btn-up-d,
 .ui-btn-hover-d,
 .ui-btn-down-d {
-	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	    font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -601,7 +601,7 @@
 .ui-bar-e select,
 .ui-bar-e textarea,
 .ui-bar-e button {
-	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	    font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-e,
 .ui-overlay-e {
@@ -625,7 +625,7 @@
 .ui-body-e select,
 .ui-body-e textarea,
 .ui-body-e button {
-	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	    font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-e .ui-link-inherit {
 	color: #333333 /*{e-body-color}*/;
@@ -644,34 +644,34 @@
 	color: #2489ce /*{e-body-link-active}*/;
 }
 .ui-btn-up-e {
-	border: 1px solid #e0526c /*{e-bup-border}*/;
-	background: #e75f78 /*{e-bup-background-color}*/;
+	border: 1px solid #3d77a4 /*{e-bup-border}*/;
+	background: #83b4d9 /*{e-bup-background-color}*/;
 	font-weight: bold;
 	color: #ffffff /*{e-bup-color}*/;
-	text-shadow: 0 /*{e-bup-shadow-x}*/ 1px /*{e-bup-shadow-y}*/ 0 /*{e-bup-shadow-radius}*/ #b33d53 /*{e-bup-shadow-color}*/;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #e75f78 /*{e-bup-background-start}*/), to( #e75f78 /*{e-bup-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #e75f78 /*{e-bup-background-start}*/, #e75f78 /*{e-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #e75f78 /*{e-bup-background-start}*/, #e75f78 /*{e-bup-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #e75f78 /*{e-bup-background-start}*/, #e75f78 /*{e-bup-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #e75f78 /*{e-bup-background-start}*/, #e75f78 /*{e-bup-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #e75f78 /*{e-bup-background-start}*/, #e75f78 /*{e-bup-background-end}*/);
+	text-shadow: 0 /*{e-bup-shadow-x}*/ 1px /*{e-bup-shadow-y}*/ 0 /*{e-bup-shadow-radius}*/ #375267 /*{e-bup-shadow-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #83b4d9 /*{e-bup-background-start}*/), to( #83b4d9 /*{e-bup-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #83b4d9 /*{e-bup-background-start}*/, #83b4d9 /*{e-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #83b4d9 /*{e-bup-background-start}*/, #83b4d9 /*{e-bup-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #83b4d9 /*{e-bup-background-start}*/, #83b4d9 /*{e-bup-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #83b4d9 /*{e-bup-background-start}*/, #83b4d9 /*{e-bup-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #83b4d9 /*{e-bup-background-start}*/, #83b4d9 /*{e-bup-background-end}*/);
 }
 .ui-btn-up-e:visited,
 .ui-btn-up-e a.ui-link-inherit {
 	color: #ffffff /*{e-bup-color}*/;
 }
 .ui-btn-hover-e {
-	border: 1px solid #e0526c /*{e-bhover-border}*/;
-	background: #f495a6 /*{e-bhover-background-color}*/;
+	border: 1px solid #3d77a4 /*{e-bhover-border}*/;
+	background: #adcde6 /*{e-bhover-background-color}*/;
 	font-weight: bold;
 	color: #ffffff /*{e-bhover-color}*/;
-	text-shadow: 0 /*{e-bhover-shadow-x}*/ 1px /*{e-bhover-shadow-y}*/ 0 /*{e-bhover-shadow-radius}*/ #ffffff /*{e-bhover-shadow-color}*/;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #f495a6 /*{e-bhover-background-start}*/), to( #f495a6 /*{e-bhover-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #f495a6 /*{e-bhover-background-start}*/, #f495a6 /*{e-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #f495a6 /*{e-bhover-background-start}*/, #f495a6 /*{e-bhover-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #f495a6 /*{e-bhover-background-start}*/, #f495a6 /*{e-bhover-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #f495a6 /*{e-bhover-background-start}*/, #f495a6 /*{e-bhover-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #f495a6 /*{e-bhover-background-start}*/, #f495a6 /*{e-bhover-background-end}*/);
+	text-shadow: 0 /*{e-bhover-shadow-x}*/ 1px /*{e-bhover-shadow-y}*/ 0 /*{e-bhover-shadow-radius}*/ #375267 /*{e-bhover-shadow-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #adcde6 /*{e-bhover-background-start}*/), to( #adcde6 /*{e-bhover-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #adcde6 /*{e-bhover-background-start}*/, #adcde6 /*{e-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #adcde6 /*{e-bhover-background-start}*/, #adcde6 /*{e-bhover-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #adcde6 /*{e-bhover-background-start}*/, #adcde6 /*{e-bhover-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #adcde6 /*{e-bhover-background-start}*/, #adcde6 /*{e-bhover-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #adcde6 /*{e-bhover-background-start}*/, #adcde6 /*{e-bhover-background-end}*/);
 }
 .ui-btn-hover-e:visited,
 .ui-btn-hover-e:hover,
@@ -679,17 +679,17 @@
 	color: #ffffff /*{e-bhover-color}*/;
 }
 .ui-btn-down-e {
-	border: 1px solid #e0526c /*{e-bdown-border}*/;
-	background: #f495a6 /*{e-bdown-background-color}*/;
+	border: 1px solid #3d77a4 /*{e-bdown-border}*/;
+	background: #adcde6 /*{e-bdown-background-color}*/;
 	font-weight: bold;
 	color: #ffffff /*{e-bdown-color}*/;
-	text-shadow: 0 /*{e-bdown-shadow-x}*/ 1px /*{e-bdown-shadow-y}*/ 0 /*{e-bdown-shadow-radius}*/ #ffffff /*{e-bdown-shadow-color}*/;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #f495a6 /*{e-bdown-background-start}*/), to( #f495a6 /*{e-bdown-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #f495a6 /*{e-bdown-background-start}*/, #f495a6 /*{e-bdown-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #f495a6 /*{e-bdown-background-start}*/, #f495a6 /*{e-bdown-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #f495a6 /*{e-bdown-background-start}*/, #f495a6 /*{e-bdown-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #f495a6 /*{e-bdown-background-start}*/, #f495a6 /*{e-bdown-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #f495a6 /*{e-bdown-background-start}*/, #f495a6 /*{e-bdown-background-end}*/);
+	text-shadow: 0 /*{e-bdown-shadow-x}*/ 1px /*{e-bdown-shadow-y}*/ 0 /*{e-bdown-shadow-radius}*/ #375267 /*{e-bdown-shadow-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #adcde6 /*{e-bdown-background-start}*/), to( #adcde6 /*{e-bdown-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient( #adcde6 /*{e-bdown-background-start}*/, #adcde6 /*{e-bdown-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient( #adcde6 /*{e-bdown-background-start}*/, #adcde6 /*{e-bdown-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient( #adcde6 /*{e-bdown-background-start}*/, #adcde6 /*{e-bdown-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient( #adcde6 /*{e-bdown-background-start}*/, #adcde6 /*{e-bdown-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient( #adcde6 /*{e-bdown-background-start}*/, #adcde6 /*{e-bdown-background-end}*/);
 }
 .ui-btn-down-e:visited,
 .ui-btn-down-e:hover,
@@ -699,7 +699,7 @@
 .ui-btn-up-e,
 .ui-btn-hover-e,
 .ui-btn-down-e {
-	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	    font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -740,7 +740,7 @@
 .ui-bar-f select,
 .ui-bar-f textarea,
 .ui-bar-f button {
-	  font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-f,
 .ui-overlay-f {
@@ -764,7 +764,7 @@
 .ui-body-f select,
 .ui-body-f textarea,
 .ui-body-f button {
-	  font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-body-f .ui-link-inherit {
 	color: #333333 /*{f-body-color}*/;
@@ -838,7 +838,7 @@
 .ui-btn-up-f,
 .ui-btn-hover-f,
 .ui-btn-down-f {
-	  font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	   font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
 }
 
@@ -865,7 +865,7 @@ a.ui-link-inherit {
 	background-image:     -ms-linear-gradient( #666666 /*{global-active-background-start}*/, #666666 /*{global-active-background-end}*/); /* IE10 */
 	background-image:      -o-linear-gradient( #666666 /*{global-active-background-start}*/, #666666 /*{global-active-background-end}*/); /* Opera 11.10  */
 	background-image:         linear-gradient( #666666 /*{global-active-background-start}*/, #666666 /*{global-active-background-end}*/);
-	                font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	                 font-family: 'Hiragino Kaku Gothic Pro', Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-btn-active:visited,
 .ui-btn-active:hover,
@@ -1210,4 +1210,4 @@ a.ui-link-inherit {
 	outline-width: 1px;
 	outline-style: auto;
 }
-																											
+																														

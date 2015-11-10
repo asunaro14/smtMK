@@ -10,6 +10,8 @@ if (!App) {
 // アプリの初期設定
 // ------------------------------------------------------------
 $(document).bind("mobileinit", function () {
+	//$.mobile.hashListeningEnabled = false;
+	$.mobile.ajaxEnabled = false;
     // DOMのキャッシュを有効化（全ページをキャッシュ）・・・リソース圧迫の恐れ
     //    $.mobile.page.prototype.options.domCache = true;
 
@@ -144,6 +146,13 @@ App.loadObject = function (key) {
         return {};
     }
 };
+App.clearObject = function () {
+    try {
+        localStorage.clear();
+    } catch (err) {
+        alert(err.mesage);
+    }
+};
 
 // ------------------------------------------------------------
 // エンターキーで項目移動
@@ -169,8 +178,8 @@ App.getAns = function (num, def) {
 
     if (num == "96" || num == "98") { num = 94; }
     var row = App.getRow(num);
-    // 回答の保存
-    row.ans = App.getValue(num, def) || "";
+    //row.ans = App.getValue(num, def) || "";
+    row.ans = App.getValue(num, def).trim() || "";
 
     // スコアの保存
     if (row.sum && (!isNaN(row.ans) || row.calc)) {
@@ -216,22 +225,43 @@ App.getValue = function (num, def) {
 */
     if (type == "SV" || type == "SV2" || type == "SH") {
         var chkd = $("input[name='item-" + num + "']:checked");
-        val = chkd[0].value;
+        val = chkd[0] ? chkd[0].value : "";
 
     } else if (type == "FV") {
         var chkd = $("#item-" + num + " option:selected");
-        val = chkd[0].value;
+        val = chkd[0] ? chkd[0].value : "";
 
     } else if (type == "MV" || type == "MV2" || type == "MH") {
-        var chkd = $("input[name='item-" + num + "']");
+        // name属性が「item-2」でid属性が「item-21」「item-22」などの要素を検索する
+        var chkd = $("input[name='item-" + num + "'][id!='item-" + num + "']");
         var ary = [];
         for (i = 0; i < chkd.length; i++) {
             ary.push(chkd[i].checked ? "Yes":"No");
         }
+        // 回答配列にその他テキストを追加
+        if (type == "MV" && row.elseText !== undefined) {
+            ary.push(row.elseText || "");
+        }else if(type == "MV2") {
+            ary.push(row.elseText19 || "");
+            ary.push(row.elseText28 || "");
+        }
         val = ary.join(",");
 
-    } else if (type == "IN" || type == "IT" || type == "IP" || type == "ID") {
+    } else if (type == "IN" || type == "IT" || type == "IP") {
         val = $("#item-" + num).val();
+
+    } else if (type == "ID") {
+        val = $("#item-" + num).val();
+        //console.log("#item-" + num);
+        console.log("日付：" + val);
+        if(val){
+            var d = new Date(val);
+            val = [
+                d.getFullYear(),
+                ("0" + (d.getMonth() + 1)).substr(-2, 2),
+                ("0" + d.getDate()).substr(-2, 2)
+            ].join("-");
+        }
 
     } else if (type == "IA") {
         val = $("#item-" + num).val();
@@ -290,20 +320,40 @@ App.changePage = function (url, msg) {
         // メッセージをトースト表示
         App.toast(msg);
     } else {
-        $.mobile.loading("show");
+        $('[data-role="page"]').addClass('ui-disabled');//ページを無効にする
+        $.mobile.loading("show");        
     }
 
     // 評価ページへの遷移ならヒストリをカウント
+    //popupのCloseをすると、その後popupが表示されなくなるため、popupのページ分も合わせて2を基準にしている(退院時・BBSで不具合が起きるため)
     if (url.indexOf("entry_") == 0) {
         if (App.pageHistory) {
-            App.pageHistory += 1;
+            //App.pageHistory += 1;
+            App.pageHistory += 2;
         } else {
-            App.pageHistory = 1;
+            //App.pageHistory = 1;
+            App.pageHistory = 2;
         }
     }
     setTimeout(function () {
         $.mobile.changePage(url, { transition: "slide" });
+        setTimeout(function () {
+            $('[data-role="page"]').removeClass('ui-disabled');//ページを有効にする
+        }, 200);
     }, 200);
+};
+
+// ------------------------------------------------------------
+// 問診画面の戻るボタン(患者が入力するページ以外)
+// ------------------------------------------------------------
+App.backPage = function () {
+    if (App.pageHistory == 2) {//最初のページの場合、一つ前のページに戻る
+        history.back();
+    } else {//2ページ目以降の場合
+        App.pageHistory -= 2;
+        history.go(-2);
+    }
+    
 };
 
 // ------------------------------------------------------------
@@ -311,7 +361,7 @@ App.changePage = function (url, msg) {
 // ------------------------------------------------------------
 App.alert = function (title, message, conf) {
     var work = location.href.split("/");
-    var pageName = work[work.length - 1].split(".")[0];
+    var pageName = work[work.length - 1].split(".")[0];    
     var alertPage = $("#" + pageName + "_alert");
     if (alertPage.size() < 1) {
         alert(title + "\n" + message);
@@ -516,9 +566,7 @@ App.saveData = function (data, isTemp) {
     var answers = {};
     for (i = 0; i < data.length; i++) {
         var item = data[i];
-        if (item.ans) {
-            answers[item.number] = item.ans;
-        }
+        answers[item.number] = item.ans;        
     }
     ansData[schedule.category] = answers;
 
@@ -546,16 +594,16 @@ App.saveData = function (data, isTemp) {
     // 症例一覧（patients）のステータスを更新
     var scheduleDic = {
         "A": ["A01", "A15"],
-        "B": ["B19", "B21", "B30", "B36", "B39", "B40", "B55a", "B101"],
+        "B": ["B19", "B21", "B30", "B36", "B55", "B101"],
         "C": ["C30"],
         "D": ["D20", "D30", "D36", "D101"],
-        "E": ["E19", "E21", "E30", "E36", "E55b", "E101"],
-        "F": ["F19", "F21", "F30", "F36", "F55b", "F101"],
-        "G": ["G19", "G21", "G30", "G36", "G39", "G40", "G44", "G46", "G55b", "G101"],
-        "H": ["H19", "H21", "H30", "H36", "H39", "H40", "H44", "H46", "H55b", "H101"]
+        "E": ["E19", "E21", "E30", "E36", "E55", "E101"],
+        "F": ["F19", "F21", "F30", "F36", "F55", "F101"],
+        "G": ["G19", "G21", "G30", "G36", "G55", "G101"],
+        "H": ["H19", "H21", "H30", "H36", "H55", "H101"]
     };
     var sch = scheduleDic[schedule.code];
-    var scAns = { "0": 0, "1": 0, "2": 0 };
+    var scAns = { "0": 0, "1": 0, "2": 0 };     // ステータス（未／一時／済）の個数カウント用配列
     for (i = 0; i < sch.length; i += 1) {
         var sc = patient["score" + sch[i]] || "";
         var scMode = sc.split(":")[0];
@@ -563,6 +611,7 @@ App.saveData = function (data, isTemp) {
         else if (scMode == "一時登録") { scAns["1"] += 1; }
         else { scAns["0"] += 1; }
     }
+
     if (scAns["2"] == sch.length) { patient["status" + schedule.code] = "済"; }
     else if (scAns["2"] > 0) { patient["status" + schedule.code] = "一時登録"; }
     else if (scAns["1"] > 0) { patient["status" + schedule.code] = "一時登録"; }
@@ -587,9 +636,11 @@ App.saveData = function (data, isTemp) {
         console.log(answers);
         patient.number = answers["20-02"] || ""; // 登録番号
         // 対象患者データのA01の登録番号に反映
-        ansData["A01"]["4"] = patient.number;
-        console.log("-- ansData[A01] --");
-        console.log(ansData["A01"]);
+        if (ansData["A01"]) {
+            ansData["A01"]["4"] = patient.number;
+            console.log("-- ansData[A01] --");
+            console.log(ansData["A01"]);
+        }
     }
 
     // 回答データ（answers）を上書き保存
@@ -618,7 +669,7 @@ App.updateData = function (patientIndex, category, qid, val) {
     ansData[category] = categoryAnswers;
     console.log("-- update CategoryAnswers ---");
     console.log(ansData);
-    App.saveObject("answers_" + patient.sec, ansData)
+    App.saveObject("answers_" + patient.sec, ansData);
 };
 
 // ------------------------------------------------------------
@@ -628,7 +679,6 @@ App.afterConfirm = function (ans) {
     var work = location.href.split("/");
     var pageName = work[work.length - 1].split(".")[0];
     var data = eval(pageName).data;
-
     switch (ans) {
         case 4: // 4:前のページに戻る
 
@@ -667,6 +717,7 @@ App.afterConfirm = function (ans) {
             break;
 
         case 0: // 0:キャンセル
+            history.back();//popupのcloseを外したため追加
             break;
 
         default:

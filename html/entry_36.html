@@ -11,10 +11,18 @@
     <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
     <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
     <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
     <link type="text/css" rel="stylesheet" href="themes/smt.css" />
     <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
 </head>
 <body>
     <div data-role="page" id="entry_36">
@@ -259,9 +267,11 @@
 
             // 確認画面のアクション
             entry_36_onConfirm = function (ans) {
-                $("#entry_36_alert").popup("close");
+                //$("#entry_36_alert").popup("close");
                 App.afterConfirm(ans);
             };
+
+            // 登録処理（必須チェック＆スコア集計）
             entry_36.save = function () {
                 var ans36 = App.getRow("36").ans || "";
                 var ans37 = App.getRow("37").ans || "";
@@ -269,16 +279,57 @@
                     App.alert("入力エラー", "疼痛箇所が指定されていません");
                 } else {
                     App.checkRequire();
+
+                    // PNG画像の保存（base64テキストの形でローカル保存）
+                    var schedule = App.getSchedule();                               // スケジュール
+                    var patients = App.loadObject("patients");                      // 全患者データ
+                    var patientIndex = App.loadObject("patientIndex").index || 0;   // 選択された患者のインデックス
+                    var patient = patients.rows[patientIndex];                      // 対象患者の鑑データ
+                    console.log(schedule);
+                    console.log(patient);
+                    var dic = { "A": "症例", B: "術前", C: "1週", D: "退院", E: "3m", F: "6m", G: "12m", H: "24m" };
+                    var fileName = ["", patient.sec, "_", dic[schedule.code], "_Pain.png"].join("");
+                    Png.saveImage($("#canvas")[0], fileName);
+                    
+                    var base64 = Png.loadImage(fileName);
+                    
+                    if (Png.isTest) {// PNG画像のダウンロード（テスト用）                        
+                        Png.downloadImage(base64, fileName);
+                    }else{//PNG画像をiOSの端末に保存
+                        Png.saveImageiOS(base64, fileName);
+                    }
                 }
             };
         </script>
 
         <div data-role="header" data-position="fixed" data-tap-toggle="false">
-            <a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
             <h1 id="entry_36_Title"></h1>
         </div>
 
         <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_36_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_36_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_36_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_36_Sex"></div></td>
+                        <td><div id="entry_36_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
             <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
                 <thead>
                     <tr class="ui-bar-d">
@@ -298,14 +349,13 @@
                         <td id="entry_36_Side"></td>
                     </tr>
                 </tbody>
-            </table>
-
+            </table>    
+-->
             <br />
-
             <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b">
                 <thead>
                     <tr class="ui-bar-d">
-                        <th class="appFormCol" width="200">項目</th>
+                        <th class="appFormCol" width="220">項目</th>
                         <th class="appFormCol" colspan="2">内容</th>
                     </tr>
                 </thead>
@@ -321,7 +371,7 @@
                                 <canvas id="canvas" height="480" width="550"></canvas>
                             </div>
                         </td>
-                        <td class='appLeft' width="240" style="vertical-align:top !important;">
+                        <td class='appLeft' width="180" style="vertical-align:top !important;">
                             <a href="javascript:entry_36.undo();" data-role="button" data-icon="back" data-iconpos="left">取消</a>
                             <div id="entry_36_minitor"></div>
                         </td>

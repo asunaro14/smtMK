@@ -75,10 +75,10 @@ label.numberUnit.ui-input-text {
 /* 日付入力  */
 .inputDate .ui-input-text {
     width: 180px !important;
-    height: 38px !important;
+    /*height: 38px !important;
     text-align: center;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: bold;*/
 }
 
 /* テキスト入力  */
@@ -285,9 +285,10 @@ td.appBackBlue { padding: 0px 4px !important; }
 
 
 /* １問１答型のフォーム */
+
 .appQuestionMain {
     background-color: #FFF;
-    padding: 16px;
+    padding: 8px 16px 4px 16px;
     border: solid 1px #888;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -297,15 +298,27 @@ td.appBackBlue { padding: 0px 4px !important; }
 .appQuestionTitle {
     font-size: 24px;
     font-weight: bold;
-    width: 70%;
-    min-height: 72px;
+    width: 830px;
+    min-height: 80px;
 }
 .appQuestionDescription {
     font-size: 18px;
-    width: 70%;
+    width: 830px;
 }
 .appQuestionAnswer {
     text-align: center;
+}
+#entry_55_answerArea {
+/*    margin-top: 2em; */
+}
+#entry_55_answerArea .ui-radio .ui-btn-inner {
+    padding: .6em .6em !important;
+}
+#entry_55_answerArea .ui-checkbox .ui-btn-inner {
+    padding: .6em 45px !important;
+}
+#entry_55_answerArea span .ui-btn-text {
+    font-size: 19px;
 }
 
 /* 患者情報のサマリー */

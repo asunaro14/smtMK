@@ -11,10 +11,18 @@
     <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
     <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
     <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
     <link type="text/css" rel="stylesheet" href="themes/smt.css" />
     <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
 </head>
 <body>
     <div data-role="page" id="entry_30">
@@ -110,22 +118,47 @@
                 }
             };
 
+            // 登録処理（必須チェック＆スコア集計）
+            entry_30.save = function () {
+                App.checkRequire();
+            };
+
             // 確認画面のアクション
             entry_30_onConfirm = function (ans) {
-                $("#entry_30_alert").popup("close");
+                //$("#entry_30_alert").popup("close");
                 App.afterConfirm(ans);
             };
-            entry_30.save = function () {
-                var ans = App.checkRequire();
-            };
+
         </script>
 
         <div data-role="header" data-position="fixed" data-tap-toggle="false">
-            <a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
             <h1 id="entry_30_Title"></h1>
         </div>
 
         <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_30_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_30_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_30_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_30_Sex"></div></td>
+                        <td><div id="entry_30_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
             <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
                 <thead>
                     <tr class="ui-bar-d">
@@ -146,9 +179,8 @@
                     </tr>
                 </tbody>
             </table>
-
+-->
             <br />
-
             <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b">
                 <thead>
                     <tr class="ui-bar-d">
