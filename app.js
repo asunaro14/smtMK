@@ -44,5 +44,17 @@ App.backPage = function () {
     history.back();
 };
 App.backPage2 = function () {
-    history.go(-2);
+    history.go(-3);
+    /*
+    alert(1);
+    setTimeout(function () {
+        history.back();
+    }, 200);
+    setTimeout(function () {
+        history.back();
+    }, 500);
+    setTimeout(function () {
+        history.back();
+    }, 700);
+    */
 };
