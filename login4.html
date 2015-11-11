@@ -17,38 +17,38 @@
   
 </head>
 <body>
-    <div data-role="page" id="login3" data-dom-cache="true">
+    <div data-role="page" id="login4" data-dom-cache="true">
 
         <script type="text/javascript">
-            var login3 = {
+            var login4 = {
             };
-            login3.onBeforeShow = function () {
-                App.setForm("login3", true);
+            login4.onBeforeShow = function () {
+                App.setForm("login4", true);
                 var obj = App.loadObject("setting");
-                $("#item-login31").val(obj.id || "");
-                $("#item-login32").val(obj.pw || "");
+                $("#item-login41").val(obj.id || "");
+                $("#item-login42").val(obj.pw || "");
             };
             // ログイン処理
-            login3.login3 = function () {
+            login4.login4 = function () {
               // 症例一覧へ進む
-              App.changePage("login4.html");
+              App.changePage("patients.html");
 
             };
 
             // 設定処理
-            login3.startSetting = function () {
-              $("#login3Setting").popup("open", { transition: "pop" });
+            login4.startSetting = function () {
+              $("#login4Setting").popup("open", { transition: "pop" });
             };
-            login3.setting = function () {
-              $("#login3Setting").popup("close");
+            login4.setting = function () {
+              $("#login4Setting").popup("close");
             };
         </script>
 
-        <div data-role="header" data-position="fixed" data-tap-toggle="false" id="login3_header">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" id="login4_header">
             <!--<a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
-            <a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
-            <h1 id="login3_appTitle">ログイン3</h1>
-            <a href="javascript:login3.startSetting();" data-rel="button" data-icon="gear" class="ui-btn-right">初期設定</a>
+          <a href='javascript:history.backPage2();' data-rel="button" data-icon="back" class="ui-btn-left">二つ戻る</a>
+            <h1 id="login4_appTitle">ログイン4</h1>
+            <a href="javascript:login4.startSetting();" data-rel="button" data-icon="gear" class="ui-btn-right">初期設定</a>
         </div>
 
         <div data-role="content">
@@ -59,18 +59,18 @@
                         <th class="appFormCol" width="380">内容</th>
                     </tr>
                 </thead>
-                <tbody id="login3_answerArea">
+                <tbody id="login4_answerArea">
                     <tr>
                         <td>ユーザID</td>
-                        <td class='appLeft' id="login3_anslogin31">　</td>
+                        <td class='appLeft' id="login4_anslogin41">　</td>
                     </tr>
                     <tr>
                         <td>パスワード</td>
-                        <td class='appLeft' id="login3_anslogin32">　</td>
+                        <td class='appLeft' id="login4_anslogin42">　</td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align:center !important;">
-                            <a href="javascript:login3.login3();" data-role="button" data-inline="true" data-icon="check" data-theme="a">ログイン</a>
+                            <a href="javascript:login4.login4();" data-role="button" data-inline="true" data-icon="check" data-theme="a">ログイン</a>
                         </td>
                     </tr>
                 </tbody>
@@ -84,7 +84,7 @@
 
         </div>
 
-        <div data-role="popup" id="login3Setting" data-position-to="#login3_appTitle" data-dismissible="false" data-theme="d">
+        <div data-role="popup" id="login4Setting" data-position-to="#login4_appTitle" data-dismissible="false" data-theme="d">
             <div data-role="header" data-theme="c">
                 <h1>初期設定</h1>
                 <a href="#" data-rel="back" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
@@ -103,19 +103,19 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="javascript:login3.setting();" data-role="button" data-theme="a">設定</a>
+                <a href="javascript:login4.setting();" data-role="button" data-theme="a">設定</a>
             </div>
         </div>
 
-        <div data-role="popup" id="login3_alert" data-dismissible="false" data-theme="d">
+        <div data-role="popup" id="login4_alert" data-dismissible="false" data-theme="d">
             <div data-role="header" data-theme="c">
-                <h1 id="login3_alertTitle">確認</h1>
+                <h1 id="login4_alertTitle">確認</h1>
             </div>
             <div data-role="content" data-theme="d">
-                <p id="login3_alertMessage">メッセージ</p>
-                <a href="javascript:login3.onConfirm(1);" data-role="button" id="login3_confirm1" data-theme="a">OK</a>
-                <a href="javascript:login3.onConfirm(0);" data-role="button" id="login3_confirm0" data-theme="a">キャンセル</a>
-                <a href="#" data-role="button" data-rel="back" id="login3_confirm" data-theme="a">OK</a>
+                <p id="login4_alertMessage">メッセージ</p>
+                <a href="javascript:login4.onConfirm(1);" data-role="button" id="login4_confirm1" data-theme="a">OK</a>
+                <a href="javascript:login4.onConfirm(0);" data-role="button" id="login4_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="login4_confirm" data-theme="a">OK</a>
             </div>
         </div>
 
