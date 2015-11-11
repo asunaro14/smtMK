@@ -9,47 +9,46 @@
     <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
     <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
 
-  <script type="text/javascript" src="./jquery/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="/yamada/app.js"></script>
-  <script type="text/javascript" src="./jquery/jquery.mobile-1.4.5.min.js"></script>
-  <link type="text/css" rel="stylesheet" href="./jquery/jquery.mobile-1.4.5.min.css">
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="yamada/app.js"></script>
+  <script type="text/javascript" src="../jquery/jquery.mobile-1.4.5.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.4.5.min.css">
      
   
 </head>
 <body>
-    <div data-role="page" id="login" data-dom-cache="true">
+    <div data-role="page" id="login3" data-dom-cache="true">
 
         <script type="text/javascript">
-            var login = {
+            var login3 = {
             };
-
-            login.onBeforeShow = function () {
-                App.setForm("login", true);
+            login3.onBeforeShow = function () {
+                App.setForm("login3", true);
                 var obj = App.loadObject("setting");
-                $("#item-Login1").val(obj.id || "");
-                $("#item-Login2").val(obj.pw || "");
+                $("#item-login31").val(obj.id || "");
+                $("#item-login32").val(obj.pw || "");
             };
-
             // ログイン処理
-            login.login = function () {
+            login3.login3 = function () {
               // 症例一覧へ進む
-              App.changePage("login2.html");
+              App.changePage("patients.html");
 
             };
 
             // 設定処理
-            login.startSetting = function () {
-              $("#loginSetting").popup("open", { transition: "pop" });
+            login3.startSetting = function () {
+              $("#login3Setting").popup("open", { transition: "pop" });
             };
-            login.setting = function () {
-              $("#loginSetting").popup("close");
+            login3.setting = function () {
+              $("#login3Setting").popup("close");
             };
         </script>
 
-        <div data-role="header" data-position="fixed" data-tap-toggle="false" id="login_header">
-            <a href='javascript:location.reload();' data-rel="button" data-icon="refresh" class="ui-btn-left">更新</a>
-            <h1 id="login_appTitle">ログイン</h1>
-            <a href="javascript:login.startSetting();" data-rel="button" data-icon="gear" class="ui-btn-right">初期設定</a>
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" id="login3_header">
+            <!--<a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">ログアウト</a>
+            <h1 id="login3_appTitle">ログイン3</h1>
+            <a href="javascript:login3.startSetting();" data-rel="button" data-icon="gear" class="ui-btn-right">初期設定</a>
         </div>
 
         <div data-role="content">
@@ -60,18 +59,18 @@
                         <th class="appFormCol" width="380">内容</th>
                     </tr>
                 </thead>
-                <tbody id="login_answerArea">
+                <tbody id="login3_answerArea">
                     <tr>
                         <td>ユーザID</td>
-                        <td class='appLeft' id="login_ansLogin1">　</td>
+                        <td class='appLeft' id="login3_anslogin31">　</td>
                     </tr>
                     <tr>
                         <td>パスワード</td>
-                        <td class='appLeft' id="login_ansLogin2">　</td>
+                        <td class='appLeft' id="login3_anslogin32">　</td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align:center !important;">
-                            <a href="javascript:login.login();" data-role="button" data-inline="true" data-icon="check" data-theme="a">ログイン</a>
+                            <a href="javascript:login3.login3();" data-role="button" data-inline="true" data-icon="check" data-theme="a">ログイン</a>
                         </td>
                     </tr>
                 </tbody>
@@ -85,7 +84,7 @@
 
         </div>
 
-        <div data-role="popup" id="loginSetting" data-position-to="#login_appTitle" data-dismissible="false" data-theme="d">
+        <div data-role="popup" id="login3Setting" data-position-to="#login3_appTitle" data-dismissible="false" data-theme="d">
             <div data-role="header" data-theme="c">
                 <h1>初期設定</h1>
                 <a href="#" data-rel="back" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
@@ -104,19 +103,19 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="javascript:login.setting();" data-role="button" data-theme="a">設定</a>
+                <a href="javascript:login3.setting();" data-role="button" data-theme="a">設定</a>
             </div>
         </div>
 
-        <div data-role="popup" id="login_alert" data-dismissible="false" data-theme="d">
+        <div data-role="popup" id="login3_alert" data-dismissible="false" data-theme="d">
             <div data-role="header" data-theme="c">
-                <h1 id="login_alertTitle">確認</h1>
+                <h1 id="login3_alertTitle">確認</h1>
             </div>
             <div data-role="content" data-theme="d">
-                <p id="login_alertMessage">メッセージ</p>
-                <a href="javascript:login.onConfirm(1);" data-role="button" id="login_confirm1" data-theme="a">OK</a>
-                <a href="javascript:login.onConfirm(0);" data-role="button" id="login_confirm0" data-theme="a">キャンセル</a>
-                <a href="#" data-role="button" data-rel="back" id="login_confirm" data-theme="a">OK</a>
+                <p id="login3_alertMessage">メッセージ</p>
+                <a href="javascript:login3.onConfirm(1);" data-role="button" id="login3_confirm1" data-theme="a">OK</a>
+                <a href="javascript:login3.onConfirm(0);" data-role="button" id="login3_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="login3_confirm" data-theme="a">OK</a>
             </div>
         </div>
 
