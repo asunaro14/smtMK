@@ -28,7 +28,6 @@ $(document).bind("mobileinit", function () {
 // ページ遷移
 // ------------------------------------------------------------
 App.changePage = function (url, msg) {
-    alert(url);
     setTimeout(function () {
         $.mobile.changePage(url, { transition: "slide" });
         setTimeout(function () {
