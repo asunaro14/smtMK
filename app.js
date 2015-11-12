@@ -30,7 +30,9 @@ $(document).bind("mobileinit", function () {
 App.changePage = function (url, msg) {
     alert(url);
     setTimeout(function () {
-        $.mobile.changePage(url, { transition: "slide" });
+        //$.mobile.changePage(url, { transition: "slide" });
+        $('body').pagecontainer('change', url,
+                                { transition: 'slide' });
         setTimeout(function () {
             $('[data-role="page"]').removeClass('ui-disabled');//ページを有効にする
         }, 200);
