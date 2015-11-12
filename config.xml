@@ -16,6 +16,6 @@
     <author href="https://build.phonegap.com" email="support@phonegap.com">
         Hardeep Shoker 
     </author>
-  <preference name="phonegap-version" value="5.0.0" />
+  <preference name="phonegap-version" value="cli-5.2.0" />
 	<gap:plugin name="com.telerik.plugins.wkwebview" version="0.1.2" />
 </widget>
