@@ -10,7 +10,7 @@ if (!App) {
 // アプリの初期設定
 // ------------------------------------------------------------
 $(document).bind("mobileinit", function () {
-    //$.mobile.hashListeningEnabled = false;
+    $.mobile.hashListeningEnabled = false;
     // DOMのキャッシュを有効化（全ページをキャッシュ）・・・リソース圧迫の恐れ
     //    $.mobile.page.prototype.options.domCache = true;
 
