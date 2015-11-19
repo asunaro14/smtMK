@@ -1,0 +1,309 @@
+﻿<html>
+<head>
+    <title>ログイン</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.4.5.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.4.5.min.css">
+     
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />    
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>  
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>    
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
+</head>
+<body>
+    <div data-role="page" id="login" data-dom-cache="true">
+
+        <script type="text/javascript">
+            var login = {
+                data: [
+                    { number: "Login1", title: "ID", type: "IT", param: "", value: "", enterNext: "Login2" },
+                    { number: "Login2", title: "パスワード", type: "IP", param: "", value: "" },
+                    { number: "-", title: "", type: "X", param: "", value: "" },
+                    { number: "S1", title: "ID", type: "IT", param: "", value: "", enterNext: "S2" },
+                    { number: "S2", title: "パスワード", type: "IP", param: "", value: "" }
+                ]
+            };
+
+            // 認証テーブル（左辺がID、右辺がPW）
+            login.authData = {
+                "0001":"2829",
+                "0002":"6287",
+                "0003":"6026",
+                "0004":"8734",
+                "0005":"5561",
+                "0006":"8794",
+                "0007":"6758",
+                "0008":"9158",
+                "0009":"8593",
+                "0010":"1949",
+                "0011":"8416",
+                "0012":"1788",
+                "0013":"5176",
+                "0014":"2347",
+                "0015":"3499",
+                "0016":"0865",
+                "0017":"0112",
+                "0018":"5531",
+                "0019":"0486",
+                "0020":"9371",
+                "0021":"5943",
+                "0022":"3065",
+                "0023":"7660",
+                "0024":"1517",
+                "0025":"6180",
+                "0026":"8644",
+                "0027":"3893",
+                "0028":"2443",
+                "0029":"9491",
+                "0030":"1965",
+                "0031":"5804",
+                "0032":"1708",
+                "0033":"9831",
+                "0034":"2289",
+                "0035":"0589",
+                "0036":"1367",
+                "0037":"4157",
+                "0038":"9447",
+                "0039":"2984",
+                "0040":"0662",
+                "0041":"1240",
+                "0042":"2295",
+                "0043":"1578",
+                "0044":"4841",
+                "0045":"9211",
+                "0046":"2677",
+                "0047":"5232",
+                "0048":"8119",
+                "0049":"8639",
+                "0050":"3351",
+                "0051":"8023",
+                "0052":"3175",
+                "0053":"4681",
+                "0054":"3029",
+                "0055":"1626",
+                "0056":"0174",
+                "0057":"1599",
+                "0058":"6033",
+                "0059":"3555",
+                "0060":"8643",
+                "0061":"6409",
+                "0062":"5460",
+                "0063":"4802",
+                "0064":"0125",
+                "0065":"7245",
+                "0066":"0937",
+                "0067":"2631",
+                "0068":"7941",
+                "0069":"2209",
+                "0070":"7976",
+                "0071":"6857",
+                "0072":"6627",
+                "0073":"2266",
+                "0074":"7465",
+                "0075":"9839",
+                "0076":"3574",
+                "0077":"5542",
+                "0078":"7916",
+                "0079":"9922",
+                "0080":"6416",
+                "0081":"7412",
+                "0082":"3192",
+                "0083":"3599",
+                "0084":"9700",
+                "0085":"2734",
+                "0086":"9388",
+                "0087":"5570",
+                "0088":"5285",
+                "0089":"2693",
+                "0090":"9706",
+                "0091":"7117",
+                "0092":"0088",
+                "0093":"5366",
+                "0094":"8016",
+                "0095":"5317",
+                "0096":"0346",
+                "0097":"7263",
+                "0098":"8515",
+                "0099":"0082",
+                "0100": "3001",
+                "9999": "smt"
+            };
+
+            // 初期処理
+            login.onInit = function () {
+//                $("#initDatetime").text("onInit : " + App.createDateTime());
+//                $("#hasTouch").text(App.hasTouch ? "hasTouch : true" : "hasTouch : false");
+            };
+            login.onBeforeShow = function () {
+                App.setForm("login", true);
+                var obj = App.loadObject("setting");
+                $("#item-Login1").val(obj.id || "");
+                $("#item-Login2").val(obj.pw || "");
+            };
+            login.onShow = function () {
+//                $("#showDatetime").text("onShow : " + App.createDateTime());
+            };
+
+            // ログイン処理
+            login.login = function () {
+                // ユーザ認証
+                var id = $("#item-Login1").val();
+                var pw = $("#item-Login2").val();
+                var isOuth = id ? (login.authData[id] == pw) : false;
+                if (isOuth) {
+                    // 初期化ユーザならデータをクリア
+                    if (id == "9999") {
+                        App.alert("データの初期化", "全データをクリアしてよろしいですか？", {
+                            confirm0: true,
+                            confirm1: true,
+                        });
+                    } else {
+                        // 症例一覧へ進む
+                        App.changePage("patients.html");
+                    }
+                } else {
+                    App.alert("入力エラー", "ユーザIDまたはパスワードに誤りがあります");
+                }
+            };
+            login.onConfirm = function (ans) {
+                $("#login_alert").popup("close");
+                // ローカルストレージの初期化
+                if (ans == 1) { App.clearObject(); }
+
+                /* ----------------------------------------
+                (1) データ初期化の目的
+                　アプリの開発途上で、回答データの項目が増減したり、取得する回答値
+                　に変更（Yes/No → 1/0 など）が生じた場合に、登録済データとアプリ機能
+                　とが不整合を生じ、正常に動作できなくなる事象がある。
+                　これを回避するため、一旦、アプリ内の全データをリセットするもの。
+                (2) ログイン機能との関係
+　　　　　　　　　「9999」によるログインは、あくまでもデータ初期化のみを目的としており、
+                　本来のログイン機能（症例一覧画面への遷移機能）は具備していない。
+                (3) データの初期化後の操作
+                　データ初期化後は、あらためて「0001」など本来のIDでログインする必要がある。
+                (4) ご注意
+　                実運用において、データ初期化の機能を誤って使用すると、iPad内に
+  　              蓄積したデータがすべて消去されてしまい、復旧の手立てがない。
+    　            このため「9999」というIDの存在はエンドユーザには伏せておくこととする。
+                ---------------------------------------- */
+            };
+
+            // 設定処理
+            login.startSetting = function () {
+                try {
+                    var obj = App.loadObject("setting");
+                    $("#item-S1").val(obj.id || "");
+                    $("#item-S2").val(obj.pw || "");
+                    $("#loginSetting").popup("open", { transition: "pop" });
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+            login.setting = function () {
+                try {
+                    var id = $("#item-S1").val();
+                    var pw = $("#item-S2").val();
+                    App.saveObject("setting", { id: id, pw: pw });
+                    $("#loginSetting").popup("close");
+                    $("#item-Login1").val(id);
+                    $("#item-Login2").val(pw);
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" id="login_header">
+            <a href='javascript:location.reload();' data-rel="button" data-icon="refresh" class="ui-btn-left">更新</a>
+            <h1 id="login_appTitle">ログイン</h1>
+            <a href="javascript:login.startSetting();" data-rel="button" data-icon="gear" class="ui-btn-right">初期設定</a>
+        </div>
+
+        <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-responsive" style="width:400px !important; margin: 60px auto;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="120">項目</th>
+                        <th class="appFormCol" width="380">内容</th>
+                    </tr>
+                </thead>
+                <tbody id="login_answerArea">
+                    <tr>
+                        <td>ユーザID</td>
+                        <td class='appLeft' id="login_ansLogin1">　</td>
+                    </tr>
+                    <tr>
+                        <td>パスワード</td>
+                        <td class='appLeft' id="login_ansLogin2">　</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center !important;">
+                            <a href="javascript:login.login();" data-role="button" data-inline="true" data-icon="check" data-theme="a">ログイン</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <p id="copylight" style="padding-top: 4em; text-align: center; font-size: 15px; text-shadow:none;">
+                Copyright 2015. The Knee Society. All rights reserved.<br/>
+                Developed with permission by Smith and Nephew Orthopaedics KK.
+            </p>
+
+        </div>
+
+        <div data-role="popup" id="loginSetting" data-position-to="#login_appTitle" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1>初期設定</h1>
+                <a href="#" data-rel="back" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p>ログイン時に使用する初期値を設定してください。</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>ユーザID</td>
+                            <td><input type="text" name="settingID" id="item-S1" value="" data-clear-btn="true" /></td>
+                        </tr>
+                        <tr>
+                            <td>パスワード</td>
+                            <td><input type="password" name="settingPW" id="item-S2" value="" data-clear-btn="true" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="javascript:login.setting();" data-role="button" data-theme="a">設定</a>
+            </div>
+        </div>
+
+        <div data-role="popup" id="login_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="login_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="login_alertMessage">メッセージ</p>
+                <a href="javascript:login.onConfirm(1);" data-role="button" id="login_confirm1" data-theme="a">OK</a>
+                <a href="javascript:login.onConfirm(0);" data-role="button" id="login_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="login_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

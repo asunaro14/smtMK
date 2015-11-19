@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<head>
+    <title>SMT DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
+</head>
+<body>
+    <div data-role="page" id="entry_101">
+
+        <script type="text/javascript">
+            // 初期設定
+            var dt = new Date();
+            var fileName = ["?",
+                dt.getFullYear(),
+                ("0" + (dt.getMonth() + 1)).substr(-2, 2),
+                ("0" + dt.getDate()).substr(-2, 2),
+                ("0" + dt.getHours()).substr(-2, 2),
+                ("0" + dt.getMinutes()).substr(-2, 2),
+                ("0" + dt.getSeconds()).substr(-2, 2)
+            ].join("");            
+            var entry_101 = {
+                title: "ＢＢＳ",
+                /*
+                data: [
+                    { number: "101a", title: "立位保持", description: "「足を揃えて、何もつかまらずに立っていて下さい」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS7_short.mp4", require: true },
+                    { number: "101b", title: "立位保持", description: "", type: "SV", options: "4:一人で足を揃えることができ、1分間安全に立位可能,3:一人で足を揃えることができ、1分間監視,2:一人で足を揃えることはできるが、30秒立位は不可能,1:開脚立位をとるために介助が必要であるが、足をそろえて15秒立位可能,0:開脚立位をとるために介助が必要で、15秒立位保持不可", require: true, onclick:"entry_101.getScore();" },
+                    { number: "102a", title: "両手前方", description: "「両手を90°上げて下さい。指を伸ばした状態でできるだけ前方に手を伸ばして下さい」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS8_short.mp4", require: true },
+                    { number: "102b", title: "両手前方", description: "", type: "SV", options: "4:確実に25cm以上前方へリーチ可能,3:12.5cm以上安全に前方へリーチ可能,2:5cm以上安全に前方へリーチ可能,1:監視があれば前方へリーチ可能,0:転倒しないように介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "103a", title: "拾い上げ", description: "「足の前にある靴を拾い上げて下さい」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS9_short.mp4", require: true },
+                    { number: "103b", title: "拾い上げ", description: "", type: "SV", options: "4:安全かつ簡単に靴（あるいはスリッパ）を拾い上げることが可能,3:監視があれば靴（あるいはスリッパ）を拾い上げることが可能,2:独力で平衡を保ったまま2.5～5cmのところに置いたスリッパまでリーチできるが、拾い上げることはできない,1:検査中監視が必要であり、拾い上げることもできない,0:転倒しないように介助が必要で、検査ができない", require: true, onclick: "entry_101.getScore();" },
+                    { number: "104a", title: "振り返り", description: "「左肩、右肩越しに後ろを振り向いてください。」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS10_short.mp4", require: true },
+                    { number: "104b", title: "振り返り", description: "", type: "SV", options: "4:上手に体重移動しながら、両方向から振り向ける,3:一方向からのみ振り向きができる。もう一方向では体重移動が少ない,2:横を向けるだけだが、バランスは保てる,1:振り向く動作中に監視が必要,0:転倒しないように介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "105a", title: "360°方向転換", description: "「円周上を完全に1周回って下さい。その後反対方向に1周回ってください」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS11_short.mp4", require: true },
+                    { number: "105b", title: "360°方向転換", description: "", type: "SV", options: "4:4秒以内に両方向安全に1周回ることが可能,3:4秒以内に一方向のみ安全に1周回ることが可能,2:ゆっくりとなら1週回ることが可能,1:間近での監視が必要か、言葉での手がかりが必要,0:1周するのに介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "105b-text", title: "注釈", description: "", type: "IT", param:"prefix:'注釈'", require: false },
+                    { number: "106a", title: "踏み台昇降", description: "「足台の上に交互に足をのせて下さい。各足が4回ずつ足台にのるまで続けて下さい」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS12_short.mp4", require: true },
+                    { number: "106b", title: "踏み台昇降", description: "", type: "SV", options: "4:支持なしで安全にかつ20秒以内に8回足のせが可能,3:支持なしで20秒以上必要であるが、完全に8回足のせが可能,2:監視下であるが、介助不要で、完全に4回足のせが可能,1:最小限の介助で、完全に2回以上の足のせが可能,0:転倒しないよう介助が必要。または試行不可能", require: true, onclick: "entry_101.getScore();" },
+                    { number: "107a1", title: "タンデム立位（患側後）", description: "「一方の足をもう片方の足のすぐ前にまっすぐ置いて下さい。もしできないならば、前になっている足の踵を、後ろになっている足のつま先から十分に離れたところに置いてみてください」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS13_short.mp4", require: true },
+                    { number: "107b1", title: "タンデム立位（患側後）", description: "", type: "SV", options: "4:単独で継ぎ足を取ることができ、30秒保持可能,3:単独で足を別の足の前に置くことができ、30秒保持可能,2:単独で足をわずかにずらし、30秒保持可能,1:検査姿勢をとるために介助を要するが、15秒保持可能,0:足を出すとき、または立っているときにバランスを崩してしまう", require: true, onclick: "entry_101.getScore();" },
+                    { number: "107a2", title: "タンデム立位（健側後）", description: "「一方の足をもう片方の足のすぐ前にまっすぐ置いて下さい。もしできないならば、前になっている足の踵を、後ろになっている足のつま先から十分に離れたところに置いてみてください」", type: "DT", param: "", require: true },
+                    { number: "107b2", title: "タンデム立位（健側後）", description: "", type: "SV", options: "4:単独で継ぎ足を取ることができ、30秒保持可能,3:単独で足を別の足の前に置くことができ、30秒保持可能,2:単独で足をわずかにずらし、30秒保持可能,1:検査姿勢をとるために介助を要するが、15秒保持可能,0:足を出すとき、または立っているときにバランスを崩してしまう", require: true, onclick: "entry_101.getScore();" },
+                    { number: "108a1", title: "片足立位（患側）", description: "「どこにもつかまらず、できるだけ長く片足で立っていて下さい」", type: "DT", param: "", movie: "http://fairycat.biz/Content/movie/BBS14_short.mp4", require: true },
+                    { number: "108b1", title: "片足立位（患側）", description: "", type: "SV", options: "4:単独で片足を上げ、10秒以上保持可能,3:単独で片足を上げ、5～10秒保持可能,2:単独で片足を上げ、3秒もしくはそれ以上保持可能,1:片足を上げることはできるが、片足立ちを3秒保持することができない,0:試行不可能、もしくは転倒予防に介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "108a2", title: "片足立位（健側）", description: "「どこにもつかまらず、できるだけ長く片足で立っていて下さい」", type: "DT", param: "", require: true },
+                    { number: "108b2", title: "片足立位（健側）", description: "", type: "SV", options: "4:単独で片足を上げ、10秒以上保持可能,3:単独で片足を上げ、5～10秒保持可能,2:単独で片足を上げ、3秒もしくはそれ以上保持可能,1:片足を上げることはできるが、片足立ちを3秒保持することができない,0:試行不可能、もしくは転倒予防に介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "109", title: "合計：BBS", description: "合計：", type: "DN", param: "", sum: true }
+                ],
+                */
+                /*
+                data: [
+                    { number: "101a", title: "立位保持", description: "「足を揃えて、何もつかまらずに立っていて下さい」", type: "DT", param: "", movie: "BBS7_short.mp4", require: true },
+                    { number: "101b", title: "立位保持", description: "", type: "SV", options: "4:一人で足を揃えることができ、1分間安全に立位可能,3:一人で足を揃えることができ、1分間監視,2:一人で足を揃えることはできるが、30秒立位は不可能,1:開脚立位をとるために介助が必要であるが、足をそろえて15秒立位可能,0:開脚立位をとるために介助が必要で、15秒立位保持不可", require: true, onclick: "entry_101.getScore();" },
+                    { number: "102a", title: "両手前方", description: "「両手を90°上げて下さい。指を伸ばした状態でできるだけ前方に手を伸ばして下さい」", type: "DT", param: "", movie: "BBS8_short.mp4", require: true },
+                    { number: "102b", title: "両手前方", description: "", type: "SV", options: "4:確実に25cm以上前方へリーチ可能,3:12.5cm以上安全に前方へリーチ可能,2:5cm以上安全に前方へリーチ可能,1:監視があれば前方へリーチ可能,0:転倒しないように介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "103a", title: "拾い上げ", description: "「足の前にある靴を拾い上げて下さい」", type: "DT", param: "", movie: "BBS9_short.mp4", require: true },
+                    { number: "103b", title: "拾い上げ", description: "", type: "SV", options: "4:安全かつ簡単に靴（あるいはスリッパ）を拾い上げることが可能,3:監視があれば靴（あるいはスリッパ）を拾い上げることが可能,2:独力で平衡を保ったまま2.5～5cmのところに置いたスリッパまでリーチできるが、拾い上げることはできない,1:検査中監視が必要であり、拾い上げることもできない,0:転倒しないように介助が必要で、検査ができない", require: true, onclick: "entry_101.getScore();" },
+                    { number: "104a", title: "振り返り", description: "「左肩、右肩越しに後ろを振り向いてください。」", type: "DT", param: "", movie: "BBS10_short.mp4", require: true },
+                    { number: "104b", title: "振り返り", description: "", type: "SV", options: "4:上手に体重移動しながら、両方向から振り向ける,3:一方向からのみ振り向きができる。もう一方向では体重移動が少ない,2:横を向けるだけだが、バランスは保てる,1:振り向く動作中に監視が必要,0:転倒しないように介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "105a", title: "360°方向転換", description: "「円周上を完全に1周回って下さい。その後反対方向に1周回ってください」", type: "DT", param: "", movie: "BBS11_short.mp4", require: true },
+                    { number: "105b", title: "360°方向転換", description: "", type: "SV", options: "4:4秒以内に両方向安全に1周回ることが可能,3:4秒以内に一方向のみ安全に1周回ることが可能,2:ゆっくりとなら1週回ることが可能,1:間近での監視が必要か、言葉での手がかりが必要,0:1周するのに介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "105b-text", title: "注釈", description: "", type: "IT", param: "prefix:'注釈'", require: false },
+                    { number: "106a", title: "踏み台昇降", description: "「足台の上に交互に足をのせて下さい。各足が4回ずつ足台にのるまで続けて下さい」", type: "DT", param: "", movie: "BBS12_short.mp4", require: true },
+                    { number: "106b", title: "踏み台昇降", description: "", type: "SV", options: "4:支持なしで安全にかつ20秒以内に8回足のせが可能,3:支持なしで20秒以上必要であるが、完全に8回足のせが可能,2:監視下であるが、介助不要で、完全に4回足のせが可能,1:最小限の介助で、完全に2回以上の足のせが可能,0:転倒しないよう介助が必要。または試行不可能", require: true, onclick: "entry_101.getScore();" },
+                    { number: "107a1", title: "タンデム立位（患側後）", description: "「一方の足をもう片方の足のすぐ前にまっすぐ置いて下さい。もしできないならば、前になっている足の踵を、後ろになっている足のつま先から十分に離れたところに置いてみてください」", type: "DT", param: "", movie: "BBS13_short.mp4", require: true },
+                    { number: "107b1", title: "タンデム立位（患側後）", description: "", type: "SV", options: "4:単独で継ぎ足を取ることができ、30秒保持可能,3:単独で足を別の足の前に置くことができ、30秒保持可能,2:単独で足をわずかにずらし、30秒保持可能,1:検査姿勢をとるために介助を要するが、15秒保持可能,0:足を出すとき、または立っているときにバランスを崩してしまう", require: true, onclick: "entry_101.getScore();" },
+                    { number: "107a2", title: "タンデム立位（健側後）", description: "「一方の足をもう片方の足のすぐ前にまっすぐ置いて下さい。もしできないならば、前になっている足の踵を、後ろになっている足のつま先から十分に離れたところに置いてみてください」", type: "DT", param: "", require: true },
+                    { number: "107b2", title: "タンデム立位（健側後）", description: "", type: "SV", options: "4:単独で継ぎ足を取ることができ、30秒保持可能,3:単独で足を別の足の前に置くことができ、30秒保持可能,2:単独で足をわずかにずらし、30秒保持可能,1:検査姿勢をとるために介助を要するが、15秒保持可能,0:足を出すとき、または立っているときにバランスを崩してしまう", require: true, onclick: "entry_101.getScore();" },
+                    { number: "108a1", title: "片足立位（患側）", description: "「どこにもつかまらず、できるだけ長く片足で立っていて下さい」", type: "DT", param: "", movie: "BBS14_short.mp4", require: true },
+                    { number: "108b1", title: "片足立位（患側）", description: "", type: "SV", options: "4:単独で片足を上げ、10秒以上保持可能,3:単独で片足を上げ、5～10秒保持可能,2:単独で片足を上げ、3秒もしくはそれ以上保持可能,1:片足を上げることはできるが、片足立ちを3秒保持することができない,0:試行不可能、もしくは転倒予防に介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "108a2", title: "片足立位（健側）", description: "「どこにもつかまらず、できるだけ長く片足で立っていて下さい」", type: "DT", param: "", require: true },
+                    { number: "108b2", title: "片足立位（健側）", description: "", type: "SV", options: "4:単独で片足を上げ、10秒以上保持可能,3:単独で片足を上げ、5～10秒保持可能,2:単独で片足を上げ、3秒もしくはそれ以上保持可能,1:片足を上げることはできるが、片足立ちを3秒保持することができない,0:試行不可能、もしくは転倒予防に介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "109", title: "合計：BBS", description: "合計：", type: "DN", param: "", sum: true }
+                ],
+                */
+               
+                data: [
+                    { number: "101a", title: "立位保持", description: "「足を揃えて、何もつかまらずに立っていて下さい」", type: "DT", param: "", image: "BBS7_short.png", movie: "BBS7_short.mp4" + fileName, require: true },
+                    { number: "101b", title: "立位保持", description: "", type: "SV", options: "4:一人で足を揃えることができ、1分間安全に立位可能,3:一人で足を揃えることができ、1分間監視,2:一人で足を揃えることはできるが、30秒立位は不可能,1:開脚立位をとるために介助が必要であるが、足をそろえて15秒立位可能,0:開脚立位をとるために介助が必要で、15秒立位保持不可", require: true, onclick: "entry_101.getScore();" },
+                    { number: "102a", title: "両手前方", description: "「両手を90°上げて下さい。指を伸ばした状態でできるだけ前方に手を伸ばして下さい」", type: "DT", param: "", image: "BBS8_short.png", movie: "BBS8_short.mp4" + fileName, require: true },
+                    { number: "102b", title: "両手前方", description: "", type: "SV", options: "4:確実に25cm以上前方へリーチ可能,3:12.5cm以上安全に前方へリーチ可能,2:5cm以上安全に前方へリーチ可能,1:監視があれば前方へリーチ可能,0:転倒しないように介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "103a", title: "拾い上げ", description: "「足の前にある靴を拾い上げて下さい」", type: "DT", param: "", image: "BBS9_short.png", movie: "BBS9_short.mp4" + fileName, require: true },
+                    { number: "103b", title: "拾い上げ", description: "", type: "SV", options: "4:安全かつ簡単に靴（あるいはスリッパ）を拾い上げることが可能,3:監視があれば靴（あるいはスリッパ）を拾い上げることが可能,2:独力で平衡を保ったまま2.5～5cmのところに置いたスリッパまでリーチできるが、拾い上げることはできない,1:検査中監視が必要であり、拾い上げることもできない,0:転倒しないように介助が必要で、検査ができない", require: true, onclick: "entry_101.getScore();" },
+                    { number: "104a", title: "振り返り", description: "「左肩、右肩越しに後ろを振り向いてください。」", type: "DT", param: "", image: "BBS10_short.png", movie: "BBS10_short.mp4" + fileName, require: true },
+                    { number: "104b", title: "振り返り", description: "", type: "SV", options: "4:上手に体重移動しながら、両方向から振り向ける,3:一方向からのみ振り向きができる。もう一方向では体重移動が少ない,2:横を向けるだけだが、バランスは保てる,1:振り向く動作中に監視が必要,0:転倒しないように介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "105a", title: "360°方向転換", description: "「円周上を完全に1周回って下さい。その後反対方向に1周回ってください」", type: "DT", param: "", image: "BBS11_short.png", movie: "BBS11_short.mp4" + fileName, require: true },
+                    { number: "105b", title: "360°方向転換", description: "", type: "SV", options: "4:4秒以内に両方向安全に1周回ることが可能,3:4秒以内に一方向のみ安全に1周回ることが可能,2:ゆっくりとなら1週回ることが可能,1:間近での監視が必要か、言葉での手がかりが必要,0:1周するのに介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "105b-text", title: "注釈", description: "", type: "IT", param: "prefix:'注釈'", require: false },
+                    { number: "106a", title: "踏み台昇降", description: "「足台の上に交互に足をのせて下さい。各足が4回ずつ足台にのるまで続けて下さい」", type: "DT", param: "", image: "BBS12_short.png", movie: "BBS12_short.mp4" + fileName, require: true },
+                    { number: "106b", title: "踏み台昇降", description: "", type: "SV", options: "4:支持なしで安全にかつ20秒以内に8回足のせが可能,3:支持なしで20秒以上必要であるが、完全に8回足のせが可能,2:監視下であるが、介助不要で、完全に4回足のせが可能,1:最小限の介助で、完全に2回以上の足のせが可能,0:転倒しないよう介助が必要。または試行不可能", require: true, onclick: "entry_101.getScore();" },
+                    { number: "107a1", title: "タンデム立位（患側後）", description: "「一方の足をもう片方の足のすぐ前にまっすぐ置いて下さい。もしできないならば、前になっている足の踵を、後ろになっている足のつま先から十分に離れたところに置いてみてください」", type: "DT", param: "", image: "BBS13_short.png", movie: "BBS13_short.mp4" + fileName, require: true },
+                    { number: "107b1", title: "タンデム立位（患側後）", description: "", type: "SV", options: "4:単独で継ぎ足を取ることができ、30秒保持可能,3:単独で足を別の足の前に置くことができ、30秒保持可能,2:単独で足をわずかにずらし、30秒保持可能,1:検査姿勢をとるために介助を要するが、15秒保持可能,0:足を出すとき、または立っているときにバランスを崩してしまう", require: true, onclick: "entry_101.getScore();" },
+                    { number: "107a2", title: "タンデム立位（健側後）", description: "「一方の足をもう片方の足のすぐ前にまっすぐ置いて下さい。もしできないならば、前になっている足の踵を、後ろになっている足のつま先から十分に離れたところに置いてみてください」", type: "DT", param: "", require: true },
+                    { number: "107b2", title: "タンデム立位（健側後）", description: "", type: "SV", options: "4:単独で継ぎ足を取ることができ、30秒保持可能,3:単独で足を別の足の前に置くことができ、30秒保持可能,2:単独で足をわずかにずらし、30秒保持可能,1:検査姿勢をとるために介助を要するが、15秒保持可能,0:足を出すとき、または立っているときにバランスを崩してしまう", require: true, onclick: "entry_101.getScore();" },
+                    { number: "108a1", title: "片足立位（患側）", description: "「どこにもつかまらず、できるだけ長く片足で立っていて下さい」", type: "DT", param: "", image: "BBS14_short.png", movie: "BBS14_short.mp4" + fileName, require: true },
+                    { number: "108b1", title: "片足立位（患側）", description: "", type: "SV", options: "4:単独で片足を上げ、10秒以上保持可能,3:単独で片足を上げ、5～10秒保持可能,2:単独で片足を上げ、3秒もしくはそれ以上保持可能,1:片足を上げることはできるが、片足立ちを3秒保持することができない,0:試行不可能、もしくは転倒予防に介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "108a2", title: "片足立位（健側）", description: "「どこにもつかまらず、できるだけ長く片足で立っていて下さい」", type: "DT", param: "", require: true },
+                    { number: "108b2", title: "片足立位（健側）", description: "", type: "SV", options: "4:単独で片足を上げ、10秒以上保持可能,3:単独で片足を上げ、5～10秒保持可能,2:単独で片足を上げ、3秒もしくはそれ以上保持可能,1:片足を上げることはできるが、片足立ちを3秒保持することができない,0:試行不可能、もしくは転倒予防に介助が必要", require: true, onclick: "entry_101.getScore();" },
+                    { number: "109", title: "合計：BBS", description: "合計：", type: "DN", param: "", sum: true }
+                ],
+                
+                nextPage: "",
+                onBeforeShow: function () {
+                    App.setForm("entry_101");
+                    
+                },
+                onShow: function () {
+                    //movieの静止画の表示をするために追加　iOSでは表示がされない為、ページ表示時に画面停止操作をする
+                    //そのままだとタイムラグが発生するためsetTimeoutしている
+                    /*
+                    var ids = ['101a','102a','103a','104a','105a','106a','107a1','108a1'];
+                    setTimeout(function(){
+                        $.each(ids, function (i, value) {
+                            //App.moviePlay('entry_101_ans'+ value +'-movie');
+                            //App.movieStop('entry_101_ans'+ value +'-movie');
+                            //App.movieLoad('entry_101_ans'+ value +'-movie');
+                        });
+                    }, 1500);
+                    */
+                    //スコアの取得
+                    entry_101.getScore();
+                }
+            };
+
+            // スコア取得
+            entry_101.getScore = function () {
+                var score101 = Number(entry_101.data[1].ans || "0");
+                var score102 = Number(entry_101.data[3].ans || "0");
+                var score103 = Number(entry_101.data[5].ans || "0");
+                var score104 = Number(entry_101.data[7].ans || "0");
+                var score105 = Number(entry_101.data[9].ans || "0");
+                var score106 = Number(entry_101.data[12].ans || "0");
+                var score1071 = Number(entry_101.data[14].ans || "0");
+                var score1072 = Number(entry_101.data[16].ans || "0");
+                var score108 = Number(entry_101.data[18].ans || "0");
+                var score109 = Number(entry_101.data[20].ans || "0");
+                console.log(score101);
+                console.log(score102);
+                console.log(score103);
+                console.log(score104);
+                console.log(score105);
+                console.log(score106);
+                console.log(score1071);
+                console.log(score1072);
+                console.log(score108);
+                console.log(score109);
+                var score = score101 + score102 + score103 + score104 + score105 + score106 + score1071 + score1072 + score108 + score109;
+                var html = App.createDN(entry_101.data[21], score, true);
+                $("#entry_101_ans109").html(html);
+                // スコアを保存
+                var row = App.getRow("109");
+                row.score = score;
+            };
+
+            // 登録処理（必須チェック＆スコア集計）
+            entry_101.save = function () {
+                App.checkRequire();
+            };
+
+            // 確認画面のアクション
+            entry_101_onConfirm = function (ans) {
+                //$("#entry_101_alert").popup("close");
+                App.afterConfirm(ans);
+            };
+            //動画再生のpop画面起動直後のイベント
+            $("#entry_101_moviepop").on("popupbeforeposition", function( e, data ) {
+                App.moviePlay(App.entry_101_movieID);
+            });
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <h1 id="entry_101_Title"></h1>
+        </div>
+
+        <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_101_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_101_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_101_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_101_Sex"></div></td>
+                        <td><div id="entry_101_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td id="entry_101_Number"></td>
+                        <td id="entry_101_ID"></td>
+                        <td id="entry_101_Initial"></td>
+                        <td id="entry_101_Sex"></td>
+                        <td id="entry_101_Side"></td>
+                    </tr>
+                </tbody>
+            </table>
+-->
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b" style="margin-top: 0.4em !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" style="width: 260px;">項目</th>
+                        <th class="appFormCol" style="width:auto;" colspan="2">内容</th>
+                    </tr>
+                </thead>
+                <tbody id="entry_101_answerArea">
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap101a" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans101a"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans101b"></div>
+                        </td>
+                        <td id="entry_101_ans101a-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap102a" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans102a"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans102b"></div>
+                        </td>
+                        <td id="entry_101_ans102a-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap103a" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans103a"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans103b"></div>
+                        </td>
+                        <td id="entry_101_ans103a-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap104a" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans104a"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans104b"></div>
+                        </td>
+                        <td id="entry_101_ans104a-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap105a" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans105a"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans105b"></div>
+                            <div id="entry_101_ans105b-text"></div>
+                        </td>
+                        <td id="entry_101_ans105a-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap106a" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans106a"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans106b"></div>
+                        </td>
+                        <td id="entry_101_ans106a-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap107a1" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans107a1"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans107b1"></div>
+                        </td>
+                        <td id="entry_101_ans107a1-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap107a2" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans107a2"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans107b2"></div>
+                        </td>
+                        <td id="entry_101_ans107a2-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap108a1" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans108a1"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans108b1"></div>
+                        </td>
+                        <td id="entry_101_ans108a1-img" width="240" height="240"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 260px; padding: 10px 0 !important;">
+                            <div id="entry_101_cap108a2" style="font-weight:bold;"></div>
+                            <div id="entry_101_ans108a2"></div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_101_ans108b2"></div>
+                        </td>
+                        <td id="entry_101_ans108a2-img" width="240" height="240"></td>
+                    </tr>               
+                    <tr><td id="entry_101_cap109">　</td><td class='appLeft' id="entry_101_ans109" colspan="2">　</td></tr>
+                </tbody>
+            </table>
+            <br />
+            <fieldset class="ui-grid-b">
+                <div class="ui-block-a"></div>
+                <div class="ui-block-b"><a href="javascript:entry_101.save();" data-role="button" data-theme="a" data-icon="check" data-iconpos="left">登録</a></div>
+                <div class="ui-block-c"></div>
+            </fieldset>
+        </div>
+
+        <div data-role="popup" id="entry_101_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="entry_101_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="entry_101_alertMessage">メッセージ</p>
+                <a href="javascript:entry_101_onConfirm(3);" data-role="button" id="entry_101_confirm3" data-theme="a">次のページに進む</a>
+                <a href="javascript:entry_101_onConfirm(2);" data-role="button" id="entry_101_confirm2" data-theme="a">メニューに戻る</a>
+                <a href="javascript:entry_101_onConfirm(1);" data-role="button" id="entry_101_confirm1" data-theme="a">一時登録してメニューに戻る</a>
+                <a href="javascript:entry_101_onConfirm(0);" data-role="button" id="entry_101_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="entry_101_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+        
+        <div data-role="popup" id="entry_101_moviepop" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1> </h1>
+                <a href="#" data-rel="back" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
+            </div>
+            <div data-role="content" data-theme="d">
+                <div id="entry_101_movieimg"></div>
+                <!--<a href="#" data-role="button" data-rel="back" id="entry_101_confirm" data-theme="a">OK</a>-->
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+﻿<html>
+<head>
+    <title>SMT DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>
+</head>
+<body>
+    <div data-role="page" id="entry_01">
+
+        <script type="text/javascript">
+            // 初期設定
+            var entry_01 = {
+                title: "症例背景",
+                data: [
+                    { number: "1", title: "記入日", description: "記入日", type: "ID", param: "", value: "today", require: true },
+                    { mvCount: 2, number: "2", title: "適確基準", description: "適確基準", type: "MV", options: "1:初回ＴＫＡ,2:ＯＡ", require: true },
+                    { number: "2a", title: "", description: "＊鏡視下術後の患者、両側性変形性膝関節症を有する患者は除外としない", type: "DT" },
+                    { mvCount: 4, number: "3", title: "除外基準", description: "除外基準", type: "MV", options: "1:認知症ではない,2:ＲＡではない,3:ＨＴＯではない,4:下肢骨折既往歴有ではない", require: true },
+                    { number: "4", title: "登録番号", description: "登録番号", type: "IT", param: "", value: "patientNumber", require: true, enterNext: "5" },
+                    { number: "5", title: "生年月日", description: "生年月日", type: "ID", param: "", value: "1950-01-01", require: true, enterNext: "6" },
+                    { number: "6", title: "手術時年齢", description: "", type: "IN", param: "min:0, max:150, unit:'歳',step:1", require: true, enterNext: "7" },
+                    { number: "7", title: "身長", description: "", type: "IN", param: "min:50, max:230, unit:'cm'", onchange: "entry_01.onChange7();", require: true, enterNext: "8" },
+                    { number: "8", title: "体重", description: "", type: "IN", param: "min:10, max:200, unit:'kg'", onchange: "entry_01.onChange8();", require: true },
+                    { number: "9", title: "BMI", description: "", type: "DN", param: "" },
+                    { number: "10", title: "性別", description: "", type: "SH", options: "男:男性,女:女性", require: true },
+                    { number: "11", title: "患側", description: "", type: "SH", options: "右:右,左:左", require: true },
+                    { number: "12", title: "原疾患", description: "", type: "SH", options: "OA:ＯＡ,その他:その他", require: true, onclick: "entry_01.onClickSH(\"12\");" },
+                    { number: "12-else", title: "原疾患（その他）", type: "IT" },
+                    { number: "13", title: "既往手術", description: "", type: "SH", options: "なし:なし,あり:あり", require: true, onclick: "entry_01.onClickSH(\"13\");" },
+                    { number: "13-else", title: "既往手術（その他）", type: "IT" },
+                    { mvCount: 7, number: "14", title: "反対側", description: "", type: "MV", options: "1:なし,2:ＯＡ,3:ＲＡ,4:外傷治療後,5:ＴＨＡ,6:ＴＫＡ,7:その他", require: true, onclick: "entry_01.onClickMV(\"14\");" },
+                    { number: "14-else", title: "反対側（その他）", type: "IT" }
+                ],
+                nextPage: "entry_15.html",
+                onBeforeShow: function () {
+                    App.setForm("entry_01");
+                    $("#item-12-else").textinput('disable');
+                    $("#item-13-else").textinput('disable');
+                    $("#item-14-else").textinput('disable');
+                    //一時保存のデータもCSV出力をするため、複数選択項目分空白をセットする セットしないとCSV出力時に場所がずれてしまう 20150310 山田
+                    var comma;
+                    $.each(entry_01.data, function (i, row) {
+                        if (row.mvCount) {
+                            comma = '';
+                            for (var n = 1; n < row.mvCount; n++){
+                                comma += ',';
+                            }
+                            entry_01.data[i].ans = entry_01.data[i].ans || comma;//mvCountに含まれている数にカンマで区切る　20150310　山田
+                            console.log({ mvCount: entry_01.data[i] });
+                        } 
+                    });
+                },
+                onShow: function () {
+                    // 計算
+                    entry_01.culcBMI();
+                    // その他欄のアクティブ化
+                    if (App.getRow("12").ans == "その他") {
+                        $("#item-12-else").textinput('enable');
+                    }
+                    if (App.getRow("13").ans == "あり") {
+                        $("#item-13-else").textinput('enable');
+                    }
+                    if (App.getRow("14").ans) {
+                        if (App.getRow("14").ans.split(",")[6] == "Yes") {
+                            $("#item-14-else").textinput('enable');
+                        }
+                    }
+                }
+            };
+
+            // 「その他」の制御
+            entry_01.onClickSH = function (num) {
+                // 候補辞書の作成
+                var row = App.getRow(num);
+                var dic = App.createDictionary(row);
+                // チェックされたものが「その他」であるか検査
+                var ans = false;
+                var val = $("input[name=item-" + num + "]:checked").val();
+                if (dic[val] == "その他" || dic[val] == "あり") {
+                    $("#item-" + num + "-else").textinput('enable');
+                    $("#item-" + num + "-else").focus();
+                    setTimeout(function () {
+                        $("#item-" + num + "-else").focus();
+                    }, 250);
+                } else {
+                    $("#item-" + num + "-else").val("");
+                    $("#item-" + num + "-else").textinput('disable');
+                    $("#item-" + num + "-else").blur();
+                    App.getAns(num + "-else");
+                }
+            };
+            entry_01.onClickMV = function (num) {
+                // 候補辞書の作成
+                var row = App.getRow(num);
+                var dic = App.createDictionary(row);
+                // チェックされた中に「その他」があるか検査
+                var ans = false;
+                var checked = $("input[name=item-" + num + "]:checked");
+                jQuery.each(checked, function (i, item) {
+                    if (dic[item.value] == "その他") {
+                        ans = true;
+                    }
+                });
+                if (ans) {
+                    $("#item-" + num + "-else").textinput('enable');
+                } else {
+                    $("#item-" + num + "-else").val("");
+                    $("#item-" + num + "-else").textinput('disable');
+                    App.getAns(num + "-else");
+                }
+            };
+
+            // 身長入力後はBMI計算へ
+            entry_01.onChange7 = function () {
+                entry_01.culcBMI();
+            };
+
+            // 体重入力後はBMI計算へ
+            entry_01.onChange8 = function () {
+                entry_01.culcBMI();
+            };
+
+            // BMIの計算
+            entry_01.culcBMI = function () {
+                var val7 = Number($("#item-7").val() || "0");
+                var val8 = Number($("#item-8").val() || "0");
+                var ans = 0;
+                if (val7 > 0 && val8 > 0) {
+                    var val = val8 * 10000 / val7 / val7;
+                    ans = Math.round(val * 10) / 10;
+                }
+                var html = App.createDN(entry_01.data[8], ans);
+                $("#entry_01_ans9").html(html);
+                if (ans == 0) { ans = "N/A"; }//一時登録のCSV出力の計算結果を表示するため追加 20150313　山田
+                // 計算結果を回答配列に格納
+                var row = App.getRow("9");
+                row.ans = "" + ans;
+            };
+
+            // 登録処理（必須チェック＆スコア集計）
+            entry_01.save = function () {
+                App.checkRequire();
+            };
+
+            // 確認画面後のアクション
+            entry_01_onConfirm = function (ans) {
+                //$("#entry_01_alert").popup("close");
+                App.afterConfirm(ans);
+            };
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <h1 id="entry_01_Title"></h1>
+        </div>
+
+        <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_01_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_01_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_01_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_01_Sex"></div></td>
+                        <td><div id="entry_01_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td id="entry_01_Number"></td>
+                        <td id="entry_01_ID"></td>
+                        <td id="entry_01_Initial"></td>
+                        <td id="entry_01_Sex"></td>
+                        <td id="entry_01_Side"></td>
+                    </tr>
+                </tbody>
+            </table>
+-->           
+            <br />
+
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="200">項目</th>
+                        <th class="appFormCol">内容</th>
+                    </tr>
+                </thead>
+                <tbody id="entry_01_answerArea">
+                    <tr>
+                        <td id="entry_01_cap1">　</td>
+                        <td class='appLeft' id="entry_01_ans1">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap2">　</td>
+                        <td class='appLeft'>
+                            <div id="entry_01_ans2"></div>
+                            <div id="entry_01_ans2a"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap3">　</td>
+                        <td class='appLeft' id="entry_01_ans3">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap4">　</td>
+                        <td class='appLeft' id="entry_01_ans4">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap5">　</td>
+                        <td class='appLeft' id="entry_01_ans5">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap6">　</td>
+                        <td class='appLeft' id="entry_01_ans6">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap7">　</td>
+                        <td class='appLeft' id="entry_01_ans7">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap8">　</td>
+                        <td class='appLeft' id="entry_01_ans8">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap9">　</td>
+                        <td class='appLeft' id="entry_01_ans9">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap10">　</td>
+                        <td class='appLeft' id="entry_01_ans10">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap11">　</td>
+                        <td class='appLeft' id="entry_01_ans11">　</td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap12">　</td>
+                        <td class='appLeft' style="padding:0 !important;">
+                            <table>
+                            <tr>
+                                <td id="entry_01_ans12" style="width: 210px; border: none; padding: 2px !important; text-align:left !important;"></td>
+                                <td id="entry_01_ans12-else" style="width: 480px; border: none; text-align: left !important;"></td>
+                            </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap13">　</td>
+                        <td class='appLeft' style="padding:0 !important;">
+                            <table>
+                            <tr>
+                                <td id="entry_01_ans13" style="width: 210px; border: none; padding: 2px !important; text-align: left !important;"></td>
+                                <td id="entry_01_ans13-else" style="width: 480px; border: none; text-align: left !important;"></td>
+                            </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="entry_01_cap14">　</td>
+                        <td class='appLeft'>
+                            <div id="entry_01_ans14"></div>
+                            <div id="entry_01_ans14-else"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <fieldset class="ui-grid-b">
+                <div class="ui-block-a"></div>
+                <div class="ui-block-b"><a href="javascript:entry_01.save();" data-role="button" data-theme="a" data-icon="check" data-iconpos="left">登録</a></div>
+                <div class="ui-block-c"></div>
+            </fieldset>
+        </div>
+
+        <div data-role="popup" id="entry_01_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="entry_01_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="entry_01_alertMessage">メッセージ</p>
+                <a href="javascript:entry_01_onConfirm(3);" data-role="button" id="entry_01_confirm3" data-theme="a">次のページに進む</a>
+                <a href="javascript:entry_01_onConfirm(2);" data-role="button" id="entry_01_confirm2" data-theme="a">メニューに戻る</a>
+                <a href="javascript:entry_01_onConfirm(1);" data-role="button" id="entry_01_confirm1" data-theme="a">一時登録してメニューに戻る</a>
+                <!--<a href="javascript:entry_01_onConfirm(0);" data-role="button" id="entry_01_confirm0" data-theme="a">キャンセル</a>-->
+                <a href="#" data-role="button" data-rel="back" id="entry_01_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="entry_01_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

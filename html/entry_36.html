@@ -1,0 +1,407 @@
+﻿<html>
+<head>
+    <title>SMT DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
+</head>
+<body>
+    <div data-role="page" id="entry_36">
+
+        <script type="text/javascript">
+            // 初期設定
+            var entry_36 = {
+                title: "疼痛",
+                data: [
+                    { number: "36", title: "疼痛の有無", description: "", type: "SH", options: "1:有,2:無", require: true, onclick: "entry_36.onClick36()" },
+                    { number: "37", title: "疼痛の場所", description: "有の場合、痛みがある場所に印をつけてください", type: "DT", param: "" },
+                    { number: "38", title: "所見", description: "", type: "IA", param: "" }
+                ],
+                nextPage: "",
+                base64: "",
+                images: [],
+                points: [],
+                areaDic: {
+                    "255,255,255": "0",
+                    "254,255,255": "1",
+                    "253,255,255": "2",
+                    "252,255,255": "3",
+                    "251,255,255": "4",
+                    "255,254,255": "5",
+                    "255,253,255": "6",
+                    "255,252,255": "7",
+                    "255,251,255": "8",
+                    "255,255,254": "9",
+                    "255,255,253": "10",
+                    "255,255,252": "11",
+                    "255,255,251": "12",
+                    "254,254,255": "13",
+                    "254,255,254": "14",
+                    "0,0,0": "0",
+                    "1,0,0": "1",
+                    "2,0,0": "2",
+                    "3,0,0": "3",
+                    "4,0,0": "4",
+                    "0,1,0": "5",
+                    "0,2,0": "6",
+                    "0,3,0": "7",
+                    "0,4,0": "8",
+                    "0,0,1": "9",
+                    "0,0,2": "10",
+                    "0,0,3": "11",
+                    "0,0,4": "12",
+                    "1,1,0": "13",
+                    "1,0,1": "14"
+                },
+
+                // 初期化処理（キャンバスの準備）
+                onInit: function () {
+                    var cvs = $("#canvas")[0];
+                    var ctx = cvs.getContext('2d');
+                    cvs.addEventListener("touchstart", entry_36.canvasOnTouch, false);
+                    cvs.addEventListener("click", entry_36.canvasOnTouch, false);
+                    entry_36.canvas = cvs;
+                    entry_36.context = ctx;
+                },
+
+                // フォーム準備
+                onBeforeShow: function () {
+                    App.setForm("entry_36");    // フォーム生成
+                    entry_36.resetCanvas();     // キャンバスの初期化
+                },
+
+                // 入力済みポイントの再現
+                onShow: function () {
+                    var ans37 = App.formData["37"] || "";
+                    if (ans37) {
+                        setTimeout(function () {
+                            var points = ans37.split(",");
+                            console.log(points);
+                            for (i = 0; i < points.length; i += 1) {
+                                var p = points[i].split(":");
+                                entry_36.drawMark(p[2], p[3]);
+                            }
+                        }, 250);
+                    }
+                }
+
+            };
+
+            // 疼痛キャンバスのクリア
+            entry_36.resetCanvas = function () {
+                try {
+                    var img = new Image();
+                    img.src = "../image/KPM.png";
+                    img.onload = function () {
+                        console.log("画像横：" + img.width);     // 画像の横サイズ（1212）
+                        console.log("画像縦：" + img.height);    // 画像の縦サイズ（1012）
+                        console.log("キャンバス画像横：" + img.width);
+                        console.log("キャンバス画像縦：" + img.height);
+                        entry_36.context.drawImage(img, 0, 0, img.width, img.height);
+                        // ワークをクリア
+                        entry_36.base64 = "";
+                        entry_36.images = [];
+                        entry_36.points = [];
+                        // 初期状態をバックアップ
+                        entry_36.saveState();
+                        entry_36.displayMonitor();
+                    };
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+
+            // 疼痛の有無選択時
+            entry_36.onClick36 = function () {
+                var val = $('[name=item-36]:checked').val();
+                if (val == "2") {
+                    // 「無」が選択されたらキャンバスをクリア
+                    entry_36.resetCanvas();
+                }
+            };
+
+            // キャンバスをタップされたとき
+            entry_36.canvasOnTouch = function (e) {
+                event.preventDefault();
+
+                var radio = $('[name=item-36]:checked').val();
+                if (radio != "1") {
+                    App.alert("入力エラー", "疼痛「有」が選択されていないため指定できません");
+                    return false;
+                }
+                if (entry_36.points.length > 9) {
+                    App.alert("入力エラー", "指定できるのは10か所までです");
+                    return false;
+                }
+                if (App.hasTouch && (e.touches.length < 1)) {
+                    return false;
+                }
+
+                try {
+                    // タッチ箇所の座標取得
+                    var rect = e.target.getBoundingClientRect();
+                    var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+                    var px = (App.hasTouch ? e.touches[0].pageX : e.clientX) - rect.left;
+                    var py = (App.hasTouch ? e.touches[0].pageY - scroll : e.clientY) - rect.top;
+                    // タッチ箇所にマーク
+                    entry_36.drawMark(px, py);
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+
+            // タッチ箇所にマーク＆保存
+            entry_36.drawMark = function (px, py) {
+                // タッチ箇所の色取得
+                var ctx = entry_36.context;
+                var p = ctx.getImageData(px, py, 1, 1);
+                var rgb = [p.data[0], p.data[1], p.data[2]].join(",");
+                if (rgb == "255,0,0") {
+                    App.alert("疼痛の場所", "他のマークと重なる場所は指定できません");
+                    return false;
+                }
+
+                // エリア判定
+                var area = entry_36.areaDic[rgb] || "0";
+                if (area == "0") {
+                    console.log("ERR : " + rgb);
+                    return false;
+                }
+                var side = (px < 275) ? "R" : "L";
+
+                // タッチ箇所にマーク
+                var w = 6;
+                ctx.lineWidth = 2 * w;      // 線の幅
+                ctx.strokeStyle = "#f00";   // マークの色
+                ctx.beginPath();
+                ctx.arc(px, py, w, 0, 360 / 180 * Math.PI, true);
+                ctx.stroke();
+
+                // 途中経過を保存
+                entry_36.saveState();
+                entry_36.points.push({ x: px, y: py, rgb: rgb, area: area, side: side });
+
+                // モニター表示
+                entry_36.displayMonitor();
+
+            };
+
+            // 途中経過のバックアップ
+            entry_36.saveState = function () {
+                entry_36.images.push(entry_36.canvas.toDataURL());
+            };
+
+            // アンドゥ
+            entry_36.undo = function () {
+                try {
+                    if (entry_36.points.length > 0) {
+                        entry_36.points.pop();      // 座標データを１つ後退
+                        entry_36.images.pop();      // 画像データを１つ後退
+                        var ctx = entry_36.context;
+                        var cvs = entry_36.canvas;
+                        var img = new Image();
+                        img.src = entry_36.images[entry_36.images.length - 1];  // 直前のバックアップを取得
+                        img.onload = function () {
+                            ctx.clearRect(0, 0, cvs.width, cvs.height);
+                            ctx.drawImage(img, 0, 0, img.width, img.height);
+                        };
+                        entry_36.displayMonitor();  // モニター表示
+                    }
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+
+            // モニター表示と回答データ作成
+            entry_36.displayMonitor = function () {
+                try {
+                    var htmls = [];
+                    var ansArray = [];
+                    if (entry_36.points.length > 0) {
+                        jQuery.each(entry_36.points, function (n, v) {
+                            var item = [
+                                "(" + (n + 1) + ") ",
+                                v.side == "R" ? "右" : "左",
+                                " ",
+                                v.area
+                            ].join(" ");
+                            htmls.push(item);
+                            var point = [v.side, v.area, v.x, v.y].join(":");
+                            ansArray.push(point);
+                        });
+                        $("#entry_36_minitor").html(htmls.join("<br/>"));
+                    } else {
+                        $("#entry_36_minitor").empty();
+                    }
+                    // 回答データを設問データに格納
+                    var row36 = App.getRow("36");
+                    console.log("[回答データの保存] item-36 : " + row36.title + " : " + row36.ans);
+                    // ポイントデータを格納
+                    var row37 = App.getRow("37");
+                    row37.ans = (ansArray.length > 0) ? ansArray.join(",") : "";
+                    console.log("[タップ箇所の保存] item-37 : " + row37.ans);
+
+                } catch (err) {
+                    alert(err.message);
+                }
+            };
+
+            // 確認画面のアクション
+            entry_36_onConfirm = function (ans) {
+                //$("#entry_36_alert").popup("close");
+                App.afterConfirm(ans);
+            };
+
+            // 登録処理（必須チェック＆スコア集計）
+            entry_36.save = function () {
+                var ans36 = App.getRow("36").ans || "";
+                var ans37 = App.getRow("37").ans || "";
+                if (ans36 == "1" && ans37 == "") {
+                    App.alert("入力エラー", "疼痛箇所が指定されていません");
+                } else {
+                    App.checkRequire();
+
+                    // PNG画像の保存（base64テキストの形でローカル保存）
+                    var schedule = App.getSchedule();                               // スケジュール
+                    var patients = App.loadObject("patients");                      // 全患者データ
+                    var patientIndex = App.loadObject("patientIndex").index || 0;   // 選択された患者のインデックス
+                    var patient = patients.rows[patientIndex];                      // 対象患者の鑑データ
+                    console.log(schedule);
+                    console.log(patient);
+                    var dic = { "A": "症例", B: "術前", C: "1週", D: "退院", E: "3m", F: "6m", G: "12m", H: "24m" };
+                    var fileName = ["", patient.sec, "_", dic[schedule.code], "_Pain.png"].join("");
+                    Png.saveImage($("#canvas")[0], fileName);
+                    
+                    var base64 = Png.loadImage(fileName);
+                    
+                    if (Png.isTest) {// PNG画像のダウンロード（テスト用）                        
+                        Png.downloadImage(base64, fileName);
+                    }else{//PNG画像をiOSの端末に保存
+                        Png.saveImageiOS(base64, fileName);
+                    }
+                }
+            };
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <h1 id="entry_36_Title"></h1>
+        </div>
+
+        <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_36_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_36_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_36_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_36_Sex"></div></td>
+                        <td><div id="entry_36_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td id="entry_36_Number"></td>
+                        <td id="entry_36_ID"></td>
+                        <td id="entry_36_Initial"></td>
+                        <td id="entry_36_Sex"></td>
+                        <td id="entry_36_Side"></td>
+                    </tr>
+                </tbody>
+            </table>    
+-->
+            <br />
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="220">項目</th>
+                        <th class="appFormCol" colspan="2">内容</th>
+                    </tr>
+                </thead>
+                <tbody id="entry_36_answerArea">
+                    <tr>
+                        <td style="padding-top:10px !important; vertical-align:top !important;">
+                            <div id="entry_36_cap36">　</div>
+                            <div id="entry_36_ans36">　</div>
+                        </td>
+                        <td class='appLeft'>
+                            <div id="entry_36_ans37">　</div>
+                            <div id="entry_36_ans37-img" style="margin-bottom: 10px;">
+                                <canvas id="canvas" height="480" width="550"></canvas>
+                            </div>
+                        </td>
+                        <td class='appLeft' width="180" style="vertical-align:top !important;">
+                            <a href="javascript:entry_36.undo();" data-role="button" data-icon="back" data-iconpos="left">取消</a>
+                            <div id="entry_36_minitor"></div>
+                        </td>
+                    </tr>
+                    <tr><td id="entry_36_cap38">　</td><td class='appLeft' id="entry_36_ans38" colspan="2">　</td></tr>
+                </tbody>
+            </table>
+            <br />
+            <fieldset class="ui-grid-b">
+                <div class="ui-block-a"></div>
+                <div class="ui-block-b"><a href="javascript:entry_36.save();" data-role="button" data-theme="a" data-icon="check" data-iconpos="left">登録</a></div>
+                <div class="ui-block-c"></div>
+            </fieldset>
+        </div>
+
+        <div data-role="popup" id="entry_36_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="entry_36_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="entry_36_alertMessage">メッセージ</p>
+                <a href="javascript:entry_36_onConfirm(3);" data-role="button" id="entry_36_confirm3" data-theme="a">次のページに進む</a>
+                <a href="javascript:entry_36_onConfirm(2);" data-role="button" id="entry_36_confirm2" data-theme="a">メニューに戻る</a>
+                <a href="javascript:entry_36_onConfirm(1);" data-role="button" id="entry_36_confirm1" data-theme="a">一時登録してメニューに戻る</a>
+                <a href="javascript:entry_36_onConfirm(0);" data-role="button" id="entry_36_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="entry_36_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

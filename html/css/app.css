@@ -1,0 +1,336 @@
+﻿/* 全ページに共通のスタイル  */
+
+.ui-content {
+    padding: 0 !important;
+    margin: 10px;
+}
+
+.ui-bar-d {
+    border: none;
+}
+
+.ui-popup-container {
+    min-width: 280px;
+}
+
+.appListHeader {
+    margin: 0 !important;
+    padding: 4px 0 0 0 !important;
+    border: 1px solid #aaa;
+}
+.appListHeader a {
+    margin: 0 !important;
+    border: none;
+}
+.appListHeader span {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.appListHeader .ui-btn-up-d {
+    background:none;
+}
+.appListHeader .ui-btn-inner {
+    border: none;
+}
+.appListHeader .ui-btn-active {
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    background: none;
+}
+.appListHeader .ui-btn-hover-d {
+    background: none;
+}
+
+/* 縦並びのラジオボタン  */
+.verticalRadio .ui-icon{ display: none; }
+.verticalRadio .ui-btn-inner{ padding-left: 11px !important; }
+
+/* 必須項目 */
+.inputRequire {
+    background-image: url(../../image/icons/require.gif);
+    background-position-x: 4px;
+    background-position-y: 4px;
+    background-repeat: no-repeat;
+}
+
+/* 数値入力  */
+.inputNumber .ui-input-text {
+    width: 80px !important;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+label.numberPrefix.ui-input-text {
+    width: auto !important;
+    padding-right: 4px;
+    vertical-align: middle !important;
+}
+label.numberUnit.ui-input-text {
+    width: auto !important;
+    padding-left: 4px;
+    vertical-align: middle !important;
+    text-align: left !important;
+}
+
+/* 日付入力  */
+.inputDate .ui-input-text {
+    width: 180px !important;
+    /*height: 38px !important;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;*/
+}
+
+/* テキスト入力  */
+.inputText .ui-input-text {
+    width: 100% !important;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+}
+input.ui-input-text {
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+/* テキスト表示 */
+.appDisplay {
+    padding:10px !important;
+}
+
+/* 選択表示 */
+.appDispSelectFalse {
+    color: #888;
+    padding: 0 0 0 22px;
+}
+.appDispSelectTrue {
+    color: #666;
+    font-weight:bold;
+    background-image: url("../../image/icons/accept.png");
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    padding: 0 0 0 22px;
+}
+
+/* 点数表示 */
+.appDispScore {
+    color: #666;
+    font-weight:bold;
+    padding: 0 0 0 22px;
+}
+
+/* スライダー項目 */
+label.ui-slider { margin: 8px 12px !important; }
+.ui-slider { border-radius: 10px !important; }
+.ui-slider-switch .ui-btn-corner-all { border-radius: 10px !important; }
+.ui-slider-track, .ui-slider-switch { margin:0 !important; }
+.ui-mobile .ui-page .ui-slider-input,
+.ui-mobile .ui-dialog .ui-slider-input {
+    display : none;
+}
+
+/* ボタン */
+.ui-mini .ui-btn-inner {
+    padding: 4px !important;
+}
+
+/* グリッド（幅割合７対３）  */
+.ui-grid-b.appArea .ui-block-a {
+    width: 70%;
+}
+.ui-grid-b.appArea .ui-block-b {
+    width: 30%;
+}
+.ui-grid-b.appArea .ui-block-c {
+    width: 0;
+}
+.ui-grid-b.appQuestion .ui-block-a {
+    width: 100%;
+}
+.ui-grid-b.appQuestion .ui-block-b {
+    width: 30%;
+    text-align: right;
+    position: absolute;
+    right: 28px;
+    top: 60px;
+}
+.ui-grid-b.appQuestion .ui-block-c {
+    width: 0;
+}
+
+/* グリッド（幅割合２対６対２）  */
+.ui-grid-b.appForm .ui-block-a {
+    width: 20%;
+}
+.ui-grid-b.appForm .ui-block-b {
+    width: 60%;
+}
+.ui-grid-b.appForm .ui-block-c {
+    width: 20%;
+}
+
+/* グリッド（幅割合２対２対２対２対２）  */
+.ui-grid-d.appButtons .ui-block-a {
+    width: 20%;
+}
+.ui-grid-d.appButtons .ui-block-b {
+    width: 20%;
+}
+.ui-grid-d.appButtons .ui-block-c {
+    width: 20%;
+}
+.ui-grid-d.appButtons .ui-block-d {
+    width: 20%;
+}
+.ui-grid-d.appButtons .ui-block-e {
+    width: 20%;
+}
+
+/* グリッド（幅割合35対30対35）*/
+.ui-grid-b.appButtons .ui-block-a {
+    width: 35%;
+}
+.ui-grid-b.appButtons .ui-block-b {
+    width: 30%;
+}
+.ui-grid-b.appButtons .ui-block-c {
+    width: 35%;
+}
+
+/* フォームのスタイル */
+.appForm th {
+    border: solid 1px #bbb;
+}
+.appForm td {
+    border: solid 1px #bbb;
+}
+#appList tr:hover {
+    background-color: #fffec4;
+}
+.appDisplayInline {
+    display: inline !important;
+}
+
+/* 未登録項目の判定 */
+.appStatus-0 {
+    padding: 6px 0 !important;
+    margin: 4px;
+    color: #222;
+    font-size: 14px;
+    text-shadow:none;
+}
+.appStatus-1 {
+    padding: 6px 0 !important;
+    background-color: #ccc !important;
+    color: #444;
+    font-size: 14px;
+    text-shadow:none;
+}
+.appStatus-2 {
+    padding: 6px 0 !important;
+    background-color: #666 !important;
+    color: #fff;
+    font-size: 14px;
+    text-shadow:none;
+}
+
+/* フォーム内のテーブル */
+table.appInnerTable th {
+    width: 100px;
+    border: none;
+    vertical-align:middle;
+    padding: 0px 0px !important;
+}
+table.appInnerTable td {
+    border: none;
+    padding: 0px 0px !important;
+}
+
+/* テーブルの項目見出し */
+th.appFormCol {
+    font-size: 14px;
+    text-align: center;
+}
+
+/* テーブル項目 */
+table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 0 6px !important;
+}
+td.appTdWhite { background-color: #fff !important; font-weight: bold; }
+td.appLeft { text-align: left !important; }
+td.appDisplay { padding:10px !important; }
+
+tr.appPatient { height: 36px; }
+
+/*
+td.appBackRed { background-color: #F44 !important; padding: 0px 4px !important; }
+td.appBackGreen { background-color: #45d845 !important; padding: 0px 4px !important; }
+td.appBackPink { background-color: #ffa2d0 !important; padding: 0px 4px !important; }
+td.appBackPeach { background-color: #ee4e67 !important; padding: 0px 4px !important; }
+td.appBackBrown { background-color: #8e0000 !important; padding: 0px 4px !important; }
+td.appBackAqua { background-color: #d3d2f6 !important; padding: 0px 4px !important; }
+td.appBackLightBlue { background-color: #7e7aff !important; padding: 0px 4px !important; }
+td.appBackBlue { background-color: #55f !important; padding: 0px 4px !important; }
+*/
+td.appBackRed { padding: 0px 4px !important; }
+td.appBackGreen { padding: 0px 4px !important; }
+td.appBackPink { padding: 0px 4px !important; }
+td.appBackPeach { padding: 0px 4px !important; }
+td.appBackBrown { padding: 0px 4px !important; }
+td.appBackAqua { padding: 0px 4px !important; }
+td.appBackLightBlue { padding: 0px 4px !important; }
+td.appBackBlue { padding: 0px 4px !important; }
+
+
+/* １問１答型のフォーム */
+
+.appQuestionMain {
+    background-color: #FFF;
+    padding: 8px 16px 4px 16px;
+    border: solid 1px #888;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+}
+.appQuestionSub {
+}
+.appQuestionTitle {
+    font-size: 24px;
+    font-weight: bold;
+    width: 830px;
+    min-height: 80px;
+}
+.appQuestionDescription {
+    font-size: 18px;
+    width: 830px;
+}
+.appQuestionAnswer {
+    text-align: center;
+}
+#entry_55_answerArea {
+/*    margin-top: 2em; */
+}
+#entry_55_answerArea .ui-radio .ui-btn-inner {
+    padding: .6em .6em !important;
+}
+#entry_55_answerArea .ui-checkbox .ui-btn-inner {
+    padding: .6em 45px !important;
+}
+#entry_55_answerArea span .ui-btn-text {
+    font-size: 19px;
+}
+
+/* 患者情報のサマリー */
+table.appPatientTable {
+    margin-left: auto;
+    margin-right: 0;
+}
+td.appPatientLabel {
+    font-size: 12px;
+    text-align: right;
+}
+td.appPatientData {
+    font-size: 13px;
+    font-weight: bold;
+}

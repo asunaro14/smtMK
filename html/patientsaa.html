@@ -1,0 +1,366 @@
+﻿<html>
+<head>
+  <title>症例一覧</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+  <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+  <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/parts.js"></script>
+  <script type="text/javascript" src="js/csv.js"></script>
+  <script type="text/javascript" src="js/png.js"></script>
+  <script type="text/javascript" src="js/resonance.js"></script>
+  <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+  <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+  <link type="text/css" rel="stylesheet" href="css/app.css">
+  <!--datebox用のファイル-->
+  <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+  <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+  <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+  <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>
+</head>
+<body>
+  <div data-role="page" id="patients" data-dom-cache="true">
+
+    <script type="text/javascript">
+      var patients = {
+        data: [
+            { number: "A1", title: "登録番号", type: "IT", param: "", value: "", enterNext: "A2" },
+            { number: "A2", title: "患者ID", type: "IT", param: "", value: "", enterNext: "A3" },
+            { number: "A3", title: "イニシャル", type: "IT", param: "", value: "" }
+        ]
+      };
+
+      // ページの初期処理
+      patients.onInit = function () {
+        try {
+          // テーブルの行に対してイベントリスナを設置
+          $('#appList').on('click', function (e) {
+            var row = e.target.parentNode.rowIndex; // 行番号
+            var col = e.target.cellIndex;
+            //if (row) {
+            if (row != null) {
+              //alert($('#clickKey' + row).text() + '#clickKey' + row);
+              var secNumber = $('#clickKey' + row).text();
+              patients.onClick(secNumber);
+              //patients.onClick(row);
+            }
+          });
+        } catch (e) {
+          alert(e.message);
+        }
+      };
+
+      // 表示前処理
+      patients.onBeforeShow = function () {
+        // データのロード
+        App.patientsData = App.loadObject("patients");
+        // ソート処理
+        patients.sortConfig = patients.sortConfig || { column: 0, type: 1 };
+        patients.sortConfig.type *= (-1);
+        console.log(patients.sortConfig);
+        patients.sort(patients.sortConfig.column);
+      };
+
+      // リストデータのテンプレート
+      var btn1 = "<a id='{clickKey}' href='javascript:patients.onClick({sec});' data-role='button' data-corners='true' data-theme='a' data-mini='true'>{sec}</a>";
+      var btn2 = "<a id='{clickKey}' href='javascript:void(0);' data-role='button' data-corners='true' data-theme='a' data-mini='true' ontouchstart='patients.onClick({sec})'>{sec}</a>";
+      //var btn1 = "<a id='{clickKey}{sec}' href='javascript:patients.onClick({sec});' data-role='button' data-corners='true' data-theme='a' data-mini='true'>{sec}</a>";
+      //var btn2 = "<a id='{clickKey}{sec}' href='javascript:void(0);' data-role='button' data-corners='true' data-theme='a' data-mini='true' ontouchstart='patients.onClick({sec})'>{sec}</a>";
+      patients.tpl = [
+          "<tr>",
+          "<td style='width: 7%;'>" + (App.hasTouch ? btn2 : btn1) + "</td>",
+          "<td style='width: 9%;'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{number}'>未登録</span><div style='word-wrap: break-word; width:100%;'>{number}</div></td>",
+          "<td style='width: 7%;'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{id}'>未登録</span><div style='word-wrap: break-word; width:100%;'>{id}</div></td>",
+          "<td style='width: 7%;'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{initial}'>未登録</span><div style='word-wrap: break-word; width:100%;'>{initial}</div></td>",
+          "<td style='width: 7%;'>{sex}</td>",
+          "<td style='width: 7%;'>{side}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusAn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusAn}'>（未）</span>{statusA}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusBn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusBn}'>（未）</span>{statusB}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusCn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusCn}'>（未）</span>{statusC}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusDn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusDn}'>（未）</span>{statusD}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusEn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusEn}'>（未）</span>{statusE}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusFn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusFn}'>（未）</span>{statusF}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusGn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusGn}'>（未）</span>{statusG}</td>",
+          "<td style='width: 7%;' class='appStatus-{statusHn}'><span style='color:#F00; display:none; font-size:13px; font-weight:bold;' class='appDisplayInline{statusHn}'>（未）</span>{statusH}</td>",
+          "</tr>"
+      ].join("");
+      patients.dic = { "一時登録": "1", "済": "2" };
+
+      // リストデータの追加
+      patients.appendList = function (ary) {
+        console.log(ary);
+        try {
+            //alert(ary);
+          jQuery.each(ary, function (i, row) {
+              
+            row["clickKey"] = row.newClickKey || "clickKey" + i;//listをタップしたときに登録順を取得するためのid　新規追加の場合newClickKeyの値を使用
+            row["statusAn"] = patients.dic[row.statusA] || "";
+            row["statusBn"] = patients.dic[row.statusB] || "";
+            row["statusCn"] = patients.dic[row.statusC] || "";
+            row["statusDn"] = patients.dic[row.statusD] || "";
+            row["statusEn"] = patients.dic[row.statusE] || "";
+            row["statusFn"] = patients.dic[row.statusF] || "";
+            row["statusGn"] = patients.dic[row.statusG] || "";
+            row["statusHn"] = patients.dic[row.statusH] || "";
+            row["statusAt"] = patients.dic[row.statusA] || "";
+            row["statusBt"] = patients.dic[row.statusB] || "";
+            row["statusCt"] = patients.dic[row.statusC] || "";
+            row["statusDt"] = patients.dic[row.statusD] || "";
+            row["statusEt"] = patients.dic[row.statusE] || "";
+            row["statusFt"] = patients.dic[row.statusF] || "";
+            row["statusGt"] = patients.dic[row.statusG] || "";
+            row["statusHt"] = patients.dic[row.statusH] || "";
+            row.newClickKey = "";//データとして保存しないため空白を代入
+            var tr = App.replace(patients.tpl, row);
+            $("#appList").append(tr);
+          });
+          $("#appList").trigger("create");
+        } catch (e) {
+          alert(e.message);
+        }
+      };
+
+      // クリックイベントハンドラ
+      patients.onClick = function (row) {
+        App.saveObject("patientIndex", { index: row - 1 });        // 行番号を記憶
+        App.changePage("patient.html");
+      };
+
+      // ソート機能
+      patients.sort = function (column) {
+        // 同じ列が選択されたら反転、別の列なら昇順
+        var type = (column == patients.sortConfig.column) ? patients.sortConfig.type *= (-1) : 1;
+        // ソート設定を記憶
+        patients.sortConfig = { type: type, column: column };
+        // ソートマークを表示
+        patients.sortMarker(patients.sortConfig);
+        // ソートを実行
+        $("#appList").empty();              // リストをクリア
+        $("#appList").trigger("create");
+        var rows = patients.sortData(patients.sortConfig);
+        patients.appendList(rows);
+      };
+      patients.sortMarker = function (conf) {
+        for (i = 0; i < 6; i += 1) {
+          $("#sortMarker" + i).html(null);
+        }
+        $("#sortMarker" + conf.column).html("<br/>" + (conf.type == 1 ? "▲" : "▼"));
+      };
+      patients.sortData = function (conf) {
+        var columnName = ["sec", "number", "id", "initial", "sex", "side"][conf.column];
+        var rows = App.patientsData.rows || [];
+        if (rows.length > 0) {
+          // 指定されたカラムでソート
+          if (columnName == "sec") {
+            rows.sort(function (item1, item2) {
+              var val1 = ("000" + item1.sec).slice(-4);
+              var val2 = ("000" + item2.sec).slice(-4);
+              if (conf.type == 1) {
+                return (val1 < val2) ? -1 : 1;
+              } else {
+                return (val1 < val2) ? 1 : -1;
+              }
+            });
+          } else if (columnName == "sex") {
+            var order = (conf.type == 1) ? ["男", "女", ""] : ["女", "男", ""];
+            rows.sort(function (item1, item2) {
+              var val1 = order.indexOf(item1.sex || "");
+              var val2 = order.indexOf(item2.sex || "");
+              val1 += (" - " + (("000" + item1.sec).slice(-4)));
+              val2 += (" - " + (("000" + item2.sec).slice(-4)));
+              return (val1 < val2) ? -1 : 1;
+            });
+          } else {
+            var maxCode = String.fromCharCode(0x7199);         // http://charset.7jp.net/unicode2.html
+            var highValue = (conf.type == 1) ? maxCode : "";   // 未登録データを追い出すための措置（漢字コード「ⅹ」はコード表で最も大きい文字）
+            rows.sort(function (item1, item2) {
+              var val1 = item1[columnName] || highValue;
+              var val2 = item2[columnName] || highValue;
+              if (conf.type == 1) {
+                val1 += (" - " + (("000" + item1.sec).slice(-4)));
+                val2 += (" - " + (("000" + item2.sec).slice(-4)));
+                return (val1 < val2) ? -1 : 1;
+              } else {
+                val1 += (" - " + (("000" + (10000 - item1.sec)).slice(-4)));
+                val2 += (" - " + (("000" + (10000 - item2.sec)).slice(-4)));
+                return (val1 < val2) ? 1 : -1;
+              }
+            });
+          }
+        } else {
+          App.toast("データが未登録です");
+        }
+        return rows;
+      };
+
+      // 新規追加
+      patients.openAppend = function () {
+        $("#patientsAppend").popup("open", { transition: "pop" });
+      };
+      patients.submit = function () {
+        try {
+          if (!App.patientsData.rows) { App.patientsData.rows = []; }
+          var data = {
+            newClickKey: "clickKey" + App.patientsData.rows.length,//新規の場合に最大件数をキーとする
+            sec: App.patientsData.rows.length + 1,
+            number: $("#item-A1").val() || "",
+            id: $("#item-A2").val() || "",
+            initial: $("#item-A3").val() || "",
+            sex: "",
+            side: "",
+            statusA: "",
+            statusB: "",
+            statusC: "",
+            statusD: "",
+            statusE: "",
+            statusF: "",
+            statusG: "",
+            statusH: ""
+          };
+          if (data.number || data.id || data.initial) {
+            // 登録内容を保存
+            patients.appendList([data]);
+            App.patientsData.rows.push(data);
+            App.saveObject("patients", App.patientsData);
+            patients.appendClose();
+          } else {
+            // エラーメッセージを表示
+            $("#newError").show();
+          }
+        } catch (e) {
+          alert(e.message);
+        }
+      };
+      patients.appendClose = function () {
+        $('#patientsAppend').popup("close");
+        $("#item-A1").val("");
+        $("#item-A2").val("");
+        $("#item-A3").val("");
+        $("#newError").hide();
+      };
+
+      // CSV出力
+      patients.outputCsv = function () {
+        try {
+          $('#patientsCsv').popup("close");
+          var patientsData = App.loadObject("patients");
+          if (patientsData.rows) {
+            $.mobile.loading("show");
+            $('[data-role="page"]').addClass('ui-disabled');//ページを無効にする
+            setTimeout(function () {
+              Csv.output();
+              //$.mobile.loading("hide");
+              //App.alert("ＣＳＶ出力", "ＣＳＶファイルを生成しました");
+            }, 250);
+          } else {
+            setTimeout(function () {
+              App.alert("ＣＳＶ出力", "データが未登録のため処理を中止しました");
+            }, 300);
+          }
+        } catch (e) {
+          alert(e.message);
+        }
+      };
+    </script>
+
+    <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">ログアウト</a>
+      <h1 id="patients_appTitle">症例一覧</h1>
+      <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+        <a href="javascript:patients.openAppend();" data-role="button" data-icon="plus">新規追加</a>
+        <a href="#patientsCsv" data-role="button" data-icon="grid" data-rel="popup" data-transition="pop" data-position-to="window">CSV出力</a>
+      </div>
+      <div data-role="navbar">
+        <table style="table-layout: fixed; width: 100%; padding: 1px; border-collapse: collapse; margin-bottom: -1px; ">
+          <thead class="ui-bar-d">
+            <tr>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="patients.sort(0); $(this).blur();">登録順<span id="sortMarker0"><br />▲</span></a></td>
+              <td class="appListHeader" style="width: 9%;"><a href="#" onclick="patients.sort(1); $(this).blur();">登録番号<span id="sortMarker1"></span></a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="patients.sort(2); $(this).blur();">患者ID<span id="sortMarker2"></span></a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="patients.sort(3); $(this).blur();">イニシャル<span id="sortMarker3"></span></a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="patients.sort(4); $(this).blur();">性別<span id="sortMarker4"></span></a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="patients.sort(5); $(this).blur();">患側<span id="sortMarker5"></span></a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">症例</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">術前</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">1週間</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">退院時</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">3か月</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">6か月</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">12か月</a></td>
+              <td class="appListHeader" style="width: 7%;"><a href="#" onclick="$(this).blur();">24か月</a></td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+    <div data-role="content" style="margin:0">
+      <table data-role="table" style="table-layout: fixed; width: 100%; padding: 1px; border-collapse: collapse;" class="appForm ui-body-d ui-shadow table-stripe ui-responsive">
+        <tbody id="appList"></tbody>
+      </table>
+    </div>
+
+    <div data-role="popup" id="patientsAppend" data-position-to="#patients_appTitle" data-dismissible="false" data-theme="d">
+      <div data-role="header" data-theme="c">
+        <h1>患者情報の追加</h1>
+        <a href="javascript:patients.appendClose();" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
+      </div>
+      <div data-role="content" data-theme="d">
+        <p>患者情報を新規に追加します。</p>
+        <table style="width:360px">
+          <tbody>
+            <tr>
+              <td>登録番号</td>
+              <td><input type="text" name="number" id="item-A1" value="" data-clear-btn="true" /></td>
+            </tr>
+            <tr>
+              <td>患者ＩＤ</td>
+              <td><input type="text" name="id" id="item-A2" value="" data-clear-btn="true" /></td>
+            </tr>
+            <tr>
+              <td>イニシャル</td>
+              <td><input type="text" name="initial" id="item-A3" value="" data-clear-btn="true" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <p id="newError" style="color:#F00; display:none;">１項目以上の入力が必要です。</p>
+        <a href="#" data-role="button" data-icon="plus" data-theme="a" onclick="patients.submit();">登録</a>
+      </div>
+    </div>
+
+    <div data-role="popup" id="patientsCsv" data-dismissible="false" data-theme="d">
+      <div data-role="header" data-theme="c">
+        <h1>ＣＳＶ出力</h1>
+        <a href="#" data-rel="back" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-theme="b">閉じる</a>
+      </div>
+      <div data-role="content" data-theme="d">
+        <p>ＣＳＶファイルを出力します。</p>
+        <!--<p>既存のファイルは上書きされます。</p>-->
+        <a href="#" data-role="button" data-icon="grid" data-theme="a" onclick="patients.outputCsv();">ＣＳＶ出力</a>
+      </div>
+    </div>
+
+    <div data-role="popup" id="patients_alert" data-dismissible="false" data-theme="d">
+      <div data-role="header" data-theme="c">
+        <h1 id="patients_alertTitle">確認</h1>
+      </div>
+      <div data-role="content" data-theme="d">
+        <p id="patients_alertMessage">メッセージ</p>
+        <a href="javascript:patients_onConfirm(3);" data-role="button" id="patients_confirm3" data-theme="d">次のページに進む</a>
+        <a href="javascript:patients_onConfirm(2);" data-role="button" id="patients_confirm2" data-theme="d">メニューに戻る</a>
+        <a href="javascript:patients_onConfirm(1);" data-role="button" id="patients_confirm1" data-theme="d">一時登録してメニューに戻る</a>
+        <a href="javascript:patients_onConfirm(0);" data-role="button" id="patients_confirm0" data-theme="d">キャンセル</a>
+        <a href="#" data-role="button" data-rel="back" id="patients_confirm" data-theme="a">OK</a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

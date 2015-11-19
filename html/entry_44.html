@@ -1,0 +1,147 @@
+﻿<html>
+<head>
+    <title>SMT DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:landscape)" />
+    <link rel="apple-touch-startup-image" href="/startup.png" media="screen and (orientation:portrait)" />
+
+    <script type="text/javascript" src="../jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/parts.js"></script>
+    <script type="text/javascript" src="js/csv.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script type="text/javascript" src="js/resonance.js"></script>
+    <script type="text/javascript" src="../jquery/jquery.mobile-1.3.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery/jquery.mobile-1.3.2.min.css">
+    <link type="text/css" rel="stylesheet" href="themes/smt.css" />
+    <link type="text/css" rel="stylesheet" href="css/app.css">
+    <!--datebox用のファイル-->
+    <link rel="stylesheet" href="datebox/jqm-datebox.css" />
+    <script type="text/javascript" src="datebox/jqm-datebox.core.js"></script>
+    <script type="text/javascript" src="datebox/jqm-datebox-1.4.0.comp.flipbox.min.js"></script>
+    <script type="text/javascript" src="datebox/jquery.mobile.datebox.i18n.ja.utf8.js"></script>    
+</head>
+<body>
+    <div data-role="page" id="entry_44">
+
+        <script type="text/javascript">
+            // 初期設定
+            var entry_44 = {
+                title: "人工膝関節正面アライメント",
+                data: [
+                    { number: "44", title: "m-F(FCA)", description: "", type: "IN", param: "min:0,max:180,unit:'°'", image: "m-F.png", require: true, enterNext: "45" },
+                    { number: "45", title: "m-F(TCA)", description: "", type: "IN", param: "min:0,max:180,unit:'°'", require: true }
+                ],
+                nextPage: "entry_46.html",
+                onBeforeShow: function () {
+                    App.setForm("entry_44");
+                },
+                onShow: function () {
+                    // App.alert("テスト", "アラートのテストです");
+                }
+            };
+
+            // 登録処理（必須チェック＆スコア集計）
+            entry_44.save = function () {
+                App.checkRequire();
+            };
+
+            // 確認画面のアクション
+            entry_44_onConfirm = function (ans) {
+                //$("#entry_44_alert").popup("close");
+                App.afterConfirm(ans);
+            };
+        </script>
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <!--<a href='javascript:history.back();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>-->
+            <a href='javascript:App.backPage();' data-rel="button" data-icon="back" class="ui-btn-left">戻る</a>
+            <h1 id="entry_44_Title"></h1>
+        </div>
+
+        <div data-role="content">
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td><div id="entry_44_Number" style="word-wrap: break-word; width:140px;"></div></td>
+                        <td><div id="entry_44_ID" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_44_Initial" style="word-wrap: break-word; width: 100px;"></div></td>
+                        <td><div id="entry_44_Sex"></div></td>
+                        <td><div id="entry_44_Side"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+<!--
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" style="width:640px !important;">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="140">患者登録番号</th>
+                        <th class="appFormCol" width="100">患者ID</th>
+                        <th class="appFormCol" width="100">イニシャル</th>
+                        <th class="appFormCol" width="100">性別</th>
+                        <th class="appFormCol" width="100">患側</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="appPatient">
+                        <td id="entry_44_Number"></td>
+                        <td id="entry_44_ID"></td>
+                        <td id="entry_44_Initial"></td>
+                        <td id="entry_44_Sex"></td>
+                        <td id="entry_44_Side"></td>
+                    </tr>
+                </tbody>
+            </table>
+-->
+            <br />
+
+            <table data-role="table" class="appForm ui-body-d ui-shadow ui-responsive" data-column-btn-theme="b">
+                <thead>
+                    <tr class="ui-bar-d">
+                        <th class="appFormCol" width="200">項目</th>
+                        <th class="appFormCol" colspan="2">内容</th>
+                    </tr>
+                </thead>
+                <tbody id="entry_44_answerArea">
+                    <tr><td id="entry_44_cap44">　</td><td class='appLeft' id="entry_44_ans44">　</td><td id="entry_44_ans44-img" width="480" height="480" rowspan="2">（画像）</td></tr>
+                    <tr><td id="entry_44_cap45">　</td><td class='appLeft' id="entry_44_ans45">　</td></tr>
+                </tbody>
+            </table>
+            <br />
+            <fieldset class="ui-grid-b">
+                <div class="ui-block-a"></div>
+                <div class="ui-block-b"><a href="javascript:entry_44.save();" data-role="button" data-theme="a" data-icon="check" data-iconpos="left">登録</a></div>
+                <div class="ui-block-c"></div>
+            </fieldset>
+        </div>
+
+        <div data-role="popup" id="entry_44_alert" data-dismissible="false" data-theme="d">
+            <div data-role="header" data-theme="c">
+                <h1 id="entry_44_alertTitle">確認</h1>
+            </div>
+            <div data-role="content" data-theme="d">
+                <p id="entry_44_alertMessage">メッセージ</p>
+                <a href="javascript:entry_44_onConfirm(3);" data-role="button" id="entry_44_confirm3" data-theme="a">次のページに進む</a>
+                <a href="javascript:entry_44_onConfirm(2);" data-role="button" id="entry_44_confirm2" data-theme="a">メニューに戻る</a>
+                <a href="javascript:entry_44_onConfirm(1);" data-role="button" id="entry_44_confirm1" data-theme="a">一時登録してメニューに戻る</a>
+                <a href="javascript:entry_44_onConfirm(0);" data-role="button" id="entry_44_confirm0" data-theme="a">キャンセル</a>
+                <a href="#" data-role="button" data-rel="back" id="entry_44_confirm" data-theme="a">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
