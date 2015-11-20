@@ -170,7 +170,9 @@ App.nextFocus = function (pageName, num) {
 
     // フォーカスの遷移
     if (field.enterNext) {
-        $("#item-" + field.enterNext).focus();
+        //$("#item-" + field.enterNext).focus();
+        //$("#item-" + field.enterNext).focus();
+        $("#item-" + field.enterNext).trigger("click");
     } else {
         $("#item-" + num).blur();
     }
